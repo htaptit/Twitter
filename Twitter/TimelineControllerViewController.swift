@@ -76,7 +76,9 @@ extension TimelineControllerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweet", for: indexPath) as? TimelineTableViewCell
-        cell?.tweetLabel?.text = self.listTweets[indexPath.row]["text"] as? String
+        cell?.tweetTextLabel?.text = self.listTweets[indexPath.row]["text"] as? String
+        cell?.tweetTextLabel.numberOfLines = 0
+        cell?.tweetTextLabel.lineBreakMode = .byWordWrapping
         return cell!
     }
     

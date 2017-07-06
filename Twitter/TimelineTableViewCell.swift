@@ -9,9 +9,14 @@
 import UIKit
 
 class TimelineTableViewCell: UITableViewCell {
-
-    @IBOutlet weak var tweetLabel: UILabel!
     
+    @IBOutlet weak var typeTweetLabel: UILabel!
+    @IBOutlet weak var accoutNameLabel: UIView!
+    @IBOutlet weak var screenNameLabel: UILabel!
+    @IBOutlet weak var datetimeLabel: UILabel!
+    @IBOutlet weak var tweetTextLabel: UILabel!
+
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
