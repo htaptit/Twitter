@@ -10,7 +10,7 @@ import UIKit
 import TwitterKit
 import TwitterCore
 
-class ViewController: UIViewController {
+class TwitterHomeController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

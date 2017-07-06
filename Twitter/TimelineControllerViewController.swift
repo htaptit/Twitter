@@ -22,7 +22,7 @@ class TimelineControllerViewController: UIViewController {
         if userIsLoggin() {
             getUserTimeline()
         } else {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "viewController") as! ViewController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "home") as! TwitterHomeController
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
