@@ -12,8 +12,11 @@ import TwitterCore
 
 class TwitterHomeController: UIViewController {
 
+    @IBOutlet weak var descriptonLable: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
+        descriptonLable.lineBreakMode = .byWordWrapping
+        descriptonLable.numberOfLines = 0
         self.navigationController?.isNavigationBarHidden = true
         // Do any additional setup after loading the view, typically from a nib.
     }

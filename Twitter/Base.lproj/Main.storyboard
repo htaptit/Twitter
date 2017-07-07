@@ -35,8 +35,11 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See what's happening in the word right now" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mvv-vh-MGl">
-                                <rect key="frame" x="46" y="344" width="203" height="20.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="See what's happening in the word right now" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mvv-vh-MGl">
+                                <rect key="frame" x="46" y="344" width="200" height="20.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="pga-n1-g5R"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -69,7 +72,6 @@
                         <color key="backgroundColor" red="0.11432010680437088" green="0.63154011964797974" blue="0.95243579149246216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="GdS-wX-uBL" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="150" id="12u-5O-PeA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Mvv-vh-MGl" secondAttribute="trailing" constant="110" id="5cH-g5-wik"/>
                             <constraint firstItem="hoT-b1-uAc" firstAttribute="top" secondItem="Mvv-vh-MGl" secondAttribute="bottom" constant="90" id="BbD-Wa-gZk"/>
                             <constraint firstItem="Mvv-vh-MGl" firstAttribute="top" secondItem="cCG-Zu-9d4" secondAttribute="bottom" constant="20" id="EAY-ia-bwJ"/>
                             <constraint firstItem="Mvv-vh-MGl" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="EBC-2h-h4n"/>
@@ -86,6 +88,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FpH-Uq-fM2"/>
+                    <connections>
+                        <outlet property="descriptonLable" destination="Mvv-vh-MGl" id="Ggl-m6-rt6"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
