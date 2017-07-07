@@ -11,7 +11,9 @@ import UIKit
 class TimelineTableViewCell: UITableViewCell {
     
     @IBOutlet weak var typeTweetLabel: UILabel!
-    @IBOutlet weak var accoutNameLabel: UIView!
+//    @IBOutlet weak var accoutNameLabel: UIView!
+
+    @IBOutlet weak var accountNameLabel: UILabel!
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var datetimeLabel: UILabel!
     @IBOutlet weak var tweetTextLabel: UILabel!

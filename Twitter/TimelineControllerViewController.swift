@@ -18,16 +18,17 @@ class TimelineControllerViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-//        Twitter.sharedInstance().sessionStore.logOutUserID((Twitter.sharedInstance().sessionStore.session()?.userID)!)
+
         if userIsLoggin() {
             getUserTimeline()
         } else {
-            let vc = self.storyboard?.instantiateViewController(withIdentifier: "home") as! TwitterHomeController
+            let vc = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
         if listTweets.isEmpty && dataIsDoneGetting == true {
             getUserTimeline()
         }
@@ -40,6 +41,14 @@ class TimelineControllerViewController: UIViewController {
     
     func userIsLoggin() -> Bool {
         return Twitter.sharedInstance().sessionStore.session() != nil
+    }
+    
+    
+    @IBAction func Logout(_ sender: Any) {
+        let userId = Twitter.sharedInstance().sessionStore.session()?.userID
+        Twitter.sharedInstance().sessionStore.logOutUserID(userId!)
+        let loginView = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as? TwitterHomeController
+        self.navigationController?.pushViewController(loginView!, animated: true)
     }
     
     func getUserTimeline() {
@@ -76,7 +85,24 @@ extension TimelineControllerViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "tweet", for: indexPath) as? TimelineTableViewCell
-        cell?.tweetTextLabel?.text = self.listTweets[indexPath.row]["text"] as? String
+        let tweet = self.listTweets[indexPath.row]
+        cell?.tweetTextLabel?.text = tweet["text"] as? String
+        let isRetweeted : Bool = tweet["retweeted_status"] != nil
+        if isRetweeted {
+            if let retweet = tweet["retweeted_status"] as? [String: Any] {
+                if let infoRT = retweet["user"] as? [String:Any] {
+                    cell?.accountNameLabel.text = infoRT["name"] as? String
+                    cell?.screenNameLabel.text = "@\(String(describing: infoRT["screen_name"]!))"
+                }
+            }
+        } else {
+            if let infoTW = tweet["user"] as? [String:Any] {
+                cell?.accountNameLabel.text = infoTW["name"] as? String
+                cell?.screenNameLabel.text = "@\(String(describing: infoTW["screen_name"]!))"
+            }
+
+        }
+        cell?.datetimeLabel.text = tweet["created_at"] as? String
         cell?.tweetTextLabel.numberOfLines = 0
         cell?.tweetTextLabel.lineBreakMode = .byWordWrapping
         return cell!

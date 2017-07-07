@@ -30,8 +30,9 @@ class TwitterHomeController: UIViewController {
         Twitter.sharedInstance().logIn(completion: { (session, error) in
             if (session != nil) {
 //                print("signed in as \(String(describing: session?.userName))")
-                let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
-                self.navigationController?.pushViewController(timelineView, animated: true)
+//                let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
+                    self.navigationController?.popViewController(animated: true)
+//                self.navigationController?.pushViewController(timelineView, animated: true)
 //                self.present(timelineView, animated: true, completion: nil)
             } else {
                 print("error: \(String(describing: error?.localizedDescription))")
