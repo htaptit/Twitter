@@ -18,13 +18,11 @@ class TimelineControllerViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        let url = TwitterApi.TwitterUrl(twitterURL: .api, path: .user_timeline,parameters: ["screen_name": "htaptit"])
-        let response = TwitterApi.ApiRequest(url: url)
-        
-        
-        
+
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
         self.timelineTableView.estimatedRowHeight = 200
+        let tw = TwitterStore()
+        tw.getUserTimeline()
         
         if userIsLoggin() {
             getUserTimeline()

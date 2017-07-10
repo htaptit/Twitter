@@ -9,18 +9,36 @@
 import Foundation
 
 class TwitterData {
-    let accountName: String
-    let screenName: String
-    let createdAt: Date
-    let tweetText: String
-    let avatarImage: URL?
-    let photoImage: URL?
-    init(accountName: String, screenName: String, createdAt: Date, tweetText: String, avatarImage: URL, photoImage: URL?) {
-        self.accountName = accountName
-        self.screenName = screenName
-        self.createdAt = createdAt
-        self.tweetText = tweetText
-        self.avatarImage = avatarImage
-        self.photoImage = photoImage
+    
+    let tweet: [String:Any]
+    let userOfTweet: [String:Any]
+    
+    init(tweet: [String:Any], userOfTweet: [String:Any]) {
+        self.tweet = tweet
+        self.userOfTweet = userOfTweet
+    }
+    
+    public func asString(value: Any) -> String {
+        return (value as? String)!
+    }
+    
+    var getAccountName: String {
+        get {
+            return asString(value: self.tweet["name"]!)
+        }
+    }
+    
+    var getScreenName: String {
+        get {
+            return asString(value: self.userOfTweet["screen_name"]!)
+        }
+    }
+    
+    var getAvatar: Data? {
+        get {
+            let url = asString(value: self.userOfTweet["profile_image_url_https"]!).replacingOccurrences(of: "_nomal", with: "")
+            let avUrl = try? Data(contentsOf: URL(string: url)!)
+            return avUrl
+        }
     }
 }

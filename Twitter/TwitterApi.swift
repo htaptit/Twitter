@@ -60,21 +60,52 @@ struct TwitterApi {
     }
     
 
-    static func ApiRequest(url: URLRequest) {
+    static func ApiRequest(url: URLRequest, completion: @escaping (TwitterResult) -> Void) {
         TwitterApi.client.sendTwitterRequest(url) { (response, data, error) in
             do {
-                let result = try JSONSerialization.jsonObject(with: data!, options: [])
-                
-                var finalTweet = [TwitterData]()
-                
+
+                let result = Tweets(fromJSON: data)
+                completion(result)
             }
-            catch {
+            catch let error {
                 print(error.localizedDescription)
             }
         }
     }
     
-    static func Tweets(data: Data) {
-        print(data)
+    static func Tweets(fromJSON data: Data?) -> TwitterResult {
+        do {
+            let jsonObject = try JSONSerialization.jsonObject(with: data!, options: [])
+            
+            guard let jsonDictionary = jsonObject as? [[String: Any]] else {
+                return .failure(TwitterError.invailJSONData as! Error)
+            }
+            
+            var finalTweet = [TwitterData]()
+            for photoJSON in jsonDictionary {
+                if let tweet = Tweet(fromJSON: photoJSON) {
+                    finalTweet.append(tweet)
+                }
+            }
+            	
+            if finalTweet.isEmpty {
+                return .failure(TwitterError.invailJSONData as! Error)
+            }
+            
+            return .success(finalTweet)
+        } catch let error {
+            return .failure(error)
+        }
+    }
+    
+    static func Tweet(fromJSON data: [String:Any]) -> TwitterData? {
+        guard
+            let userOfTweet = data["user"] as? [String:Any]
+        else {
+            return nil
+        }
+        
+        
+        return TwitterData(tweet: data, userOfTweet: userOfTweet)
     }
 }
