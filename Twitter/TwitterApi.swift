@@ -25,7 +25,14 @@ public enum TwitterURL {
     
 }
 
+enum TwitterResult {
+    case success([TwitterData])
+    case failure(Error)
+}
 
+enum TwitterError {
+    case invailJSONData
+}
 
 struct TwitterApi {
     static var client : TWTRAPIClient = TWTRAPIClient(userID: nil)
@@ -56,10 +63,10 @@ struct TwitterApi {
     static func ApiRequest(url: URLRequest) {
         TwitterApi.client.sendTwitterRequest(url) { (response, data, error) in
             do {
-                let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [[String : Any]]
-                if result != nil {
-                    self.parseJSON(data: result!)
-                }
+                let result = try JSONSerialization.jsonObject(with: data!, options: [])
+                
+                var finalTweet = [TwitterData]()
+                
             }
             catch {
                 print(error.localizedDescription)
@@ -67,7 +74,7 @@ struct TwitterApi {
         }
     }
     
-    static func parseJSON(data: [[String : Any]]) {
+    static func Tweets(data: Data) {
         print(data)
     }
 }
