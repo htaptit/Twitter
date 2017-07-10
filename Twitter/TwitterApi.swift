@@ -10,25 +10,64 @@ import Foundation
 import TwitterKit
 import TwitterCore
 
-enum Method: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
-    case delete = "DELETE"
+enum Path: String {
+    case user_timeline = "statuses/user_timeline.json"
 }
 
-struct TwitterApi {
-    static let version = "1.1"
-    static let apiRootUrl = "https://api.twitter.com/\(version)/"
-    
-    var store : TWTRSessionStore!
-    var client : TWTRAPIClient!
-    
-    init(store: TWTRSessionStore) {
-        self.store = store
+public enum TwitterURL {
+    case api
+    var url: URL {
+        switch self {
+        case .api:
+            return URL(string: "https://api.twitter.com/1.1/")!
+        }
     }
     
-    private static func TwitterUrl(method: Method, parameters: [AnyHashable : Any]?) -> URL {
-        return URL(string: "")!
+}
+
+
+
+struct TwitterApi {
+    static var client : TWTRAPIClient = TWTRAPIClient(userID: nil)
+    
+    init() {
+        let user_id = Twitter.sharedInstance().sessionStore.session()?.userID
+        TwitterApi.client = TWTRAPIClient(userID: user_id!)
+    }
+    
+    static func TwitterUrl(twitterURL: TwitterURL , path: Path, parameters: [String: String]?) -> URLRequest {
+        
+        var components = URLComponents(string: twitterURL.url.absoluteString + path.rawValue)
+        var queryItem = [URLQueryItem]()
+        
+        if let additionalParams = parameters {
+            for (key, value) in additionalParams {
+                let item = URLQueryItem(name: key, value: value)
+                queryItem.append(item)
+            }
+        }
+        
+        components?.queryItems = queryItem
+        
+        return URLRequest(url: components!.url!)
+    }
+    
+
+    static func ApiRequest(url: URLRequest) {
+        TwitterApi.client.sendTwitterRequest(url) { (response, data, error) in
+            do {
+                let result = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [[String : Any]]
+                if result != nil {
+                    self.parseJSON(data: result!)
+                }
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    static func parseJSON(data: [[String : Any]]) {
+        print(data)
     }
 }

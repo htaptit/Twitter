@@ -17,6 +17,9 @@ class TimelineTableViewCell: UITableViewCell {
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var datetimeLabel: UILabel!
     @IBOutlet weak var tweetTextLabel: UILabel!
+    @IBOutlet weak var avatarImage: UIImageView!
+    @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet weak var imageHeightLayoutConstraint: NSLayoutConstraint!
 
 
     override func awakeFromNib() {
