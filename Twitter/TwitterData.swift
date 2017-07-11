@@ -22,6 +22,10 @@ class TwitterData {
         return (value as? String)!
     }
     
+    var getCreatedAt: Date {
+        return self.tweet["created_at"] as! Date
+    }
+    
     var getAccountName: String {
         get {
             return asString(value: self.tweet["name"]!)
@@ -36,9 +40,27 @@ class TwitterData {
     
     var getAvatar: Data? {
         get {
-            let url = asString(value: self.userOfTweet["profile_image_url_https"]!).replacingOccurrences(of: "_nomal", with: "")
-            let avUrl = try? Data(contentsOf: URL(string: url)!)
-            return avUrl
+            guard let url = self.userOfTweet["profile_image_url_https"]  else {
+                return nil
+            }
+            
+            let removeNormalStringURL = asString(value: url).replacingOccurrences(of: "_normal", with: "")
+            let avatarUrl = try? Data(contentsOf: URL(string: removeNormalStringURL)!)
+            return avatarUrl
+            
         }
+    }
+    
+    var isRetweeted: Bool {
+        return self.tweet["retweeted"] as! Bool
+    }
+    
+    var retweeted: [String:Any]? {
+        guard let retweeted = self.tweet["retweeted_status"] as? [String: Any] else {
+            return nil
+        }
+        
+        return retweeted
+        
     }
 }
