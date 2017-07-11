@@ -89,10 +89,14 @@ extension TimelineControllerViewController: UITableViewDataSource {
             cell?.photoImage.isHidden = false
             cell?.photoImage.image = UIImage(data: image)
         }
-        
-        
+        cell?.typeTweetLabel.heightAnchor.constraint(equalToConstant: 0)
+        cell?.typeTweetLabel.isHidden = true
         
         if tweet.isRetweeted {
+            cell?.typeTweetLabel.heightAnchor.constraint(equalToConstant: 5.0)
+            cell?.typeTweetLabel.isHidden = false
+            cell?.typeTweetLabel.text = "Retweeted by You"
+            
             if let infoUser = tweet.infoUserOnRetweetedStatus {
                 cell?.avatarImage.image = UIImage(data: infoUser["avatar_data"]! as! Data)
                 cell?.accountNameLabel.text = infoUser["name"]! as? String

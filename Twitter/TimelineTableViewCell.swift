@@ -19,6 +19,7 @@ class TimelineTableViewCell: UITableViewCell {
     @IBOutlet weak var tweetTextLabel: UILabel!
     @IBOutlet weak var avatarImage: UIImageView!
     @IBOutlet weak var photoImage: UIImageView!
+    @IBOutlet weak var typeTweet: UILabel!
     @IBOutlet weak var imageHeightLayoutConstraint: NSLayoutConstraint!
 
 
