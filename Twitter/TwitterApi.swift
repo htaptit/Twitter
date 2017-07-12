@@ -61,12 +61,21 @@ struct TwitterApi {
     
 
     static func ApiRequest(url: URLRequest, completion: @escaping (TwitterResult) -> Void) {
-        TwitterApi.client.sendTwitterRequest(url) { (response, data, error) in
+        TwitterApi.client.sendTwitterRequest(url) { (response, data, connectionError) in
+            
+            if connectionError != nil {
+                print("Error: \(String(describing: connectionError))")
+            }
+            
+            let res = response as! HTTPURLResponse
+            
+            print(res.statusCode)
+            
             if response != nil {
                 let result = Tweets(fromJSON: data)
                 completion(result)
             } else {
-                print("\(String(describing: error?.localizedDescription))")
+                print("\(String(describing: connectionError?.localizedDescription))")
             }
         }
     }

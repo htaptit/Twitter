@@ -68,6 +68,13 @@ class TimelineControllerViewController: UIViewController {
     
 }
 
+extension UIImageView {
+    func asCircle() {
+        self.layer.cornerRadius = self.frame.width / 2
+        self.layer.masksToBounds = true
+    }
+}
+
 extension TimelineControllerViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -90,10 +97,12 @@ extension TimelineControllerViewController: UITableViewDataSource {
             cell?.photoImage.image = UIImage(data: image)
         }
         cell?.typeTweetLabel.heightAnchor.constraint(equalToConstant: 0)
-        cell?.typeTweetLabel.isHidden = true
+//        cell?.typeTweetLabel.isHidden = true
+        
+        cell?.avatarImage.asCircle()
         
         if tweet.isRetweeted {
-            cell?.typeTweetLabel.heightAnchor.constraint(equalToConstant: 5.0)
+            cell?.typeTweetLabel.he
             cell?.typeTweetLabel.isHidden = false
             cell?.typeTweetLabel.text = "Retweeted by You"
             
