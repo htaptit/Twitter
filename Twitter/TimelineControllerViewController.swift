@@ -74,7 +74,22 @@ extension UIImageView {
         self.layer.masksToBounds = true
     }
 }
-
+extension UILabel {
+    func addImage() {
+//        var labelLeft = SMIconLabel(frame: CGRectMake(10, 10, view.frame.size.width - 20, 20))
+        
+        let attachment:NSTextAttachment = NSTextAttachment()
+        attachment.image = UIImage(named: "retweet")
+        attachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 10)
+        attachment.
+        
+        let attachmentString:NSAttributedString = NSAttributedString(attachment: attachment)
+        let myString: NSMutableAttributedString = NSMutableAttributedString(string: self.text!)
+        myString.append(attachmentString)
+        self.attributedText = myString
+        
+    }
+}
 extension TimelineControllerViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -97,14 +112,13 @@ extension TimelineControllerViewController: UITableViewDataSource {
             cell?.photoImage.image = UIImage(data: image)
         }
         cell?.typeTweetLabel.heightAnchor.constraint(equalToConstant: 0)
-//        cell?.typeTweetLabel.isHidden = true
+        cell?.typeTweetLabel.isHidden = true
         
         cell?.avatarImage.asCircle()
         
         if tweet.isRetweeted {
-            cell?.typeTweetLabel.he
             cell?.typeTweetLabel.isHidden = false
-            cell?.typeTweetLabel.text = "Retweeted by You"
+            cell?.typeTweetLabel.addImage()
             
             if let infoUser = tweet.infoUserOnRetweetedStatus {
                 cell?.avatarImage.image = UIImage(data: infoUser["avatar_data"]! as! Data)
