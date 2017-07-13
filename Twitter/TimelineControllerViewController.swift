@@ -12,32 +12,29 @@ import TwitterCore
 
 class TimelineControllerViewController: UIViewController {
     // MARK : variable
-    var listTweets = [TwitterData]()
+    
     @IBOutlet var timelineTableView: UITableView!
+    var listTweets = [TwitterData]()
     var dataIsDoneGetting = false
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-
+        timelineTableView.delegate = self
+//        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable(_:)), name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
+        
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
         self.timelineTableView.estimatedRowHeight = 100
-        let url = TwitterApi.TwitterUrl(twitterURL: .api, path: .user_timeline, parameters: ["screen_name": "htaptit"])
-        TwitterApi.ApiRequest(url: url) { (twitterResult) in
-            switch twitterResult {
-            case let .success(twitterData):
+
+        if userIsLoggin() {
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, parameters: ["screen_name": "htaptit"])
+            TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 for item in twitterData {
                     self.listTweets.append(item)
                     self.timelineTableView.reloadData()
                 }
-            case let .failure(error):
+            }) { (error) in
                 print(error)
             }
-            
-        }
-
-        if userIsLoggin() {
-            
         } else {
             let vc = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
             self.navigationController?.pushViewController(vc, animated: true)
@@ -46,12 +43,27 @@ class TimelineControllerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
-        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.newTweet != nil {
+            listTweets.append(appDelegate.newTweet!)
+            listTweets.insert(appDelegate.newTweet!, at: 0)
+            timelineTableView.reloadData()
+            appDelegate.newTweet = nil
+        }
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func initTweet(tweet: TwitterData) {
+        listTweets.append(tweet)
+    }
+    
+    func reloadTable(_ notification: NSNotification) {
+        print("reload table")
+        timelineTableView.reloadData()
     }
     
     func userIsLoggin() -> Bool {
@@ -76,16 +88,13 @@ extension UIImageView {
 }
 extension UILabel {
     func addImage() {
-//        var labelLeft = SMIconLabel(frame: CGRectMake(10, 10, view.frame.size.width - 20, 20))
-        
         let attachment:NSTextAttachment = NSTextAttachment()
         attachment.image = UIImage(named: "retweet")
-        attachment.bounds = CGRect(x: 0, y: 0, width: 10, height: 10)
-        attachment.
+        attachment.bounds = CGRect(x: -1, y: -2, width: 15, height: 10)
         
         let attachmentString:NSAttributedString = NSAttributedString(attachment: attachment)
         let myString: NSMutableAttributedString = NSMutableAttributedString(string: self.text!)
-        myString.append(attachmentString)
+        myString.insert(attachmentString, at: 0)
         self.attributedText = myString
         
     }
@@ -142,3 +151,8 @@ extension TimelineControllerViewController: UITableViewDataSource {
     
 }
 
+extension TimelineControllerViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+}

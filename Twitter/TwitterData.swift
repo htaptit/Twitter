@@ -13,9 +13,9 @@ class TwitterData {
     let tweet: [String:Any]
     let userOfTweet: [String:Any]
     
-    init(tweet: [String:Any], userOfTweet: [String:Any]) {
+    init(tweet: [String:Any]) {
         self.tweet = tweet
-        self.userOfTweet = userOfTweet
+        self.userOfTweet = tweet["user"] as! [String : Any]
     }
     
     public func asString(value: Any) -> String {
