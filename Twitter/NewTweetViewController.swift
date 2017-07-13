@@ -9,17 +9,21 @@
 import UIKit
 import TwitterCore
 import TwitterKit
-class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableViewDelegate {
+class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableViewDelegate,
+UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var newTweetLabel: UITextField!
     @IBOutlet weak var numberTextLabel: UILabel!
+    @IBOutlet weak var imageUploadedUIImageView: UIImageView!
+    @IBOutlet weak var imageUploadedHeight: NSLayoutConstraint!
     var delegate: NewTweetViewController?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         newTweetLabel.delegate = self
-        // Do any additional setup after loading the view.
+        imageUploadedUIImageView.isHidden = true
+        imageUploadedHeight.constant = 0
     }
     
     
@@ -34,12 +38,28 @@ class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableVie
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func viewLibrary(_ sender: UIButton) {
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.photoLibrary) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.sourceType = .photoLibrary
+            imagePicker.allowsEditing = true
+            self.present(imagePicker, animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        imageUploadedUIImageView.isHidden = false
+        imageUploadedHeight.constant = 150
+        
+        let imageSelected = info[UIImagePickerControllerOriginalImage] as! UIImage
+        imageUploadedUIImageView.image = imageSelected
+        dismiss(animated: true, completion: nil)
+    }
     
     @IBAction func postTweet(_ sender: UIButton) {
-//        let delegate = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as? TimelineControllerViewController
         let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update, parameters: ["status" : newTweetLabel.text!])
         TwitterAPI.postNewTweet(user: nil, url: url, result: { (result) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -54,11 +74,6 @@ class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableVie
     
     @IBAction func cancel(_ sender: UIBarButtonItem) {
         self.navigationController?.popViewController(animated: true)
-//        dismiss(animated: true, completion: nil)
+        // Why not use dissmis
     }
 }
-
-//protocol NewTweetProtocol {
-//    var tweet: [TwitterData]
-////    func initTweet(tweet: TwitterData)
-//}
