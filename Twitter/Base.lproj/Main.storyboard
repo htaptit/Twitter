@@ -451,7 +451,25 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Zg-Ju-rTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5901.6000000000004" y="35.532233883058474"/>
+            <point key="canvasLocation" x="6628" y="-229"/>
+        </scene>
+        <!--Tweet Detail View Controller-->
+        <scene sceneID="bbv-d7-afo">
+            <objects>
+                <viewController storyboardIdentifier="tweetDetail" id="7le-q5-co8" customClass="TweetDetailViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bVy-s4-xRa"/>
+                        <viewControllerLayoutGuide type="bottom" id="EY2-98-Ahw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="9Pa-Ac-wdi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8nN-3r-tNe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6647" y="530"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oNZ-JO-XgN">

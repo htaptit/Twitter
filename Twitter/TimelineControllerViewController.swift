@@ -12,6 +12,7 @@ import TwitterCore
 
 class TimelineControllerViewController: UIViewController {
     // MARK : variable
+    weak var delegate: Delegate?
     
     @IBOutlet var timelineTableView: UITableView!
     var listTweets = [TwitterData]()
@@ -149,8 +150,15 @@ extension TimelineControllerViewController: UITableViewDataSource {
     
 }
 
+protocol Delegate : class {
+    func doSomething(with data: Int)
+}
+
 extension TimelineControllerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+//        delegate?.doSomething(with: indexPath.row)
+        let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
+        tweetDetailVC?.tweet = listTweets[indexPath.row]
+        self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
 }
