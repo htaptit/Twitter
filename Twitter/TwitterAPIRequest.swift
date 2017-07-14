@@ -12,14 +12,19 @@ import TwitterKit
 public enum Path: String {
     case user_timeline = "statuses/user_timeline.json"
     case statuses_update = "statuses/update.json"
+    case upload_media = "media/upload.json"
 }
 
 public enum TwitterURL {
     case api
+    case upload
+    
     var url: URL {
         switch self {
         case .api:
             return URL(string: "https://api.twitter.com/1.1/")!
+        case .upload:
+            return URL(string: "https://upload.twitter.com/1.1/")!
         }
     }
 }
@@ -30,13 +35,13 @@ public enum HTTPMethod: String {
 }
 
 class TwitterAPI {
-    let baseURL = "https://api.twitter.com"
-    let version = "/1.1/"
+//    let baseURL = "https://api.twitter.com"
+//    let version = "/1.1/"
     
     init() {
         
     }
-    class func TwitterUrl(method: HTTPMethod?, path: Path?, parameters: [String: String]?) -> URLRequest? {
+    class func TwitterUrl(method: HTTPMethod?, path: Path?, twitterUrl: TwitterURL? , parameters: [String: String]?) -> URLRequest? {
         let user = Twitter.sharedInstance().sessionStore.session()?.userID
         let client = TWTRAPIClient(userID: user)
         
@@ -44,7 +49,7 @@ class TwitterAPI {
             return nil
         }
         
-        return client.urlRequest(withMethod: (method?.rawValue)!, url: TwitterAPI().baseURL + TwitterAPI().version + (path?.rawValue)!, parameters: parameters, error: NSErrorPointer.none) as URLRequest
+        return client.urlRequest(withMethod: (method?.rawValue)!, url: (twitterUrl?.url.absoluteString)! + (path?.rawValue)!, parameters: parameters, error: NSErrorPointer.none) as URLRequest
     }
 
     class func getHomeTimeline(user:String?, url: URLRequest?, tweets: @escaping ([TwitterData]) -> (), error: @escaping (Error) -> ()) {
@@ -94,5 +99,31 @@ class TwitterAPI {
                 }
             })
         }
+    }
+    
+    class func postNewImage(image: Data?, result: @escaping (String?) -> (), error: @escaping (Error) -> ()) {
+        let user  = Twitter.sharedInstance().sessionStore.session()?.userID
+        let client = TWTRAPIClient(userID: user)
+        
+        if let image = image {
+            client.uploadMedia(image, contentType: "image/jpeg") { (string, err) in
+                result(string)
+            }
+        }
+        
+//        if request != nil {
+//            client.sendTwitterRequest(request!, completion: { (response, data, err) in
+//                if err == nil {
+//                    let json: AnyObject? = try! JSONSerialization.jsonObject(with: data!, options: []) as AnyObject?
+//                    if let jsonArray = json as? [String: Any] {
+//                        result(TwitterData(tweet: jsonArray))
+//                    } else {
+//                        print("request error: \(String(describing: err))")
+//                    }
+//                } else {
+//                    error(err!)
+//                }
+//            })
+//        }
     }
 }

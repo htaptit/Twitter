@@ -20,13 +20,12 @@ class TimelineControllerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         timelineTableView.delegate = self
-//        NotificationCenter.default.addObserver(self, selector: #selector(reloadTable(_:)), name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
         
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
         self.timelineTableView.estimatedRowHeight = 100
-
+        
         if userIsLoggin() {
-            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, parameters: ["screen_name": "htaptit"])
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 for item in twitterData {
                     self.listTweets.append(item)
@@ -45,7 +44,6 @@ class TimelineControllerViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.newTweet != nil {
-            listTweets.append(appDelegate.newTweet!)
             listTweets.insert(appDelegate.newTweet!, at: 0)
             timelineTableView.reloadData()
             appDelegate.newTweet = nil

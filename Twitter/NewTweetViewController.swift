@@ -11,7 +11,9 @@ import TwitterCore
 import TwitterKit
 class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableViewDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+    
+    var imageIDUploaded: String? = nil
+    
     @IBOutlet weak var newTweetLabel: UITextField!
     @IBOutlet weak var numberTextLabel: UILabel!
     @IBOutlet weak var imageUploadedUIImageView: UIImageView!
@@ -56,16 +58,36 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         
         let imageSelected = info[UIImagePickerControllerOriginalImage] as! UIImage
         imageUploadedUIImageView.image = imageSelected
+        
+        
+        let imageData: Data? = UIImageJPEGRepresentation(imageSelected, 0.9)
+
+        TwitterAPI.postNewImage(image: imageData, result: { (data) in
+            if let id = data {
+                self.imageIDUploaded = id
+            }
+        }) { (error) in
+            print(error)
+        }
+
+        
         dismiss(animated: true, completion: nil)
     }
     
     @IBAction func postTweet(_ sender: UIButton) {
-        let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update, parameters: ["status" : newTweetLabel.text!])
+        var params = [
+            "status" : newTweetLabel.text!
+        ]
+        
+        if imageIDUploaded != nil {
+            params["media_ids"] = imageIDUploaded
+        }
+        
+        let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update, twitterUrl: TwitterURL.api, parameters: params)
         TwitterAPI.postNewTweet(user: nil, url: url, result: { (result) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.newTweet = result
             self.navigationController?.popViewController(animated: true)
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "reloadTable"), object: nil)
         }) { (error) in
             print(error)
         }
