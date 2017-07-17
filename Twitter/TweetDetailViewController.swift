@@ -24,16 +24,5 @@ class TweetDetailViewController: UIViewController{
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-//    func doSomething(with data: Int) {
-//        print(data)
-//    }
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "detailTweet" {
-//            let timeline: TimelineControllerViewController = segue.destination as! TimelineControllerViewController
-//            timeline.delegate = self
-//        }
-//    }
 
 }

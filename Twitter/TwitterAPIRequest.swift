@@ -10,8 +10,17 @@ import Foundation
 import TwitterKit
 
 public enum Path: String {
+    
+    // GET
     case user_timeline = "statuses/user_timeline.json"
+    case home_timeline = "statuses/home_timeline.json"
     case statuses_update = "statuses/update.json"
+    
+    // POST
+      /* Tweet */
+    case retweet_by_id = "statuses/retweet/:id.json"
+    
+     /* Media */
     case upload_media = "media/upload.json"
 }
 
@@ -41,6 +50,7 @@ class TwitterAPI {
     init() {
         
     }
+    
     class func TwitterUrl(method: HTTPMethod?, path: Path?, twitterUrl: TwitterURL? , parameters: [String: String]?) -> URLRequest? {
         let user = Twitter.sharedInstance().sessionStore.session()?.userID
         let client = TWTRAPIClient(userID: user)
@@ -49,7 +59,20 @@ class TwitterAPI {
             return nil
         }
         
-        return client.urlRequest(withMethod: (method?.rawValue)!, url: (twitterUrl?.url.absoluteString)! + (path?.rawValue)!, parameters: parameters, error: NSErrorPointer.none) as URLRequest
+        if path != .retweet_by_id {
+            return client.urlRequest(withMethod: (method?.rawValue)!, url: (twitterUrl?.url.absoluteString)! + (path?.rawValue)!, parameters: parameters, error: NSErrorPointer.none) as URLRequest
+        } else {
+            var url = ""
+            if let tweet_id = parameters?["id"] {
+                url = (twitterUrl?.url.absoluteString)! + (path?.rawValue)!.replacingOccurrences(of: ":id", with: tweet_id, options: .literal, range: nil)
+            }
+            
+            var prs = parameters
+            prs?.removeValue(forKey: "id")
+
+            return client.urlRequest(withMethod: (method?.rawValue)!, url: url, parameters: prs, error: .none)
+            
+        }
     }
 
     class func getHomeTimeline(user:String?, url: URLRequest?, tweets: @escaping ([TwitterData]) -> (), error: @escaping (Error) -> ()) {
@@ -89,7 +112,7 @@ class TwitterAPI {
             client.sendTwitterRequest(request!, completion: { (response, data, err) in
                 if err == nil {
                     let json: AnyObject? = try! JSONSerialization.jsonObject(with: data!, options: []) as AnyObject?
-                    if let jsonArray = json as? [String: Any] {
+                    if let jsonArray = json as? [String: Any] {                        
                         result(TwitterData(tweet: jsonArray))
                     } else {
                         print("request error: \(String(describing: err))")

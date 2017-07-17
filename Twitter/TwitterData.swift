@@ -10,7 +10,7 @@ import Foundation
 
 class TwitterData {
     
-    let tweet: [String:Any]
+    var tweet: [String:Any]
     let userOfTweet: [String:Any]
     
     init(tweet: [String:Any]) {
@@ -20,6 +20,12 @@ class TwitterData {
     
     public func asString(value: Any) -> String {
         return (value as? String)!
+    }
+    
+    var getTweetID: String {
+        get {
+            return asString(value: self.tweet["id_str"]!)
+        }
     }
     
     var getCreatedAt: String {
@@ -56,6 +62,21 @@ class TwitterData {
         
         return retweeted
         
+    }
+    
+    var retweetCount: Int {
+        get {
+            return self.tweet["retweet_count"] as! Int
+        }
+        set(newValue) {
+           self.tweet["retweet_count"] = newValue
+        }
+    }
+    
+    var favoriteCount: Int {
+        get {
+            return self.tweet["favorite_count"] as! Int
+        }
     }
     
     var infoUserOnRetweetedStatus: [String: Any]? {

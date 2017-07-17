@@ -26,7 +26,7 @@ class TimelineControllerViewController: UIViewController {
         self.timelineTableView.estimatedRowHeight = 100
         
         if userIsLoggin() {
-            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit"])
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .home_timeline, twitterUrl: TwitterURL.api , parameters: ["count": "200"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 for item in twitterData {
                     self.listTweets.append(item)
@@ -74,9 +74,56 @@ class TimelineControllerViewController: UIViewController {
         let userId = Twitter.sharedInstance().sessionStore.session()?.userID
         Twitter.sharedInstance().sessionStore.logOutUserID(userId!)
         let loginView = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as? TwitterHomeController
+        self.listTweets.removeAll()
         self.navigationController?.pushViewController(loginView!, animated: true)
     }
     
+    
+    @IBAction func retweetOrQuote(_ sender: UIButton) {
+        if let button_id = sender.currentTitle {
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
+                print(action)
+                self.retweet(button_id: button_id, button: sender)
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Quote tweet", style: .default , handler: { (action) in
+                print("Quote tweet")
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
+            
+            self.present(alert, animated: true, completion: nil)
+        } else {
+            print("Tweet id not found ! ")
+        }
+        
+    }
+    
+    func retweet(button_id: String, button: UIButton) {
+        let arr = button_id.splitStringToArray(separator: "_")
+        let tweet_id = String(describing: arr[0])
+        let index = Int(arr[1] as! String)
+
+        let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet_id])
+        TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+            self.listTweets[index!].retweetCount = data.retweetCount
+            
+            let image = UIImage(named: "retweeted")
+            button.setImage(image, for: UIControlState.normal)
+            self.timelineTableView.reloadData()
+        }) { (error) in
+            print(error)
+        }
+    }
+    
+}
+
+extension String {
+    func splitStringToArray(separator: String) -> Array<Any> {
+        let arr = self.components(separatedBy: separator)
+        return arr
+    }
 }
 
 extension UIImageView {
@@ -141,6 +188,11 @@ extension TimelineControllerViewController: UITableViewDataSource {
             cell?.avatarImage.image = UIImage(data: tweet.getAvatar(nil)!)
         }
         
+        let button_id = tweet.getTweetID + "_" + String(indexPath.row)
+        cell?.retweetButton.setTitle(button_id, for: UIControlState.normal)
+        cell?.retweetCountLabel.text = tweet.retweetCount != 0 ? String(tweet.retweetCount) : ""
+        cell?.likeCoutLabel.text = tweet.favoriteCount != 0 ? String(tweet.favoriteCount) : ""
+
         return cell!
     }
     
@@ -156,7 +208,7 @@ protocol Delegate : class {
 
 extension TimelineControllerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        delegate?.doSomething(with: indexPath.row)
+        print(indexPath.row)
         let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
         tweetDetailVC?.tweet = listTweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
