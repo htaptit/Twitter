@@ -19,7 +19,7 @@ public enum Path: String {
     // POST
       /* Tweet */
     case retweet_by_id = "statuses/retweet/:id.json"
-    
+    case unretweet_by_id = "statuses/unretweet/:id.json"
      /* Media */
     case upload_media = "media/upload.json"
 }
@@ -59,7 +59,7 @@ class TwitterAPI {
             return nil
         }
         
-        if path != .retweet_by_id {
+        if (path != .retweet_by_id && path != .unretweet_by_id) {
             return client.urlRequest(withMethod: (method?.rawValue)!, url: (twitterUrl?.url.absoluteString)! + (path?.rawValue)!, parameters: parameters, error: NSErrorPointer.none) as URLRequest
         } else {
             var url = ""

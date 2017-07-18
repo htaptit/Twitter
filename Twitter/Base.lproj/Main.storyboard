@@ -109,7 +109,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="234"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fkf-AC-Nfp" id="cud-rG-Mzt">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="233.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="234"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" You Retweeted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYR-a3-0yy">
@@ -323,7 +323,7 @@
                                 <rect key="frame" x="0.0" y="262" width="375" height="254"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ibE-9U-g14" id="0YL-b8-Rm8">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="253.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="254"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="m7t-c6-srl">
@@ -481,7 +481,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zxz-Ws-w44">
-                                                    <rect key="frame" x="232.5" y="0.0" width="13" height="16"/>
+                                                    <rect key="frame" x="239" y="0.0" width="13" height="16"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="16" id="U2N-Jx-8oi"/>
                                                         <constraint firstAttribute="width" constant="13" id="myb-RC-UVM"/>
@@ -520,7 +520,7 @@
                                                 <constraint firstItem="4Dz-te-mfi" firstAttribute="leading" secondItem="Z85-l7-7u0" secondAttribute="trailing" constant="2" id="fRF-Vy-udu"/>
                                                 <constraint firstItem="q48-Is-1I8" firstAttribute="leading" secondItem="BOq-03-iSZ" secondAttribute="leading" id="fdt-iv-OrI"/>
                                                 <constraint firstItem="bVt-OD-aaS" firstAttribute="leading" secondItem="4Dz-te-mfi" secondAttribute="trailing" constant="50" id="lKV-WW-whM"/>
-                                                <constraint firstItem="zxz-Ws-w44" firstAttribute="leading" secondItem="e1U-Vh-uc2" secondAttribute="trailing" constant="33" id="tMo-Hp-C8B"/>
+                                                <constraint firstItem="zxz-Ws-w44" firstAttribute="leading" secondItem="e1U-Vh-uc2" secondAttribute="trailing" constant="40" id="tMo-Hp-C8B"/>
                                                 <constraint firstItem="bVt-OD-aaS" firstAttribute="top" secondItem="BOq-03-iSZ" secondAttribute="top" id="wDk-PB-SAZ"/>
                                                 <constraint firstItem="4Dz-te-mfi" firstAttribute="top" secondItem="BOq-03-iSZ" secondAttribute="top" id="x6T-Lu-wSe"/>
                                             </constraints>

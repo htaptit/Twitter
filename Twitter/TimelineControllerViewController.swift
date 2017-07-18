@@ -79,19 +79,28 @@ class TimelineControllerViewController: UIViewController {
     
     @IBAction func retweetOrQuote(_ sender: UIButton) {
         if let button_id = sender.currentTitle {
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
-                print(action)
-                self.retweet(button_id: button_id, button: sender)
-            }))
+            let arr = button_id.splitStringToArray(separator: "_")
+            let tweet_id = String(describing: arr[0])
+            let index = Int(arr[1] as! String)
             
-            alert.addAction(UIAlertAction(title: "Quote tweet", style: .default , handler: { (action) in
-                let arr = button_id.splitStringToArray(separator: "_")
-                let index = Int(arr[1] as! String)
-                let quoteViewController = self.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
-                quoteViewController?.tweet = self.listTweets[index!]
-                self.navigationController?.pushViewController(quoteViewController!, animated: true)
-            }))
+            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            if self.listTweets[index!].isRetweeted {
+                alert.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
+                    print(tweet_id)
+                    self.un_retweet(tweet_id: tweet_id, index: index!)
+                }))
+            } else {
+                alert.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
+                    self.retweet(button_id: button_id, button: sender)
+                }))
+                
+                alert.addAction(UIAlertAction(title: "Quote tweet", style: .default , handler: { (action) in
+                    let quoteViewController = self.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
+                    quoteViewController?.tweet = self.listTweets[index!]
+                    self.navigationController?.pushViewController(quoteViewController!, animated: true)
+                }))
+            }
+            
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
             
@@ -113,6 +122,16 @@ class TimelineControllerViewController: UIViewController {
             
             let image = UIImage(named: "retweeted")
             button.setImage(image, for: UIControlState.normal)
+            self.timelineTableView.reloadData()
+        }) { (error) in
+            print(error)
+        }
+    }
+    
+    func un_retweet(tweet_id: String, index: Int) {
+        let url = TwitterAPI.TwitterUrl(method: .POST , path: .unretweet_by_id , twitterUrl: .api, parameters: ["id": tweet_id])        
+        TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+            self.listTweets.remove(at: index)
             self.timelineTableView.reloadData()
         }) { (error) in
             print(error)
