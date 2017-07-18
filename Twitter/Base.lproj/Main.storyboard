@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gEm-SB-vbe">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gEm-SB-vbe">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -112,25 +112,25 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="322"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Retweeted by You" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYR-a3-0yy">
-                                            <rect key="frame" x="51" y="8" width="103" height="11"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" You Retweeted" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYR-a3-0yy">
+                                            <rect key="frame" x="51" y="3" width="103" height="8"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" relation="greaterThanOrEqual" id="aJo-43-Eo4"/>
+                                                <constraint firstAttribute="height" constant="8" id="aJo-43-Eo4"/>
                                                 <constraint firstAttribute="width" constant="103" id="yc3-6h-O2R"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="7"/>
                                             <color key="textColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_ico" translatesAutoresizingMaskIntoConstraints="NO" id="OvR-nS-ZFn">
-                                            <rect key="frame" x="8" y="21" width="50" height="50"/>
+                                            <rect key="frame" x="8" y="13" width="50" height="50"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="50" id="63f-Wh-sO8"/>
                                                 <constraint firstAttribute="height" constant="50" id="Iqt-Nd-TUF"/>
                                             </constraints>
                                         </imageView>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kdd-5T-aTI">
-                                            <rect key="frame" x="58" y="20.5" width="309" height="10"/>
+                                            <rect key="frame" x="58" y="12.5" width="309" height="10"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bzt-aD-vbJ">
                                                     <rect key="frame" x="0.0" y="0.0" width="295" height="4"/>
@@ -194,7 +194,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7oa-kc-JUD">
-                                            <rect key="frame" x="65" y="181.5" width="302" height="15"/>
+                                            <rect key="frame" x="65" y="173.5" width="302" height="15"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0a5-lm-GNP">
                                                     <rect key="frame" x="62" y="0.0" width="13" height="16"/>
@@ -269,13 +269,13 @@
                                             </constraints>
                                         </view>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_ico" translatesAutoresizingMaskIntoConstraints="NO" id="FGH-ue-0Ol">
-                                            <rect key="frame" x="65" y="76.5" width="302" height="100"/>
+                                            <rect key="frame" x="65" y="68.5" width="302" height="100"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="100" id="Tdr-RE-Cfj"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JC8-6f-iVg">
-                                            <rect key="frame" x="65" y="31.5" width="302" height="43"/>
+                                            <rect key="frame" x="65" y="23.5" width="302" height="43"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -286,8 +286,9 @@
                                         <constraint firstItem="kdd-5T-aTI" firstAttribute="top" secondItem="UYR-a3-0yy" secondAttribute="bottom" constant="2" id="4bh-Af-ru9"/>
                                         <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="7oa-kc-JUD" secondAttribute="bottom" constant="5" id="4qh-D5-SNV"/>
                                         <constraint firstItem="FGH-ue-0Ol" firstAttribute="trailing" secondItem="JC8-6f-iVg" secondAttribute="trailing" id="88a-OJ-8xe"/>
+                                        <constraint firstAttribute="bottomMargin" relation="greaterThanOrEqual" secondItem="OvR-nS-ZFn" secondAttribute="bottom" constant="2" id="9m8-3X-3N7"/>
                                         <constraint firstItem="UYR-a3-0yy" firstAttribute="leading" secondItem="cud-rG-Mzt" secondAttribute="leadingMargin" constant="43" id="9xn-eW-BDB"/>
-                                        <constraint firstItem="UYR-a3-0yy" firstAttribute="top" secondItem="cud-rG-Mzt" secondAttribute="topMargin" id="KTg-uJ-rnz"/>
+                                        <constraint firstItem="UYR-a3-0yy" firstAttribute="top" secondItem="cud-rG-Mzt" secondAttribute="topMargin" constant="-5" id="KTg-uJ-rnz"/>
                                         <constraint firstItem="FGH-ue-0Ol" firstAttribute="leading" secondItem="JC8-6f-iVg" secondAttribute="leading" id="KjD-WU-dEt"/>
                                         <constraint firstItem="7oa-kc-JUD" firstAttribute="leading" secondItem="JC8-6f-iVg" secondAttribute="leading" id="M4t-oA-fzT"/>
                                         <constraint firstItem="JC8-6f-iVg" firstAttribute="top" secondItem="UYR-a3-0yy" secondAttribute="bottom" constant="13" id="X68-lJ-2UZ"/>
@@ -297,14 +298,15 @@
                                         <constraint firstItem="kdd-5T-aTI" firstAttribute="leading" secondItem="OvR-nS-ZFn" secondAttribute="trailing" id="ies-9J-GWn"/>
                                         <constraint firstItem="FGH-ue-0Ol" firstAttribute="top" secondItem="JC8-6f-iVg" secondAttribute="bottom" constant="2" id="myZ-SP-iOG"/>
                                         <constraint firstItem="JC8-6f-iVg" firstAttribute="trailing" secondItem="kdd-5T-aTI" secondAttribute="trailing" id="rHG-S3-qqz"/>
-                                        <constraint firstItem="OvR-nS-ZFn" firstAttribute="top" secondItem="cud-rG-Mzt" secondAttribute="topMargin" constant="13" id="tQO-wd-3V9"/>
                                         <constraint firstItem="UYR-a3-0yy" firstAttribute="leading" secondItem="cud-rG-Mzt" secondAttribute="leading" constant="51" id="xfY-nT-aXm"/>
+                                        <constraint firstItem="OvR-nS-ZFn" firstAttribute="top" secondItem="UYR-a3-0yy" secondAttribute="top" constant="10" id="yIA-Ob-3kI"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="accountNameLabel" destination="Lqu-Li-ns0" id="spB-AX-Xu8"/>
                                     <outlet property="avatarImage" destination="OvR-nS-ZFn" id="vac-gZ-UuJ"/>
                                     <outlet property="datetimeLabel" destination="O7m-u7-5jg" id="bDg-Cp-RRf"/>
+                                    <outlet property="heightTypeTweet" destination="aJo-43-Eo4" id="TD2-6j-pRV"/>
                                     <outlet property="imageHeightLayoutConstraint" destination="Tdr-RE-Cfj" id="gPS-St-y3e"/>
                                     <outlet property="likeButton" destination="5Jt-IL-zZm" id="peM-OH-x95"/>
                                     <outlet property="likeCoutLabel" destination="x2d-LY-ckc" id="IYJ-O8-2w5"/>

@@ -26,7 +26,7 @@ class TimelineControllerViewController: UIViewController {
         self.timelineTableView.estimatedRowHeight = 100
         
         if userIsLoggin() {
-            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .home_timeline, twitterUrl: TwitterURL.api , parameters: ["count": "200"])
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 for item in twitterData {
                     self.listTweets.append(item)
@@ -166,12 +166,13 @@ extension TimelineControllerViewController: UITableViewDataSource {
             cell?.photoImage.isHidden = false
             cell?.photoImage.image = UIImage(data: image)
         }
-        cell?.typeTweetLabel.heightAnchor.constraint(equalToConstant: 0)
+        cell?.heightTypeTweet.constant = 0
         cell?.typeTweetLabel.isHidden = true
         
         cell?.avatarImage.asCircle()
         
         if tweet.isRetweeted {
+            cell?.heightTypeTweet.constant = 8
             cell?.typeTweetLabel.isHidden = false
             cell?.typeTweetLabel.addImage()
             
