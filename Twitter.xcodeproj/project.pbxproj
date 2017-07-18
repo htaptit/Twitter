@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0907B7551F1DFA39004423C3 /* QuoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0907B7541F1DFA39004423C3 /* QuoteViewController.swift */; };
 		091A16D11F18961D005D9A71 /* TweetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091A16D01F18961D005D9A71 /* TweetDetailViewController.swift */; };
 		0922CC301F172B52000CFD08 /* TwitterAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922CC2F1F172B52000CFD08 /* TwitterAPIRequest.swift */; };
 		0938324F1F15FA760078A804 /* NewTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938324E1F15FA760078A804 /* NewTweetViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0907B7541F1DFA39004423C3 /* QuoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteViewController.swift; sourceTree = "<group>"; };
 		091A16D01F18961D005D9A71 /* TweetDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailViewController.swift; sourceTree = "<group>"; };
 		0922CC2F1F172B52000CFD08 /* TwitterAPIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAPIRequest.swift; sourceTree = "<group>"; };
 		0938324E1F15FA760078A804 /* NewTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTweetViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				09EDFF8B1F0E192F00CB2150 /* TimelineTableViewCell.swift */,
 				0979845A1F1399FD0068805F /* TwitterData.swift */,
 				0922CC2F1F172B52000CFD08 /* TwitterAPIRequest.swift */,
+				0907B7541F1DFA39004423C3 /* QuoteViewController.swift */,
 			);
 			path = Twitter;
 			sourceTree = "<group>";
@@ -191,6 +194,7 @@
 				0922CC301F172B52000CFD08 /* TwitterAPIRequest.swift in Sources */,
 				09CBF2C61F0C8E7D005D1961 /* TwitterHomeController.swift in Sources */,
 				0938324F1F15FA760078A804 /* NewTweetViewController.swift in Sources */,
+				0907B7551F1DFA39004423C3 /* QuoteViewController.swift in Sources */,
 				09EDFF8C1F0E192F00CB2150 /* TimelineTableViewCell.swift in Sources */,
 				0979845B1F1399FD0068805F /* TwitterData.swift in Sources */,
 				091A16D11F18961D005D9A71 /* TweetDetailViewController.swift in Sources */,

@@ -12,8 +12,6 @@ import TwitterCore
 
 class TimelineControllerViewController: UIViewController {
     // MARK : variable
-    weak var delegate: Delegate?
-    
     @IBOutlet var timelineTableView: UITableView!
     var listTweets = [TwitterData]()
     var dataIsDoneGetting = false
@@ -26,7 +24,7 @@ class TimelineControllerViewController: UIViewController {
         self.timelineTableView.estimatedRowHeight = 100
         
         if userIsLoggin() {
-            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit"])
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "200"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 for item in twitterData {
                     self.listTweets.append(item)
@@ -88,7 +86,11 @@ class TimelineControllerViewController: UIViewController {
             }))
             
             alert.addAction(UIAlertAction(title: "Quote tweet", style: .default , handler: { (action) in
-                print("Quote tweet")
+                let arr = button_id.splitStringToArray(separator: "_")
+                let index = Int(arr[1] as! String)
+                let quoteViewController = self.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
+                quoteViewController?.tweet = self.listTweets[index!]
+                self.navigationController?.pushViewController(quoteViewController!, animated: true)
             }))
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
@@ -151,50 +153,82 @@ extension TimelineControllerViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tweet", for: indexPath) as? TimelineTableViewCell
-        
         let tweet = self.listTweets[indexPath.row]
+        var cell : TimelineTableViewCell?
         
-        cell?.tweetTextLabel.text = tweet.getText
-        cell?.datetimeLabel.text = tweet.getCreatedAt
         
-        cell?.imageHeightLayoutConstraint.constant = 0
-        cell?.photoImage.isHidden = true
-        
-        if let image = tweet.imageOnTweet {
-            cell?.imageHeightLayoutConstraint.constant = 150
-            cell?.photoImage.isHidden = false
-            cell?.photoImage.image = UIImage(data: image)
-        }
-        cell?.heightTypeTweet.constant = 0
-        cell?.typeTweetLabel.isHidden = true
-        
-        cell?.avatarImage.asCircle()
-        
-        if tweet.isRetweeted {
-            cell?.heightTypeTweet.constant = 8
-            cell?.typeTweetLabel.isHidden = false
-            cell?.typeTweetLabel.addImage()
+        if tweet.isQuote {
+            cell = tableView.dequeueReusableCell(withIdentifier: "quote_tweet", for: indexPath) as? TimelineTableViewCell
             
-            if let infoUser = tweet.infoUserOnRetweetedStatus {
-                cell?.avatarImage.image = UIImage(data: infoUser["avatar_data"]! as! Data)
-                cell?.accountNameLabel.text = infoUser["name"]! as? String
-                cell?.screenNameLabel.text = "@\(infoUser["screen_name"]! as! String)"
-            }
-            cell?.avatarImage.contentMode = .scaleAspectFit
-        } else {
             cell?.accountNameLabel.text = tweet.getAccountName
-            cell?.screenNameLabel.text = tweet.getScreenName
+            cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
             cell?.avatarImage.contentMode = .scaleAspectFit
             cell?.avatarImage.image = UIImage(data: tweet.getAvatar(nil)!)
+            cell?.tweetTextLabel.text = tweet.getText
+            
+            // Quote Status
+            cell?.qAccountNameLabel.text = tweet.q_account_name
+            cell?.qScreenNameLabel.text = "@\(tweet.q_screen_name!)"
+            cell?.qText.text = tweet.q_text
+            
+            
+            cell?.qImageUIImageView.isHidden = true
+            cell?.qImageHeightLayoutConstraint.constant = 0
+            if let image = tweet.q_imageOnTweet {
+                cell?.qImageUIImageView.isHidden = false
+                cell?.qImageHeightLayoutConstraint.constant = 105
+                cell?.qImageUIImageView.roundCorners([.bottomLeft, .bottomRight], radius: 5)
+                cell?.qImageUIImageView.image = UIImage(data: image)
+            }
+            // End quoted status
+            
+            // set border color and width : tweet quoted
+            cell?.tweetQuotedUIView.layer.borderWidth = 0.3
+            cell?.tweetQuotedUIView.layer.borderColor = UIColor.darkGray.cgColor
+            cell?.tweetQuotedUIView.layer.cornerRadius = 5
+            
+        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: "tweet", for: indexPath) as? TimelineTableViewCell
+            cell?.imageHeightLayoutConstraint.constant = 0
+            cell?.photoImage.isHidden = true
+            
+            if let image = tweet.imageOnTweet {
+                cell?.imageHeightLayoutConstraint.constant = 150
+                cell?.photoImage.isHidden = false
+                cell?.photoImage.image = UIImage(data: image)
+            }
+            cell?.heightTypeTweet.constant = 0
+            cell?.typeTweetLabel.isHidden = true
+            
+            if tweet.isRetweeted {
+                cell?.heightTypeTweet.constant = 8
+                cell?.typeTweetLabel.isHidden = false
+                cell?.typeTweetLabel.addImage()
+                
+                if let infoUser = tweet.infoUserOnRetweetedStatus {
+                    cell?.avatarImage.image = UIImage(data: infoUser["avatar_data"]! as! Data)
+                    cell?.accountNameLabel.text = infoUser["name"]! as? String
+                    cell?.screenNameLabel.text = "@\(infoUser["screen_name"]! as! String)"
+                }
+                cell?.avatarImage.contentMode = .scaleAspectFit
+            } else {
+                cell?.accountNameLabel.text = tweet.getAccountName
+                cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
+                cell?.avatarImage.contentMode = .scaleAspectFit
+                cell?.avatarImage.image = UIImage(data: tweet.getAvatar(nil)!)
+            }
         }
+        cell?.avatarImage.asCircle()
+        cell?.tweetTextLabel.text = tweet.getText
+        cell?.datetimeLabel.text = tweet.getCreatedAt
+
         
         let button_id = tweet.getTweetID + "_" + String(indexPath.row)
         cell?.retweetButton.setTitle(button_id, for: UIControlState.normal)
         cell?.retweetCountLabel.text = tweet.retweetCount != 0 ? String(tweet.retweetCount) : ""
         cell?.likeCoutLabel.text = tweet.favoriteCount != 0 ? String(tweet.favoriteCount) : ""
-
         return cell!
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -202,14 +236,17 @@ extension TimelineControllerViewController: UITableViewDataSource {
     }
     
 }
-
-protocol Delegate : class {
-    func doSomething(with data: Int)
+extension UIImageView {
+    func roundCorners(_ corners:UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let mask = CAShapeLayer()
+        mask.path = path.cgPath
+        self.layer.mask = mask
+    }
 }
 
 extension TimelineControllerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
         let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
         tweetDetailVC?.tweet = listTweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)

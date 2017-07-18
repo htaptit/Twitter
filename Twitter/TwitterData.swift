@@ -40,7 +40,8 @@ class TwitterData {
     
     var getScreenName: String {
         get {
-            return ("@\(asString(value: self.userOfTweet["screen_name"]!))")
+//            return ("@\(asString(value: self.userOfTweet["screen_name"]!))")
+            return asString(value: self.userOfTweet["screen_name"]!)
         }
     }
     
@@ -103,7 +104,22 @@ class TwitterData {
         return nil
     }
     
+    var tweetUrl: String? {
+        if let id = self.tweet["id_str"] {
+            return "https://twitter.com/\(self.getScreenName)/status/\(id)"
+        }
+        return nil
+    }
     
+    var tweetUrlShort: String? {
+        guard let entities = self.tweet["entities"] as? [String:Any] else { return nil }
+        if let media = entities["media"] as? Array<Any> {
+            let inforMedia = media[0] as! [String:Any]
+            return asString(value: inforMedia["url"]!)
+        }
+        
+        return nil
+    }
     
     func getAvatar(_ urlString : String?) -> Data? {
         let tempSaveUrl: String?
@@ -127,5 +143,59 @@ class TwitterData {
         return nil
     }
     
+    var isQuote: Bool {
+        if let isQuote = self.tweet["is_quote_status"] {
+            if isQuote as? Bool == true && self.isRetweeted == false {
+                return true
+            }
+        }
+        return false
+    }
     
+    var quoted_status: [String: Any]? {
+        guard let quoted = self.tweet["quoted_status"] as? [String:Any] else {
+            return nil
+        }
+        
+        return quoted
+    }
+    
+    var q_user: [String: Any]? {
+        guard let user = self.quoted_status?["user"] else {
+            return nil
+        }
+        
+        return (user as! [String : Any])
+    }
+    
+    var q_account_name: String? {
+        if let name = self.q_user?["name"] {
+            return asString(value: name)
+        }
+        return nil
+    }
+    
+    var q_screen_name: String? {
+        if let sname = self.q_user?["screen_name"] {
+            return asString(value: sname)
+        }
+        return nil
+    }
+    
+    var q_text: String? {
+        if let text = self.quoted_status?["text"] {
+            return asString(value: text)
+        }
+        return nil
+    }
+    var q_imageOnTweet : Data? {
+        guard let entities = self.quoted_status?["entities"] as? [String:Any] else { return nil }
+        if let media = entities["media"] as? Array<Any> {
+            let inforMedia = media[0] as! [String:Any]
+            let urlString = asString(value: inforMedia["media_url_https"]!)
+            return self.getAvatar(urlString)
+        }
+        
+        return nil
+    }
 }

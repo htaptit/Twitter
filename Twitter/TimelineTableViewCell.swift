@@ -27,6 +27,12 @@ class TimelineTableViewCell: UITableViewCell {
     @IBOutlet weak var retweetButton: UIButton!
     @IBOutlet weak var likeButton: UIButton!
 
+    @IBOutlet weak var tweetQuotedUIView: UIView!
+    @IBOutlet weak var qAccountNameLabel: UILabel!
+    @IBOutlet weak var qScreenNameLabel: UILabel!
+    @IBOutlet weak var qText: UILabel!
+    @IBOutlet weak var qImageUIImageView: UIImageView!
+    @IBOutlet weak var qImageHeightLayoutConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
