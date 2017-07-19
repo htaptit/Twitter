@@ -15,7 +15,7 @@ class TimelineControllerViewController: UIViewController {
     @IBOutlet var timelineTableView: UITableView!
     var listTweets = [TwitterData]()
     var dataIsDoneGetting = false
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         timelineTableView.delegate = self
@@ -23,12 +23,22 @@ class TimelineControllerViewController: UIViewController {
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
         self.timelineTableView.estimatedRowHeight = 100
         
+        self.loadTweet()
+        
+    }
+    
+    func loadTweet() {
         if userIsLoggin() {
+//            var params = ["screen_name": "htaptit", "count": "200"]
+            
             let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "200"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
-                for item in twitterData {
-                    self.listTweets.append(item)
-                    self.timelineTableView.reloadData()
+                print(twitterData)
+                if !twitterData.isEmpty {
+                    for item in twitterData {
+                        self.listTweets.append(item)
+                        self.timelineTableView.reloadData()
+                    }
                 }
             }) { (error) in
                 print(error)
@@ -60,10 +70,11 @@ class TimelineControllerViewController: UIViewController {
     
     
     @IBAction func Logout(_ sender: Any) {
+        self.listTweets.removeAll()
+        self.timelineTableView.reloadData()
         let userId = Twitter.sharedInstance().sessionStore.session()?.userID
         Twitter.sharedInstance().sessionStore.logOutUserID(userId!)
         let loginView = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as? TwitterHomeController
-        self.listTweets.removeAll()
         self.navigationController?.pushViewController(loginView!, animated: true)
     }
     
@@ -91,7 +102,6 @@ class TimelineControllerViewController: UIViewController {
                     self.navigationController?.pushViewController(quoteViewController!, animated: true)
                 }))
             }
-            
             
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel , handler: nil))
             
@@ -213,6 +223,7 @@ extension TimelineControllerViewController: UITableViewDataSource {
                 cell?.imageHeightLayoutConstraint.constant = 150
                 cell?.photoImage.isHidden = false
                 cell?.photoImage.image = UIImage(data: image)
+                cell?.photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 5)
             }
             cell?.heightTypeTweet.constant = 0
             cell?.typeTweetLabel.isHidden = true
@@ -265,7 +276,7 @@ extension UIImageView {
 extension TimelineControllerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
-        tweetDetailVC?.tweet = listTweets[indexPath.row]
+        tweetDetailVC?.tweet = self.listTweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
 }
