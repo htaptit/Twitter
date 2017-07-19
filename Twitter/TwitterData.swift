@@ -29,7 +29,12 @@ class TwitterData {
     }
     
     var getCreatedAt: String {
-        return "2015/10/10"
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
+        let date = dateFormat.date(from: self.tweet["created_at"] as! String)
+        dateFormat.dateFormat = "dd/MM/yyyy"
+        let da = dateFormat.string(from: date!)
+        return da
     }
     
     var getUserID: Int {

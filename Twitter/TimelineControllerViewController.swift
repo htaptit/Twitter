@@ -54,15 +54,6 @@ class TimelineControllerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    func initTweet(tweet: TwitterData) {
-        listTweets.append(tweet)
-    }
-    
-    func reloadTable(_ notification: NSNotification) {
-        print("reload table")
-        timelineTableView.reloadData()
-    }
-    
     func userIsLoggin() -> Bool {
         return Twitter.sharedInstance().sessionStore.session() != nil
     }
