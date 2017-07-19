@@ -32,6 +32,12 @@ class TwitterData {
         return "2015/10/10"
     }
     
+    var getUserID: Int {
+        get {
+            return self.userOfTweet["id"] as! Int
+        }
+    }
+    
     var getAccountName: String {
         get {
             return asString(value: self.userOfTweet["name"]!)
@@ -40,7 +46,6 @@ class TwitterData {
     
     var getScreenName: String {
         get {
-//            return ("@\(asString(value: self.userOfTweet["screen_name"]!))")
             return asString(value: self.userOfTweet["screen_name"]!)
         }
     }

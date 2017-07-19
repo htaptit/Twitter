@@ -194,7 +194,7 @@
                                             </constraints>
                                         </view>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7oa-kc-JUD">
-                                            <rect key="frame" x="65" y="173.5" width="302" height="15"/>
+                                            <rect key="frame" x="65" y="213.5" width="302" height="15"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0a5-lm-GNP">
                                                     <rect key="frame" x="62" y="0.0" width="13" height="16"/>
@@ -269,13 +269,13 @@
                                             </constraints>
                                         </view>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_ico" translatesAutoresizingMaskIntoConstraints="NO" id="FGH-ue-0Ol">
-                                            <rect key="frame" x="65" y="68.5" width="302" height="100"/>
+                                            <rect key="frame" x="65" y="58.5" width="302" height="150"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="100" id="Tdr-RE-Cfj"/>
+                                                <constraint firstAttribute="height" constant="150" id="Tdr-RE-Cfj"/>
                                             </constraints>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet Tweet " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JC8-6f-iVg">
-                                            <rect key="frame" x="65" y="23.5" width="302" height="43"/>
+                                            <rect key="frame" x="65" y="23.5" width="302" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -433,10 +433,10 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter_ico" translatesAutoresizingMaskIntoConstraints="NO" id="caW-CH-UOL">
-                                                    <rect key="frame" x="0.0" y="32.5" width="300" height="105"/>
+                                                    <rect key="frame" x="0.0" y="32" width="300" height="150"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="V5N-ZB-WxH"/>
-                                                        <constraint firstAttribute="height" constant="105" id="cJq-2k-v72"/>
+                                                        <constraint firstAttribute="height" constant="150" id="cJq-2k-v72"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -448,7 +448,7 @@
                                                 <constraint firstItem="TC7-W4-zHt" firstAttribute="top" secondItem="2YF-b2-8g9" secondAttribute="top" constant="2" id="Dwe-IG-fty"/>
                                                 <constraint firstItem="caW-CH-UOL" firstAttribute="leading" secondItem="2YF-b2-8g9" secondAttribute="leading" id="G2j-3D-rhi"/>
                                                 <constraint firstItem="caW-CH-UOL" firstAttribute="top" secondItem="LD1-TH-aoQ" secondAttribute="bottom" constant="5" id="Hey-M3-tPs"/>
-                                                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="caW-CH-UOL" secondAttribute="bottom" id="UPo-We-cqo"/>
+                                                <constraint firstAttribute="bottom" secondItem="caW-CH-UOL" secondAttribute="bottom" id="UPo-We-cqo"/>
                                                 <constraint firstItem="pRN-vq-wXv" firstAttribute="leading" secondItem="TC7-W4-zHt" secondAttribute="trailing" constant="6" id="fDV-7a-OC0"/>
                                                 <constraint firstItem="TC7-W4-zHt" firstAttribute="leading" secondItem="2YF-b2-8g9" secondAttribute="leading" constant="2" id="j7S-f8-M2J"/>
                                                 <constraint firstAttribute="trailing" secondItem="LD1-TH-aoQ" secondAttribute="trailing" id="qBl-yB-ob4"/>

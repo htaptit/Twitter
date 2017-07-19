@@ -118,10 +118,17 @@ class TimelineControllerViewController: UIViewController {
 
         let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet_id])
         TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
-            self.listTweets[index!].retweetCount = data.retweetCount
+            let userIDRetweeted = data.getUserID
+            let currentUserID = Twitter.sharedInstance().sessionStore.session()?.userID
+            if "\(userIDRetweeted)" == currentUserID {
+                self.listTweets.remove(at: index!)
+                self.listTweets.insert(data, at: 0)
+            } else {
+                self.listTweets[index!].retweetCount = data.retweetCount
+            }
             
-            let image = UIImage(named: "retweeted")
-            button.setImage(image, for: UIControlState.normal)
+//            let image = UIImage(named: "retweeted")
+//            button.setImage(image, for: UIControlState.normal)
             self.timelineTableView.reloadData()
         }) { (error) in
             print(error)
