@@ -20,8 +20,8 @@ class TimelineControllerViewController: UIViewController {
         timelineTableView.delegate = self
         timelineTableView.translatesAutoresizingMaskIntoConstraints = false
         self.tabBarController?.tabBar.isHidden = false
-        self.tabBarController?.tabBar.frame.size.height = 30
-        self.tabBarController?.tabBar.frame.origin.y = self.view.frame.size.height - 30
+        self.tabBarController?.tabBar.frame.size.height = 40
+        self.tabBarController?.tabBar.frame.origin.y = self.view.frame.size.height - 40
         
         self.timelineTableView.estimatedRowHeight = 400
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
