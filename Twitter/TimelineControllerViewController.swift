@@ -14,14 +14,15 @@ class TimelineControllerViewController: UIViewController {
     // MARK : variable
     @IBOutlet var timelineTableView: UITableView!
     var listTweets = [TwitterData]()
-    var dataIsDoneGetting = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         timelineTableView.delegate = self
+        timelineTableView.translatesAutoresizingMaskIntoConstraints = false
         
+        self.timelineTableView.estimatedRowHeight = 400
         self.timelineTableView.rowHeight = UITableViewAutomaticDimension
-        self.timelineTableView.estimatedRowHeight = 100
+        
         
         self.loadTweet()
         
@@ -30,10 +31,8 @@ class TimelineControllerViewController: UIViewController {
     func loadTweet() {
         if userIsLoggin() {
 //            var params = ["screen_name": "htaptit", "count": "200"]
-            
-            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "200"])
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .home_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "200"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
-                print(twitterData)
                 if !twitterData.isEmpty {
                     for item in twitterData {
                         self.listTweets.append(item)
@@ -88,7 +87,6 @@ class TimelineControllerViewController: UIViewController {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             if self.listTweets[index!].isRetweeted {
                 alert.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
-                    print(tweet_id)
                     self.un_retweet(tweet_id: tweet_id, index: index!)
                 }))
             } else {
@@ -121,13 +119,13 @@ class TimelineControllerViewController: UIViewController {
         TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
             let userIDRetweeted = data.getUserID
             let currentUserID = Twitter.sharedInstance().sessionStore.session()?.userID
-            if "\(userIDRetweeted)" == currentUserID {
+            if "\(userIDRetweeted)" == currentUserID && userIDRetweeted == data.userID_retweet {
                 self.listTweets.remove(at: index!)
                 self.listTweets.insert(data, at: 0)
             } else {
                 self.listTweets[index!].retweetCount = data.retweetCount
             }
-            
+        
 //            let image = UIImage(named: "retweeted")
 //            button.setImage(image, for: UIControlState.normal)
             self.timelineTableView.reloadData()
@@ -218,12 +216,10 @@ extension TimelineControllerViewController: UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: "tweet", for: indexPath) as? TimelineTableViewCell
             cell?.imageHeightLayoutConstraint.constant = 0
             cell?.photoImage.isHidden = true
-            
             if let image = tweet.imageOnTweet {
                 cell?.imageHeightLayoutConstraint.constant = 150
                 cell?.photoImage.isHidden = false
                 cell?.photoImage.image = UIImage(data: image)
-                cell?.photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 5)
             }
             cell?.heightTypeTweet.constant = 0
             cell?.typeTweetLabel.isHidden = true

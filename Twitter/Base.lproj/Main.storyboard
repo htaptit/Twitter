@@ -787,16 +787,16 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LMb-08-vWA">
-                                        <rect key="frame" x="47.5" y="0.0" width="24" height="20"/>
+                                        <rect key="frame" x="34.5" y="0.0" width="26.5" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="MFZ-0W-evl"/>
                                         </constraints>
-                                        <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNd-nQ-FbG">
-                                        <rect key="frame" x="2" y="20" width="31" height="14.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DNd-nQ-FbG">
+                                        <rect key="frame" x="2" y="20" width="341" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -811,7 +811,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="7Wa-Xx-KBM" firstAttribute="leading" secondItem="mPN-7R-Hko" secondAttribute="leading" id="4bp-KW-7ax"/>
-                                    <constraint firstItem="LMb-08-vWA" firstAttribute="leading" secondItem="uUn-4T-RZi" secondAttribute="trailing" constant="15" id="7Vo-ea-8Tp"/>
+                                    <constraint firstItem="LMb-08-vWA" firstAttribute="leading" secondItem="uUn-4T-RZi" secondAttribute="trailing" constant="2" id="7Vo-ea-8Tp"/>
                                     <constraint firstAttribute="bottom" secondItem="7Wa-Xx-KBM" secondAttribute="bottom" constant="9" id="9K2-LR-Xsa"/>
                                     <constraint firstAttribute="trailing" secondItem="7Wa-Xx-KBM" secondAttribute="trailing" id="CSW-iu-AGE"/>
                                     <constraint firstItem="DNd-nQ-FbG" firstAttribute="leading" secondItem="mPN-7R-Hko" secondAttribute="leading" constant="2" id="Sgb-8e-xaT"/>
@@ -819,6 +819,7 @@
                                     <constraint firstItem="7Wa-Xx-KBM" firstAttribute="top" secondItem="DNd-nQ-FbG" secondAttribute="bottom" constant="10" id="gzS-kn-WBs"/>
                                     <constraint firstItem="uUn-4T-RZi" firstAttribute="leading" secondItem="mPN-7R-Hko" secondAttribute="leading" constant="2" id="luQ-XG-B3u"/>
                                     <constraint firstItem="DNd-nQ-FbG" firstAttribute="top" secondItem="uUn-4T-RZi" secondAttribute="bottom" id="tUh-10-BMH"/>
+                                    <constraint firstAttribute="trailing" secondItem="DNd-nQ-FbG" secondAttribute="trailing" id="vwn-Yn-esQ"/>
                                     <constraint firstItem="uUn-4T-RZi" firstAttribute="top" secondItem="mPN-7R-Hko" secondAttribute="top" id="x5N-DD-IXj"/>
                                 </constraints>
                             </view>

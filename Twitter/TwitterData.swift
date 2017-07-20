@@ -75,6 +75,14 @@ class TwitterData {
         
     }
     
+    var userID_retweet: Int? {
+        guard let user = retweeted?["user"] as? [String: Any] else {
+            return nil
+        }
+        let userID = user["id"] as? Int
+        return userID
+    }
+    
     var retweetCount: Int {
         get {
             return self.tweet["retweet_count"] as! Int

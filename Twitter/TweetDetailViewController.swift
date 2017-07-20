@@ -16,8 +16,6 @@ class TweetDetailViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        print("tweet \(tweet.tweet)")
-        
     }
 
     override func didReceiveMemoryWarning() {

@@ -36,6 +36,7 @@ class TimelineTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
+        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
         // Initialization code
     }
 

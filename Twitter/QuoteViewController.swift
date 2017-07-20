@@ -55,7 +55,7 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
             
         } else {
             self.accNameLabel.text = tweet.getAccountName
-            self.screenNameLabel.text = tweet.getScreenName
+            self.screenNameLabel.text = "@\(tweet.getScreenName)"
             self.tweetLabel.text = tweet.getText
             if let image = tweet.imageOnTweet {
                 self.photoImageView.isHidden = false
