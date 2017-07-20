@@ -19,10 +19,15 @@ class TwitterHomeController: UIViewController {
         descriptonLable.numberOfLines = 0
         
         self.navigationController?.isNavigationBarHidden = true
-        
+        self.tabBarController?.tabBar.isHidden = true
         if checkIsLogin() {
-            let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
-            self.navigationController?.pushViewController(timelineView, animated: false)
+//            let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
+//            self.navigationController?.pushViewController(timelineView, animated: false)
+            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+            
+            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "tabBar")
+            appDelegate.window?.rootViewController = initialViewController
+            appDelegate.window?.makeKeyAndVisible()
         }
     }
     
@@ -37,8 +42,13 @@ class TwitterHomeController: UIViewController {
     @IBAction func loginAction(_ sender: UIButton) {
         Twitter.sharedInstance().logIn(completion: { (session, error) in
             if (session != nil) {
-                let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
-                self.navigationController?.pushViewController(timelineView, animated: true)
+//                let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
+//                self.navigationController?.pushViewController(timelineView, animated: true)
+                let appDelegate = UIApplication.shared.delegate! as! AppDelegate
+                
+                let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "tabBar")
+                appDelegate.window?.rootViewController = initialViewController
+                appDelegate.window?.makeKeyAndVisible()
             } else {
                 print("error: \(String(describing: error?.localizedDescription))")
             }

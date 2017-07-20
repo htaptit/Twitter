@@ -32,7 +32,7 @@ class TwitterData {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "eee MMM dd HH:mm:ss ZZZZ yyyy"
         let date = dateFormat.date(from: self.tweet["created_at"] as! String)
-        dateFormat.dateFormat = "dd/MM/yyyy"
+        dateFormat.dateFormat = "yyyy/MM/dd HH:mm"
         let da = dateFormat.string(from: date!)
         return da
     }

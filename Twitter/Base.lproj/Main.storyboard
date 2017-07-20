@@ -603,7 +603,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jQg-XN-QGY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5992.8000000000002" y="35.532233883058474"/>
+            <point key="canvasLocation" x="6932" y="35.532233883058474"/>
         </scene>
         <!--New Tweet-->
         <scene sceneID="9uJ-T1-2ml">
@@ -736,7 +736,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Zg-Ju-rTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7567.1999999999998" y="-229.83508245877064"/>
+            <point key="canvasLocation" x="8506.3999999999996" y="-229.83508245877064"/>
         </scene>
         <!--Tweet Detail View Controller-->
         <scene sceneID="bbv-d7-afo">
@@ -754,7 +754,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8nN-3r-tNe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6700" y="494.30284857571218"/>
+            <point key="canvasLocation" x="11194.4" y="493.40329835082463"/>
         </scene>
         <!--Quote View Controller-->
         <scene sceneID="8Ua-ty-ges">
@@ -871,12 +871,13 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yM3-AP-zaH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7584.8000000000002" y="494.30284857571218"/>
+            <point key="canvasLocation" x="10402.4" y="494.30284857571218"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Timeline-->
         <scene sceneID="oNZ-JO-XgN">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gEm-SB-vbe" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Timeline" image="home" id="9ld-CS-eYk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="2ld-Tt-eMV">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -889,7 +890,36 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6td-Q3-CL0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5053.6000000000004" y="35.532233883058474"/>
+            <point key="canvasLocation" x="5992.8000000000002" y="35.532233883058474"/>
+        </scene>
+        <!--Home User Table View Controller-->
+        <scene sceneID="oef-d7-4FE">
+            <objects>
+                <tableViewController id="KFU-6n-guN" customClass="HomeUserTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="iNP-UP-Ksh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="iaY-Eq-dH0">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="iaY-Eq-dH0" id="xAJ-fc-PdL">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="KFU-6n-guN" id="Trz-mz-h2e"/>
+                            <outlet property="delegate" destination="KFU-6n-guN" id="CxZ-Up-wKq"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="4mG-9v-nA9"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EOG-Rl-fyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6621.6000000000004" y="813.64317841079469"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JXw-wG-6MW">
@@ -909,9 +939,48 @@
             </objects>
             <point key="canvasLocation" x="2872.8000000000002" y="35.532233883058474"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="sVb-2r-GQa">
+            <objects>
+                <tabBarController storyboardIdentifier="tabBar" automaticallyAdjustsScrollViewInsets="NO" id="TXC-oa-Dij" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="wuT-LR-r9T">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="gEm-SB-vbe" kind="relationship" relationship="viewControllers" id="OoG-IB-8IS"/>
+                        <segue destination="g2n-XI-wFm" kind="relationship" relationship="viewControllers" id="Sfg-su-AFM"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="683-P7-RsT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5053.6000000000004" y="35.532233883058474"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="txa-Vi-5Ml">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="g2n-XI-wFm" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="home_user" id="Jwl-Dd-7LG"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yrA-ev-XTd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KFU-6n-guN" kind="relationship" relationship="rootViewController" id="Jmp-3a-D9P"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SR2-Qc-uvt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5682.3999999999996" y="813.64317841079469"/>
+        </scene>
     </scenes>
     <resources>
         <image name="arow-explan" width="25" height="25"/>
+        <image name="home" width="32" height="32"/>
+        <image name="home_user" width="25" height="25"/>
         <image name="like" width="32" height="32"/>
         <image name="location" width="25" height="25"/>
         <image name="message" width="32" height="32"/>
