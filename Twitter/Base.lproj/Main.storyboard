@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -96,7 +97,7 @@
             </objects>
             <point key="canvasLocation" x="3812" y="35.532233883058474"/>
         </scene>
-        <!--List Tweet-->
+        <!--Timeline Controller View Controller-->
         <scene sceneID="oHW-gW-qLe">
             <objects>
                 <tableViewController storyboardIdentifier="timeline" id="Xgr-KM-i93" customClass="TimelineControllerViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
@@ -579,18 +580,22 @@
                             <outlet property="delegate" destination="Xgr-KM-i93" id="RNZ-y2-Mz0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="List Tweet" id="Ttt-S1-6fK">
-                        <barButtonItem key="leftBarButtonItem" id="8bE-AK-oQN">
-                            <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="LPY-aj-wkt">
-                                <rect key="frame" x="16" y="7" width="83" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Log out"/>
-                                <connections>
-                                    <action selector="Logout:" destination="Xgr-KM-i93" eventType="touchUpInside" id="0hT-20-eZH"/>
-                                </connections>
-                            </button>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="TZ9-EJ-S7k">
+                    <navigationItem key="navigationItem" id="Ttt-S1-6fK">
+                        <leftBarButtonItems>
+                            <barButtonItem title="Item" id="8bE-AK-oQN">
+                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LPY-aj-wkt">
+                                    <rect key="frame" x="16" y="9" width="25" height="25"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <state key="normal" image="logout"/>
+                                    <connections>
+                                        <action selector="Logout:" destination="Xgr-KM-i93" eventType="touchUpInside" id="0hT-20-eZH"/>
+                                    </connections>
+                                </button>
+                            </barButtonItem>
+                            <barButtonItem image="chim" id="MmS-g8-21l"/>
+                        </leftBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" image="new_tweet" style="done" id="TZ9-EJ-S7k">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="newTweetAction:" destination="Xgr-KM-i93" id="kBQ-LL-9xY"/>
                                 <segue destination="oof-rA-hk1" kind="show" id="BFJ-re-WPz"/>
@@ -945,6 +950,7 @@
                 <tabBarController storyboardIdentifier="tabBar" automaticallyAdjustsScrollViewInsets="NO" id="TXC-oa-Dij" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="wuT-LR-r9T">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -979,14 +985,17 @@
     </scenes>
     <resources>
         <image name="arow-explan" width="25" height="25"/>
+        <image name="chim" width="25" height="25"/>
         <image name="home" width="32" height="32"/>
         <image name="home_user" width="25" height="25"/>
         <image name="like" width="32" height="32"/>
         <image name="location" width="25" height="25"/>
+        <image name="logout" width="25" height="25"/>
         <image name="message" width="32" height="32"/>
         <image name="new-gift" width="25" height="25"/>
         <image name="new-image" width="25" height="25"/>
         <image name="new-photo" width="25" height="25"/>
+        <image name="new_tweet" width="32" height="32"/>
         <image name="reply" width="32" height="32"/>
         <image name="retweet" width="32" height="32"/>
         <image name="twitter_ico" width="30" height="30"/>
