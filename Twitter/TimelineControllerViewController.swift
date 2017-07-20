@@ -30,7 +30,7 @@ class TimelineControllerViewController: UIViewController {
     
     func loadTweet() {
         if userIsLoggin() {
-//            var params = ["screen_name": "htaptit", "count": "200"]
+//          var params = ["screen_name": "htaptit", "count": "200"]
             let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .home_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "200"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 if !twitterData.isEmpty {
@@ -260,6 +260,15 @@ extension TimelineControllerViewController: UITableViewDataSource {
     }
     
 }
+
+//https://stackoverflow.com/questions/25630315/autolayout-unable-to-simultaneously-satisfy-constraints
+//extension NSLayoutConstraint {
+//    override open var description: String {
+//        let id = identifier ?? ""
+//        return "id: \(id), constant: \(constant)" //you may print whatever you want here
+//    }
+//}
+
 extension UIImageView {
     func roundCorners(_ corners:UIRectCorner, radius: CGFloat) {
         let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
