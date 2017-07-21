@@ -47,6 +47,7 @@ class TimelineTableViewCell: UITableViewCell {
     }
 
     @IBAction func reTweetAction(_ sender: UIButton) {
+        print("a")
         if let buttonID = sender.currentTitle {
             NotificationCenter.default.post(name: .refresh, object: buttonID)
         }

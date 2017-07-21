@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KDb-qh-3JZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="KDb-qh-3JZ">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -128,7 +128,6 @@
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="newTweetAction:" destination="Xgr-KM-i93" id="kBQ-LL-9xY"/>
-                                <segue destination="oof-rA-hk1" kind="show" id="BFJ-re-WPz"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -139,6 +138,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jQg-XN-QGY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6932" y="35.532233883058474"/>
+        </scene>
+        <!--Time Line Table View Controller-->
+        <scene sceneID="Wmg-NM-1Le">
+            <objects>
+                <tableViewController id="ChI-jP-jlc" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="bgH-Bb-ybO">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="inP-WZ-2wS">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inP-WZ-2wS" id="Kw7-Kd-c6d">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ChI-jP-jlc" id="ex7-5A-dSU"/>
+                            <outlet property="delegate" destination="ChI-jP-jlc" id="MlN-dO-RMJ"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="ITt-0N-Rcb">
+                        <barButtonItem key="leftBarButtonItem" image="logout" id="oYa-4P-iOJ">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="logoutAction:" destination="ChI-jP-jlc" id="ty5-1k-gsU"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" image="new_tweet" id="rJp-cT-wMx">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <segue destination="oof-rA-hk1" kind="show" id="jnC-EB-6Oh"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="timeLineUITableView" destination="bgH-Bb-ybO" id="25w-2o-JoX"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tcP-en-mvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="9788" y="610.34482758620697"/>
         </scene>
         <!--New Tweet-->
         <scene sceneID="9uJ-T1-2ml">
@@ -271,7 +315,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Zg-Ju-rTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="8506.3999999999996" y="-229.83508245877064"/>
+            <point key="canvasLocation" x="10508" y="610"/>
         </scene>
         <!--Tweet Detail View Controller-->
         <scene sceneID="bbv-d7-afo">
@@ -289,7 +333,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8nN-3r-tNe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="11194.4" y="493.40329835082463"/>
+            <point key="canvasLocation" x="11385" y="-90"/>
         </scene>
         <!--Quote View Controller-->
         <scene sceneID="8Ua-ty-ges">
@@ -406,7 +450,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yM3-AP-zaH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="10402.4" y="494.30284857571218"/>
+            <point key="canvasLocation" x="11386" y="609"/>
         </scene>
         <!--Timeline-->
         <scene sceneID="oNZ-JO-XgN">
@@ -454,7 +498,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOG-Rl-fyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6621.6000000000004" y="813.64317841079469"/>
+            <point key="canvasLocation" x="8848.7999999999993" y="1358.7706146926537"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="JXw-wG-6MW">
@@ -486,31 +530,67 @@
                     </tabBar>
                     <connections>
                         <segue destination="gEm-SB-vbe" kind="relationship" relationship="viewControllers" id="OoG-IB-8IS"/>
-                        <segue destination="g2n-XI-wFm" kind="relationship" relationship="viewControllers" id="Sfg-su-AFM"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="683-P7-RsT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5053.6000000000004" y="35.532233883058474"/>
         </scene>
-        <!--Home-->
-        <scene sceneID="txa-Vi-5Ml">
+        <!--Timeline-->
+        <scene sceneID="Sal-Px-UBM">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="g2n-XI-wFm" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="home_user" id="Jwl-Dd-7LG"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6kQ-Ph-MeQ" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Timeline" image="home" id="vUq-oW-mDW"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yrA-ev-XTd">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rdN-aR-OEQ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="KFU-6n-guN" kind="relationship" relationship="rootViewController" id="Jmp-3a-D9P"/>
+                        <segue destination="ChI-jP-jlc" kind="relationship" relationship="rootViewController" id="KZD-6l-oTc"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SR2-Qc-uvt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pA9-mg-rPs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5682.3999999999996" y="813.64317841079469"/>
+            <point key="canvasLocation" x="8848.7999999999993" y="610.34482758620697"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="coe-lq-BQV">
+            <objects>
+                <tabBarController storyboardIdentifier="barTimeline" automaticallyAdjustsScrollViewInsets="NO" id="q53-47-KlF" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="1nd-ac-YAL">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="6kQ-Ph-MeQ" kind="relationship" relationship="viewControllers" id="oKa-Lb-Z2v"/>
+                        <segue destination="fPF-HL-Cog" kind="relationship" relationship="viewControllers" id="G98-Pk-yIm"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lVS-xo-HpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7909.6000000000004" y="610.34482758620697"/>
+        </scene>
+        <!--Home-->
+        <scene sceneID="nF6-EB-UV2">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fPF-HL-Cog" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Home" image="home_user" id="ch8-4g-Ktj"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OwR-Cn-gys">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KFU-6n-guN" kind="relationship" relationship="rootViewController" id="qGg-eD-lKz"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ziV-57-Fll" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7909.6000000000004" y="1358.7706146926537"/>
         </scene>
     </scenes>
     <resources>

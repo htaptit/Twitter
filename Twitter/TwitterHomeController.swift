@@ -20,18 +20,16 @@ class TwitterHomeController: UIViewController {
         
         self.navigationController?.isNavigationBarHidden = true
         self.tabBarController?.tabBar.isHidden = true
-        if checkIsLogin() {
-//            let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
-//            self.navigationController?.pushViewController(timelineView, animated: false)
+        if isLogged() {
             let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             
-            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "tabBar")
+            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "barTimeline")
             appDelegate.window?.rootViewController = initialViewController
             appDelegate.window?.makeKeyAndVisible()
         }
     }
     
-    func checkIsLogin() -> Bool {
+    func isLogged() -> Bool {
         return Twitter.sharedInstance().sessionStore.session() != nil
     }
     
@@ -42,11 +40,9 @@ class TwitterHomeController: UIViewController {
     @IBAction func loginAction(_ sender: UIButton) {
         Twitter.sharedInstance().logIn(completion: { (session, error) in
             if (session != nil) {
-//                let timelineView = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as! TimelineControllerViewController
-//                self.navigationController?.pushViewController(timelineView, animated: true)
                 let appDelegate = UIApplication.shared.delegate! as! AppDelegate
                 
-                let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "tabBar")
+                let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "barTimeline")
                 appDelegate.window?.rootViewController = initialViewController
                 appDelegate.window?.makeKeyAndVisible()
             } else {

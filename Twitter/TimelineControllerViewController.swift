@@ -149,19 +149,19 @@ class TimelineControllerViewController: UIViewController {
     
 }
 
-extension String {
-    func splitStringToArray(separator: String) -> Array<Any> {
-        let arr = self.components(separatedBy: separator)
-        return arr
-    }
-}
-
-extension UIImageView {
-    func asCircle() {
-        self.layer.cornerRadius = self.frame.width / 2
-        self.layer.masksToBounds = true
-    }
-}
+//extension String {
+//    func splitStringToArray(separator: String) -> Array<Any> {
+//        let arr = self.components(separatedBy: separator)
+//        return arr
+//    }
+//}
+//
+//extension UIImageView {
+//    func asCircle() {
+//        self.layer.cornerRadius = self.frame.width / 2
+//        self.layer.masksToBounds = true
+//    }
+//}
 extension UILabel {
     func addImage() {
         let attachment:NSTextAttachment = NSTextAttachment()
@@ -272,18 +272,18 @@ extension TimelineControllerViewController: UITableViewDataSource {
 //    }
 //}
 
-extension UIImageView {
-    func roundCorners(_ corners:UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
-    }
-}
+//extension UIImageView {
+//    func roundCorners(_ corners:UIRectCorner, radius: CGFloat) {
+//        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+//        let mask = CAShapeLayer()
+//        mask.path = path.cgPath
+//        self.layer.mask = mask
+//    }
+//}
 
 extension TimelineControllerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
+        let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "") as? TweetDetailViewController
         tweetDetailVC?.tweet = self.listTweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
