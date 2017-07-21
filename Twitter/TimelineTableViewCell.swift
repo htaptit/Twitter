@@ -36,7 +36,7 @@ class TimelineTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
+//        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
         // Initialization code
     }
 
@@ -46,4 +46,6 @@ class TimelineTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBAction func reTweetAction(_ sender: UIButton) {
+    }
 }

@@ -100,23 +100,21 @@ class TwitterData {
     
     var infoUserOnRetweetedStatus: [String: Any]? {
         if let retweeted_status = self.retweeted {
-            var user = retweeted_status["user"] as! [String:Any]
-            
-            let profile_image_url_https = asString(value: user["profile_image_url_https"]!)
-            user["avatar_data"] = self.getAvatar(profile_image_url_https)
+            let user = retweeted_status["user"] as! [String:Any]
             return user
         }
         return nil
     }
     
     
-    var imageOnTweet : Data? {
+    var imageOnTweet : String? {
         guard let entities = self.tweet["entities"] as? [String:Any] else { return nil }
         
         if let media = entities["media"] as? Array<Any> {
             let inforMedia = media[0] as! [String:Any]
-            let urlString = asString(value: inforMedia["media_url_https"]!)
-            return self.getAvatar(urlString)
+//            let urlString = asString(value: inforMedia["media_url_https"]!)
+//            return self.getAvatar(urlString)
+                return asString(value: inforMedia["media_url_https"]!)
         }
         
         return nil
@@ -139,26 +137,10 @@ class TwitterData {
         return nil
     }
     
-    func getAvatar(_ urlString : String?) -> Data? {
-        let tempSaveUrl: String?
-        
-        if urlString != nil {
-            tempSaveUrl = urlString!
-        } else {
-            tempSaveUrl = asString(value: self.userOfTweet["profile_image_url_https"]!)
-        }
-        
-        guard let url = tempSaveUrl  else {
-            return nil
-        }
-        
-        let removeNormalStringURL = asString(value: url).replacingOccurrences(of: "_normal", with: "")
-        let avatarData = try? Data(contentsOf: URL(string: removeNormalStringURL)!)
-        if let avatarUrl = avatarData {
-            return avatarUrl
-        }
-        
-        return nil
+    func getAvatar() -> String {
+        let tempSaveUrl = asString(value: self.userOfTweet["profile_image_url_https"]!)
+        let url = tempSaveUrl.replacingOccurrences(of: "_normal", with: "")
+        return url
     }
     
     var isQuote: Bool {
@@ -206,12 +188,13 @@ class TwitterData {
         }
         return nil
     }
-    var q_imageOnTweet : Data? {
+    var q_imageOnTweet : String? {
         guard let entities = self.quoted_status?["entities"] as? [String:Any] else { return nil }
         if let media = entities["media"] as? Array<Any> {
             let inforMedia = media[0] as! [String:Any]
-            let urlString = asString(value: inforMedia["media_url_https"]!)
-            return self.getAvatar(urlString)
+//            let urlString = asString(value: inforMedia["media_url_https"]!)
+//            return self.getAvatar(urlString)
+            return asString(value: inforMedia["media_url_https"]!)
         }
         
         return nil

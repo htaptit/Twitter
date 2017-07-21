@@ -61,7 +61,7 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
                 self.photoImageView.isHidden = false
                 self.heightphoto.constant = 100
                 self.photoImageView.roundCorners([.bottomLeft,.bottomRight], radius: 5)
-                self.photoImageView.image = UIImage(data: image)
+                self.photoImageView.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             }
             
         }
