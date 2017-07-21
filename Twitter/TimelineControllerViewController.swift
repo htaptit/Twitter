@@ -29,6 +29,8 @@ class TimelineControllerViewController: UIViewController {
         self.timelineTableView.register(UINib(nibName: "TweetTableViewCell", bundle: nil), forCellReuseIdentifier: "TweetTableViewCell")
         self.timelineTableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil) , forCellReuseIdentifier: "QuoteTableViewCell")
         
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote), name: .refresh, object: nil)
+        
         self.loadTweet()
         
     }
@@ -36,7 +38,7 @@ class TimelineControllerViewController: UIViewController {
     func loadTweet() {
         if userIsLoggin() {
 //          var params = ["screen_name": "htaptit", "count": "200"]
-            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "50"])
+            let url_ = TwitterAPI.TwitterUrl(method: .GET, path: .home_timeline, twitterUrl: TwitterURL.api , parameters: ["screen_name": "htaptit", "count": "50"])
             TwitterAPI.getHomeTimeline(user: nil, url: url_ ,tweets: { (twitterData) in
                 if !twitterData.isEmpty {
                     for item in twitterData {
@@ -52,6 +54,12 @@ class TimelineControllerViewController: UIViewController {
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
+    
+//    func refreshList(_ notification: Notification) {
+//        if let myDict = notification.object as? String {
+//            print(myDict)
+//        }
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
@@ -83,8 +91,8 @@ class TimelineControllerViewController: UIViewController {
     }
     
     
-    @IBAction func retweetOrQuote(_ sender: UIButton) {
-        if let button_id = sender.currentTitle {
+    func retweetOrQuote(_ notification: Notification) {
+        if let button_id = notification.object as? String {
             let arr = button_id.splitStringToArray(separator: "_")
             let tweet_id = String(describing: arr[0])
             let index = Int(arr[1] as! String)
@@ -92,11 +100,11 @@ class TimelineControllerViewController: UIViewController {
             let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             if self.listTweets[index!].isRetweeted {
                 alert.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
-                    self.un_retweet(tweet_id: tweet_id, index: index!)
+                    self.un_retweet(tweet_id: tweet_id, row: index!)
                 }))
             } else {
                 alert.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
-                    self.retweet(button_id: button_id, button: sender)
+                    self.retweet(tweet_id: tweet_id, row: index!)
                 }))
                 
                 alert.addAction(UIAlertAction(title: "Quote tweet", style: .default , handler: { (action) in
@@ -115,20 +123,16 @@ class TimelineControllerViewController: UIViewController {
         
     }
     
-    func retweet(button_id: String, button: UIButton) {
-        let arr = button_id.splitStringToArray(separator: "_")
-        let tweet_id = String(describing: arr[0])
-        let index = Int(arr[1] as! String)
-
+    func retweet(tweet_id: String, row: Int) {
         let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet_id])
         TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
             let userIDRetweeted = data.getUserID
             let currentUserID = Twitter.sharedInstance().sessionStore.session()?.userID
             if "\(userIDRetweeted)" == currentUserID && userIDRetweeted == data.userID_retweet {
-                self.listTweets.remove(at: index!)
+                self.listTweets.remove(at: row)
                 self.listTweets.insert(data, at: 0)
             } else {
-                self.listTweets[index!].retweetCount = data.retweetCount
+                self.listTweets[row].retweetCount = data.retweetCount
             }
         
 //            let image = UIImage(named: "retweeted")
@@ -139,10 +143,10 @@ class TimelineControllerViewController: UIViewController {
         }
     }
     
-    func un_retweet(tweet_id: String, index: Int) {
+    func un_retweet(tweet_id: String, row: Int) {
         let url = TwitterAPI.TwitterUrl(method: .POST , path: .unretweet_by_id , twitterUrl: .api, parameters: ["id": tweet_id])        
         TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
-            self.listTweets.remove(at: index)
+            self.listTweets.remove(at: row)
             self.timelineTableView.reloadData()
         }) { (error) in
             print(error)
