@@ -55,12 +55,6 @@ class TimelineControllerViewController: UIViewController {
         }
     }
     
-//    func refreshList(_ notification: Notification) {
-//        if let myDict = notification.object as? String {
-//            print(myDict)
-//        }
-//    }
-    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = false
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -191,7 +185,6 @@ extension TimelineControllerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tweet = self.listTweets[indexPath.row]
         var cell : TimelineTableViewCell?
-        
         
         if tweet.isQuote {
             cell = tableView.dequeueReusableCell(withIdentifier: "QuoteTableViewCell", for: indexPath) as? QuoteTableViewCell
