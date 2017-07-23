@@ -29,12 +29,13 @@ class TimeLineTableViewController: UITableViewController {
         self.timeLineUITableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
         self.loadTweet()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .refresh, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .refresh, object: nil)
+        
     }
     
     func loadTweet() {
         if isLogged() {
-            let url = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "50"])
+            let url = TwitterAPI.TwitterUrl(method: .GET, path: .home_timeline, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "50"])
             TwitterAPI.getHomeTimeline(user: nil, url: url, tweets: { (data) in
                 if !data.isEmpty {
                     for tweet in data {
@@ -55,8 +56,8 @@ class TimeLineTableViewController: UITableViewController {
     func retweetOrQuote(_ notification: Notification) {
         if let buttonID = notification.object as? String {
             let arr = buttonID.splitStringToArray(separator: "_")
-            let tweetID = String(describing: arr[0])
-            let at = Int(String(describing: arr[1]))
+            let tweetID = String(describing: arr[1])
+            let at = Int(String(describing: arr[2]))
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
             switch self.tweets[at!].isRetweeted {
             case true:
@@ -200,7 +201,7 @@ extension UITableViewController {
             if tweet.isRetweeted {
                 cell?.heightTypeTweet.constant = 8
                 cell?.typeTweet.isHidden = false
-                cell?.typeTweet.addImage()
+                cell?.typeTweet.addImageToLabel()
                 if let infoUser = tweet.infoUserOnRetweetedStatus {
                     let profileImage = infoUser["profile_image_url_https"] as? String
                     cell?.avatarImage.sd_setImage(with: URL(string: profileImage!), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])

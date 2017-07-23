@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -97,52 +96,10 @@
             </objects>
             <point key="canvasLocation" x="3812" y="35.532233883058474"/>
         </scene>
-        <!--Timeline Controller View Controller-->
-        <scene sceneID="oHW-gW-qLe">
-            <objects>
-                <tableViewController storyboardIdentifier="timeline" id="Xgr-KM-i93" customClass="TimelineControllerViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="462" sectionHeaderHeight="28" sectionFooterHeight="28" id="n9x-uG-J4G">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="Xgr-KM-i93" id="ejo-M4-ijX"/>
-                            <outlet property="delegate" destination="Xgr-KM-i93" id="RNZ-y2-Mz0"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="Ttt-S1-6fK">
-                        <leftBarButtonItems>
-                            <barButtonItem title="Item" id="8bE-AK-oQN">
-                                <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="LPY-aj-wkt">
-                                    <rect key="frame" x="16" y="9" width="25" height="25"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" image="logout"/>
-                                    <connections>
-                                        <action selector="Logout:" destination="Xgr-KM-i93" eventType="touchUpInside" id="0hT-20-eZH"/>
-                                    </connections>
-                                </button>
-                            </barButtonItem>
-                            <barButtonItem image="chim" id="MmS-g8-21l"/>
-                        </leftBarButtonItems>
-                        <barButtonItem key="rightBarButtonItem" image="new_tweet" style="done" id="TZ9-EJ-S7k">
-                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <connections>
-                                <action selector="newTweetAction:" destination="Xgr-KM-i93" id="kBQ-LL-9xY"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="timelineTableView" destination="n9x-uG-J4G" id="qJS-rO-mh5"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="jQg-XN-QGY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6932" y="35.532233883058474"/>
-        </scene>
         <!--Time Line Table View Controller-->
         <scene sceneID="Wmg-NM-1Le">
             <objects>
-                <tableViewController id="ChI-jP-jlc" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="timeline" id="ChI-jP-jlc" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="bgH-Bb-ybO">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -452,25 +409,6 @@
             </objects>
             <point key="canvasLocation" x="11386" y="609"/>
         </scene>
-        <!--Timeline-->
-        <scene sceneID="oNZ-JO-XgN">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gEm-SB-vbe" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Timeline" image="home" id="9ld-CS-eYk"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="2ld-Tt-eMV">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Xgr-KM-i93" kind="relationship" relationship="rootViewController" id="UrM-H5-E2e"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6td-Q3-CL0" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5992.8000000000002" y="35.532233883058474"/>
-        </scene>
         <!--Home User Table View Controller-->
         <scene sceneID="oef-d7-4FE">
             <objects>
@@ -495,6 +433,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="4mG-9v-nA9"/>
+                    <connections>
+                        <outlet property="userTableView" destination="iNP-UP-Ksh" id="eSf-kg-VTO"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EOG-Rl-fyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -517,24 +458,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WhG-EK-exn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2872.8000000000002" y="35.532233883058474"/>
-        </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="sVb-2r-GQa">
-            <objects>
-                <tabBarController storyboardIdentifier="tabBar" automaticallyAdjustsScrollViewInsets="NO" id="TXC-oa-Dij" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="wuT-LR-r9T">
-                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="gEm-SB-vbe" kind="relationship" relationship="viewControllers" id="OoG-IB-8IS"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="683-P7-RsT" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5053.6000000000004" y="35.532233883058474"/>
         </scene>
         <!--Timeline-->
         <scene sceneID="Sal-Px-UBM">
@@ -561,6 +484,7 @@
                 <tabBarController storyboardIdentifier="barTimeline" automaticallyAdjustsScrollViewInsets="NO" id="q53-47-KlF" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="1nd-ac-YAL">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
@@ -594,7 +518,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="chim" width="25" height="25"/>
         <image name="home" width="32" height="32"/>
         <image name="home_user" width="25" height="25"/>
         <image name="location" width="25" height="25"/>

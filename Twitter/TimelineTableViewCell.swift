@@ -39,7 +39,8 @@ class TimelineTableViewCell: UITableViewCell {
 //        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
         // Initialization code
     }
-
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -47,13 +48,8 @@ class TimelineTableViewCell: UITableViewCell {
     }
 
     @IBAction func reTweetAction(_ sender: UIButton) {
-        print("a")
         if let buttonID = sender.currentTitle {
-            NotificationCenter.default.post(name: .refresh, object: buttonID)
+            NotificationCenter.default.post(name: .retweetOrQuote, object: buttonID)
         }
     }
-}
-
-extension Notification.Name {
-    static let refresh = Notification.Name("refresh")
 }

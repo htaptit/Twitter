@@ -10,17 +10,31 @@ import UIKit
 
 class HomeUserTableViewController: UITableViewController {
     var tweets = [TwitterData]()
+    @IBOutlet var userTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.userTableView.register(UINib(nibName: "TweetTableViewCell", bundle: nil), forCellReuseIdentifier: "TweetTableViewCell")
+        self.userTableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
+        
+        self.userTableView.estimatedRowHeight = 300
+        self.userTableView.rowHeight = UITableViewAutomaticDimension
+        
+        loadTweet()
     }
-
+    
+    func loadTweet() {
+        let url = TwitterAPI.TwitterUrl(method: .GET, path: .user_timeline, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "50"])
+        TwitterAPI.getHomeTimeline(user: nil, url: url, tweets: { (data) in
+                for item in data {
+                    self.tweets.append(item)
+                    self.userTableView.reloadData()
+            }
+        }) { (error) in
+            print(error.localizedDescription)
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -30,18 +44,19 @@ class HomeUserTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 4
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return self.tweets.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        return cell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        let cellFormated = formartCellTwitter(self.tweets, indexPath)
+        return cellFormated
     }
 
     
