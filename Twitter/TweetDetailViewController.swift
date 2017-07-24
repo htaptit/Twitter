@@ -15,6 +15,7 @@ class TweetDetailViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(tweet.tweet)
         // Do any additional setup after loading the view.
     }
 

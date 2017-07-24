@@ -22,7 +22,7 @@ class HomeUserTableViewController: UITableViewController {
         
         self.userTableView.estimatedRowHeight = 300
         self.userTableView.rowHeight = UITableViewAutomaticDimension
-        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
         loadTweet()
     }
     
@@ -86,12 +86,17 @@ class HomeUserTableViewController: UITableViewController {
                     }))
                     
                     action.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
-                        
+                        let quoteVC = self.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
+                        let at = Int(object["index"]!)
+                        quoteVC?.tweet = self.tweets[at!]
+                        self.navigationController?.pushViewController(quoteVC!, animated: true)
                     }))
                 }
                 
                 action.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                self.present(action, animated: true, completion: nil)
+                if self.presentedViewController == nil {
+                    self.present(action, animated: true, completion: nil)
+                }
             }, error: { (error) in
                 print(error.localizedDescription)
             })

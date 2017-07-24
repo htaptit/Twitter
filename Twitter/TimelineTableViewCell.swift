@@ -31,13 +31,13 @@ class TimelineTableViewCell: UITableViewCell {
     @IBOutlet weak var qAccountNameLabel: UILabel!
     @IBOutlet weak var qScreenNameLabel: UILabel!
     @IBOutlet weak var qText: UILabel!
-    @IBOutlet weak var qImageUIImageView: UIImageView!
-    @IBOutlet weak var qImageHeightLayoutConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var qImageUIImageView: UIImageView!
+//    @IBOutlet weak var qImageHeightLayoutConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
 //        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
-        // Initialization code
+        // set border color and width : tweet quoted
     }
     
     
@@ -50,7 +50,6 @@ class TimelineTableViewCell: UITableViewCell {
     @IBAction func reTweetAction(_ sender: UIButton) {
         if let buttonID = sender.currentTitle {
             let array = buttonID.splitStringToArray(separator: "_")
-            print(array)
             NotificationCenter.default.post(name: .retweet_or_quote, object: ["tweet_id": array[0], "index": array[1]])
         }
     }

@@ -22,7 +22,7 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
     var tweet: TwitterData!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+print(self.tweet)
         self.loadTweet(tweet: tweet)
         commentTextField.delegate = self
         // Do any additional setup after loading the view.

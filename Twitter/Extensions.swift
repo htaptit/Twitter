@@ -17,6 +17,7 @@ extension UITableViewController {
         let tweet = tweets[index.row]
         var cell : TimelineTableViewCell?
         
+        
         if tweet.isQuote {
             cell = tableView.dequeueReusableCell(withIdentifier: "QuoteTableViewCell", for: index) as? QuoteTableViewCell
             
@@ -32,33 +33,37 @@ extension UITableViewController {
             cell?.qText.text = tweet.q_text
             
             
-            cell?.qImageUIImageView.isHidden = true
-            cell?.qImageHeightLayoutConstraint.constant = 0
+            cell?.photoImage.isHidden = true
+            cell?.imageHeightLayoutConstraint.constant = 0
             if let image = tweet.q_imageOnTweet {
-                cell?.qImageUIImageView.isHidden = false
-                cell?.qImageHeightLayoutConstraint.constant = 105
-                cell?.qImageUIImageView.roundCorners([.bottomLeft, .bottomRight], radius: 5)
-                cell?.qImageUIImageView.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                cell?.photoImage.isHidden = false
+                cell?.imageHeightLayoutConstraint.constant = 160
+//                cell?.photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 5)
+                cell?.photoImage.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             }
             // End quoted status
             
             // set border color and width : tweet quoted
             cell?.tweetQuotedUIView.layer.borderWidth = 0.3
             cell?.tweetQuotedUIView.layer.borderColor = UIColor.darkGray.cgColor
-            cell?.tweetQuotedUIView.layer.cornerRadius = 5
-            
+            cell?.tweetQuotedUIView.layer.cornerRadius = 3
+            cell?.tweetQuotedUIView.layer.masksToBounds = true
         } else {
             cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: index) as? TweetTableViewCell
             cell?.imageHeightLayoutConstraint.constant = 0
             cell?.photoImage.isHidden = true
             if let image = tweet.imageOnTweet {
-                cell?.imageHeightLayoutConstraint.constant = 150
+                cell?.imageHeightLayoutConstraint.constant = 160
                 cell?.photoImage.isHidden = false
                 cell?.photoImage.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                cell?.photoImage.layer.cornerRadius = 3
+                cell?.photoImage.layer.masksToBounds = true
             }
             cell?.heightTypeTweet.constant = 0
             cell?.typeTweet.isHidden = true
+            cell?.retweetButton.setImage(UIImage(named: "retweet"), for: UIControlState.normal)
             if tweet.isRetweeted {
+                cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
                 cell?.heightTypeTweet.constant = 8
                 cell?.typeTweet.isHidden = false
                 cell?.typeTweet.addImageToLabel()

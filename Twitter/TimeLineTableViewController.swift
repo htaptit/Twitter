@@ -29,7 +29,7 @@ class TimeLineTableViewController: UITableViewController {
         self.timeLineUITableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
         self.loadTweet()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
         
     }
     
@@ -69,9 +69,9 @@ class TimeLineTableViewController: UITableViewController {
     }
     
     func retweetOrQuote(_ notification: Notification) {
-        if let object = notification.object as? [String: String]{
+        if let object = notification.object as? [String: String] {
             let url = TwitterAPI.TwitterUrl(method: .GET, path: .statuses_show , twitterUrl: .api, parameters: ["id": object["tweet_id"]!])
-            TwitterAPI.get(user: nil, url: url, tweets: { (data) in
+            TwitterAPI.get(user: nil, url: url!, tweets: { (data) in
                 let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
                 switch data.isRetweeted {
                 case true:
@@ -84,12 +84,16 @@ class TimeLineTableViewController: UITableViewController {
                     }))
                     
                     actionSheet.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
-                        
+                        let quoteVC = self.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
+                        quoteVC?.tweet = self.tweets[Int(object["index"]!)!]
+                        self.navigationController?.pushViewController(quoteVC!, animated: true)
                     }))
                 }
                 
                 actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-                self.present(actionSheet, animated: true, completion: nil)
+                if self.presentedViewController == nil {
+                    self.present(actionSheet, animated: true, completion: nil)
+                }
             }, error: { (error) in
                 print(error.localizedDescription)
             })
@@ -106,10 +110,12 @@ class TimeLineTableViewController: UITableViewController {
                 self.tweets.insert(data, at: 0)
             } else {
                 self.tweets[at].retweetCount = data.retweetCount
+                
             }
             
-            //  let image = UIImage(named: "retweeted")
-            //  button.setImage(image, for: UIControlState.normal)
+            let indexPath = IndexPath(row: at, section: 0)
+            self.timeLineUITableView.reloadRows(at: [indexPath], with: .automatic)
+            
             self.timeLineUITableView.reloadData()
         }) { (error) in
             print(error.localizedDescription)
