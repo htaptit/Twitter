@@ -15,6 +15,7 @@ public enum Path: String {
     case user_timeline = "statuses/user_timeline.json"
     case home_timeline = "statuses/home_timeline.json"
     case statuses_update = "statuses/update.json"
+    case statuses_show = "statuses/show.json"
     
     // POST
       /* Tweet */
@@ -74,7 +75,31 @@ class TwitterAPI {
             
         }
     }
-
+    
+    class func get(user:String?, url: URLRequest?, tweets: @escaping (TwitterData) -> (), error: @escaping (Error) -> ()) {
+        let user = Twitter.sharedInstance().sessionStore.session()?.userID
+        
+        let client = TWTRAPIClient(userID: user)
+        let request : URLRequest? = url
+        
+        if request != nil {
+            client.sendTwitterRequest(request! as URLRequest, completion: {
+                response, data, err in
+                if err == nil {
+                    var _: Error?
+                    let json:AnyObject? = try! JSONSerialization.jsonObject(with: data!) as AnyObject?
+                    if let jsonArray = json as? [String: Any] {
+                        tweets(TwitterData(tweet: jsonArray))
+                    }else{
+                        error(err!)
+                    }
+                }else{
+                    print("request error: \(String(describing: err))")
+                }
+            })
+        }
+    }
+    
     class func getHomeTimeline(user:String?, url: URLRequest?, tweets: @escaping ([TwitterData]) -> (), error: @escaping (Error) -> ()) {
         let user = Twitter.sharedInstance().sessionStore.session()?.userID
         

@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         Twitter.sharedInstance().start(withConsumerKey:"VJfXCaUO6lnweMeKJ2x25Mfkj", consumerSecret:"3iCoAMncWtR6igEPCdXLoJF04RuGXdqDDLXAr4dVQ445y4AyBy")
+//        NotificationCenter.default.addObserver(self, selector: #selector(notificationSV), name: .new_notification, object: nil)
         return true
     }
      
@@ -38,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -48,6 +50,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+//    func notificationSV(_ notification: Notification) {
+//        print("aa")
+//        NotificationCenter.default.post(name: .retweet_or_quote, object: nil)
+//        if let buttonID = notification.object as? String {
+//            let arr = buttonID.splitStringToArray(separator: "_")
+//            let tweetID = String(describing: arr[0])
+//            let url = TwitterAPI.TwitterUrl(method: .GET, path: .statuses_show , twitterUrl: .api, parameters: ["id": tweetID])
+//            TwitterAPI.get(user: nil, url: url, tweets: { (data) in
+//                NotificationCenter.default.post(name: .retweet_or_quote, object: ["data": data, "at": arr[1]])
+//            }, error: { (error) in
+//                print(error.localizedDescription)
+//            })
+//        }
+//
+//    }
+//    
 }
 

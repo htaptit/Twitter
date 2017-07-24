@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import TwitterKit
+import TwitterCore
+import SDWebImage
 
 class HomeUserTableViewController: UITableViewController {
     var tweets = [TwitterData]()
@@ -19,7 +22,7 @@ class HomeUserTableViewController: UITableViewController {
         
         self.userTableView.estimatedRowHeight = 300
         self.userTableView.rowHeight = UITableViewAutomaticDimension
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
         loadTweet()
     }
     
@@ -33,6 +36,14 @@ class HomeUserTableViewController: UITableViewController {
         }) { (error) in
             print(error.localizedDescription)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: .retweet_or_quote, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -54,56 +65,69 @@ class HomeUserTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let cellFormated = formartCellTwitter(self.tweets, indexPath)
         return cellFormated
     }
 
     
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    func retweetOrQuote(_ notification: Notification) {
+        if let object = notification.object as? [String: String]{
+            let url = TwitterAPI.TwitterUrl(method: .GET, path: .statuses_show , twitterUrl: .api, parameters: ["id": object["tweet_id"]!])
+            TwitterAPI.get(user: nil, url: url, tweets: { (data) in
+                let action = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+                switch data.isRetweeted {
+                case true:
+                    action.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
+                        self.un_retweet(object["tweet_id"]!, Int(object["index"]!)!)
+                    }))
+                case false:
+                    action.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
+                        self.retweet(object["tweet_id"]!, Int(object["index"]!)!)
+                    }))
+                    
+                    action.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
+                        
+                    }))
+                }
+                
+                action.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(action, animated: true, completion: nil)
+            }, error: { (error) in
+                print(error.localizedDescription)
+            })
+            
+            
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    func retweet(_ tweetID: String, _ at: Int) {
+        let url = TwitterAPI.TwitterUrl(method: .POST, path: .retweet_by_id, twitterUrl: .api, parameters: ["id": tweetID])
+        TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+            let userIDRetweeted = data.getUserID
+            let currentUserID = Twitter.sharedInstance().sessionStore.session()?.userID
+            if "\(userIDRetweeted)" == currentUserID && userIDRetweeted == data.userID_retweet {
+                self.tweets.remove(at: at)
+                self.tweets.insert(data, at: 0)
+            } else {
+                self.tweets[at].retweetCount = data.retweetCount
+            }
+            
+            //  let image = UIImage(named: "retweeted")
+            //  button.setImage(image, for: UIControlState.normal)
+            self.userTableView.reloadData()
+        }) { (error) in
+            print(error.localizedDescription)
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+    
+    func un_retweet(_ tweetID: String,_ at: Int) {
+        let url = TwitterAPI.TwitterUrl(method: .POST , path: .unretweet_by_id , twitterUrl: .api, parameters: ["id": tweetID])
+        TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+            self.tweets.remove(at: at)
+            self.userTableView.reloadData()
+        }) { (error) in
+            print(error)
+        }
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 

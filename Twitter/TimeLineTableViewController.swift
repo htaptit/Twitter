@@ -29,8 +29,23 @@ class TimeLineTableViewController: UITableViewController {
         self.timeLineUITableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
         self.loadTweet()
         
-//        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .refresh, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
+        self.navigationController?.isNavigationBarHidden = false
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        if appDelegate.newTweet != nil {
+            tweets.insert(appDelegate.newTweet!, at: 0)
+            timeLineUITableView.reloadData()
+            appDelegate.newTweet = nil
+        }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: .retweet_or_quote, object: nil)
     }
     
     func loadTweet() {
@@ -54,29 +69,30 @@ class TimeLineTableViewController: UITableViewController {
     }
     
     func retweetOrQuote(_ notification: Notification) {
-        if let buttonID = notification.object as? String {
-            let arr = buttonID.splitStringToArray(separator: "_")
-            let tweetID = String(describing: arr[1])
-            let at = Int(String(describing: arr[2]))
-            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-            switch self.tweets[at!].isRetweeted {
-            case true:
-                actionSheet.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
-                    self.un_retweet(tweetID, at!)
-                }))
-            case false:
-                actionSheet.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
-                    self.retweet(tweetID, at!)
-                }))
-                
-                actionSheet.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
+        if let object = notification.object as? [String: String]{
+            let url = TwitterAPI.TwitterUrl(method: .GET, path: .statuses_show , twitterUrl: .api, parameters: ["id": object["tweet_id"]!])
+            TwitterAPI.get(user: nil, url: url, tweets: { (data) in
+                let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+                switch data.isRetweeted {
+                case true:
+                    actionSheet.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
+                        self.un_retweet(object["tweet_id"]!, Int(object["index"]!)!)
+                    }))
+                case false:
+                    actionSheet.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
+                        self.retweet(object["tweet_id"]!, Int(object["index"]!)!)
+                    }))
                     
-                }))
-            }
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
-            self.present(actionSheet, animated: true, completion: nil)
+                    actionSheet.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
+                        
+                    }))
+                }
+                
+                actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+                self.present(actionSheet, animated: true, completion: nil)
+            }, error: { (error) in
+                print(error.localizedDescription)
+            })
         }
     }
     
@@ -151,115 +167,3 @@ class TimeLineTableViewController: UITableViewController {
 
 }
 
-extension UITableViewController {
-
-    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath) -> TimelineTableViewCell {
-        let tweet = tweets[index.row]
-        var cell : TimelineTableViewCell?
-        
-        if tweet.isQuote {
-            cell = tableView.dequeueReusableCell(withIdentifier: "QuoteTableViewCell", for: index) as? QuoteTableViewCell
-            
-            cell?.accountNameLabel.text = tweet.getAccountName
-            cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
-            cell?.avatarImage.contentMode = .scaleAspectFit
-            cell?.avatarImage.sd_setImage(with: URL(string: tweet.getAvatar()), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-            cell?.tweetTextLabel.text = tweet.getText
-            
-            // Quote Status
-            cell?.qAccountNameLabel.text = tweet.q_account_name
-            cell?.qScreenNameLabel.text = "@\(tweet.q_screen_name!)"
-            cell?.qText.text = tweet.q_text
-            
-            
-            cell?.qImageUIImageView.isHidden = true
-            cell?.qImageHeightLayoutConstraint.constant = 0
-            if let image = tweet.q_imageOnTweet {
-                cell?.qImageUIImageView.isHidden = false
-                cell?.qImageHeightLayoutConstraint.constant = 105
-                cell?.qImageUIImageView.roundCorners([.bottomLeft, .bottomRight], radius: 5)
-                cell?.qImageUIImageView.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-            }
-            // End quoted status
-            
-            // set border color and width : tweet quoted
-            cell?.tweetQuotedUIView.layer.borderWidth = 0.3
-            cell?.tweetQuotedUIView.layer.borderColor = UIColor.darkGray.cgColor
-            cell?.tweetQuotedUIView.layer.cornerRadius = 5
-            
-        } else {
-            cell = tableView.dequeueReusableCell(withIdentifier: "TweetTableViewCell", for: index) as? TweetTableViewCell
-            cell?.imageHeightLayoutConstraint.constant = 0
-            cell?.photoImage.isHidden = true
-            if let image = tweet.imageOnTweet {
-                cell?.imageHeightLayoutConstraint.constant = 150
-                cell?.photoImage.isHidden = false
-                cell?.photoImage.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-            }
-            cell?.heightTypeTweet.constant = 0
-            cell?.typeTweet.isHidden = true
-            if tweet.isRetweeted {
-                cell?.heightTypeTweet.constant = 8
-                cell?.typeTweet.isHidden = false
-                cell?.typeTweet.addImageToLabel()
-                if let infoUser = tweet.infoUserOnRetweetedStatus {
-                    let profileImage = infoUser["profile_image_url_https"] as? String
-                    cell?.avatarImage.sd_setImage(with: URL(string: profileImage!), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-                    cell?.accountNameLabel.text = infoUser["name"]! as? String
-                    cell?.screenNameLabel.text = "@\(infoUser["screen_name"]! as! String)"
-                }
-                cell?.avatarImage.contentMode = .scaleAspectFit
-            } else {
-                cell?.accountNameLabel.text = tweet.getAccountName
-                cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
-                cell?.avatarImage.contentMode = .scaleAspectFit
-                cell?.avatarImage.sd_setImage(with: URL(string: tweet.getAvatar()), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-            }
-        }
-        cell?.avatarImage.asCircle()
-        cell?.tweetTextLabel.text = tweet.getText
-        cell?.datetimeLabel.text = tweet.getCreatedAt
-        
-        
-        let button_id = tweet.getTweetID + "_" + String(index.row)
-        cell?.retweetButton.setTitle(button_id, for: UIControlState.normal)
-        cell?.retweetCountLabel.text = tweet.retweetCount != 0 ? String(tweet.retweetCount) : ""
-        cell?.likeCoutLabel.text = tweet.favoriteCount != 0 ? String(tweet.favoriteCount) : ""
-        return cell!
-
-    }
-}
-
-extension String {
-    func splitStringToArray(separator: String) -> Array<Any> {
-        let arr = self.components(separatedBy: separator)
-        return arr
-    }
-}
-
-extension UIImageView {
-    func asCircle() {
-        self.layer.cornerRadius = self.frame.width / 2
-        self.layer.masksToBounds = true
-    }
-    
-    func roundCorners(_ corners: UIRectCorner, radius: CGFloat) {
-        let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        let mask = CAShapeLayer()
-        mask.path = path.cgPath
-        self.layer.mask = mask
-    }
-}
-
-extension UILabel {
-    func addImageToLabel() {
-        let attachment: NSTextAttachment = NSTextAttachment()
-        attachment.image = UIImage(named: "retweet")
-        attachment.bounds = CGRect(x: -1, y: -2, width: 15, height: 10)
-        
-        let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
-        let string: NSMutableAttributedString = NSMutableAttributedString(string: self.text!)
-        string.insert(attachmentString, at: 0)
-        self.attributedText = string
-    }
-}
