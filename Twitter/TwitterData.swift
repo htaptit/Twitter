@@ -96,6 +96,9 @@ class TwitterData {
         get {
             return self.tweet["favorite_count"] as! Int
         }
+        set(newValue) {
+            self.tweet["favorite_count"] = newValue
+        }
     }
     
     var infoUserOnRetweetedStatus: [String: Any]? {

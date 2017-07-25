@@ -10,6 +10,7 @@ import UIKit
 extension Notification.Name {
     static let new_notification = Notification.Name("new_notification")
     static let retweet_or_quote = Notification.Name("retweet_or_quote")
+    static let to_twitter = Notification.Name("to_twitter")
 }
 extension UITableViewController {
     
@@ -87,6 +88,7 @@ extension UITableViewController {
         
         cell?.retweetButton.setTitle(String(index.row), for: UIControlState.normal)
         cell?.retweetCountLabel.text = tweet.retweetCount != 0 ? String(tweet.retweetCount) : ""
+        cell?.likeButton.setTitle(String(index.row), for: UIControlState.normal)
         cell?.likeCoutLabel.text = tweet.favoriteCount != 0 ? String(tweet.favoriteCount) : ""
         return cell!
         

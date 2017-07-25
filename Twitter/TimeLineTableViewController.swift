@@ -39,7 +39,7 @@ class TimeLineTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter, object: nil)
         self.navigationController?.isNavigationBarHidden = false
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.newTweet != nil {
@@ -50,17 +50,40 @@ class TimeLineTableViewController: UITableViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: .retweet_or_quote, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .to_twitter, object: nil)
     }
     
     func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
             let row = Int(object["row"]!)!
-            ApplicationViewController.updateToTwitter(self.tweets[row], self, { (data) in
-                self.tweets[row].retweetCount = data.retweetCount
+            ApplicationViewController.updateToTwitter(self.tweets[row],self, object["action"]!, { (data) in
+                if object["action"]! == "RT" {
+                    self.tweets[row].retweetCount = data.retweetCount
+                } else {
+                    self.tweets[row].favoriteCount = data.favoriteCount
+                }
                 self.timeLineUITableView.reloadData()
             }) { (error) in
-                print(error.localizedDescription)
+                
+                if object["action"]! == "RT" {
+                    let prefix: String = "You have already retweeted this tweet.\n Do you want to un-retweet ? "
+                    let alert = UIAlertController(title: "Twitter", message: prefix, preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (action) in
+                        
+                    }))
+                    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                } else {
+                    let prefix: String = "You have already favorited this status.\n Do you want to un-favorite ?"
+                    let alert = UIAlertController(title: "Twitter", message: prefix, preferredStyle: UIAlertControllerStyle.alert)
+                    
+                    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive, handler: { (action) in
+                        
+                    }))
+                    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                }
             }
         }
     }

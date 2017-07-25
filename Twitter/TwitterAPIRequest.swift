@@ -16,6 +16,7 @@ public enum Path: String {
     case home_timeline = "statuses/home_timeline.json"
     case statuses_update = "statuses/update.json"
     case statuses_show = "statuses/show.json"
+    case favorites_create = "favorites/create.json"
     
     // POST
       /* Tweet */

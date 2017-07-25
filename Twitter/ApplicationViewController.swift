@@ -23,40 +23,49 @@ class ApplicationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class func updateToTwitter(_ tweet: TwitterData,_ VC : UITableViewController, _ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
-        
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-        switch tweet.isRetweeted {
-        case true:
-            actionSheet.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
-                let url = TwitterAPI.TwitterUrl(method: .POST, path: .unretweet_by_id, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
-                TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
-                    result(data)
-                }) { (err) in
-                    error(err)
-                }
-            }))
-        case false:
-            actionSheet.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
-                let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet.getTweetID])
-                TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
-                    result(data)
-                }) { (err) in
-                    error(err)
-                }
-            }))
+    class func updateToTwitter(_ tweet: TwitterData,_ VC : UITableViewController,_ action: String,_ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
+        if action == "RT" {
+            let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
+            switch tweet.isRetweeted {
+            case true:
+                actionSheet.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
+                    let url = TwitterAPI.TwitterUrl(method: .POST, path: .unretweet_by_id, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+                    TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+                        result(data)
+                    }) { (err) in
+                        error(err)
+                    }
+                }))
+            case false:
+                actionSheet.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
+                    let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+                    TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+                        result(data)
+                    }) { (err) in
+                        error(err)
+                    }
+                }))
+                
+                actionSheet.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
+                    let quoteVC = VC.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
+                    quoteVC?.tweet = tweet
+                    VC.navigationController?.pushViewController(quoteVC!, animated: true)
+                }))
+            }
             
-            actionSheet.addAction(UIAlertAction(title: "Quote tweet", style: .default, handler: { (action) in
-                let quoteVC = VC.storyboard?.instantiateViewController(withIdentifier: "quoteView") as? QuoteViewController
-                quoteVC?.tweet = tweet
-                VC.navigationController?.pushViewController(quoteVC!, animated: true)
-            }))
-        }
-        
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        if VC.presentedViewController == nil {
-            VC.present(actionSheet, animated: true, completion: nil)
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            if VC.presentedViewController == nil {
+                VC.present(actionSheet, animated: true, completion: nil)
+            }
+        } else {
+            let url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_create, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+
+            TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+                result(data)
+            }, error: { (err) in
+                error(err)
+            })
         }
     }
     

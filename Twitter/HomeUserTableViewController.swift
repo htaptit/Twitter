@@ -67,7 +67,7 @@ class HomeUserTableViewController: UITableViewController {
     func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
             let row = Int(object["row"]!)
-            ApplicationViewController.updateToTwitter(self.tweets[row!], self, { (data) in
+            ApplicationViewController.updateToTwitter(self.tweets[row!], self, object["action"]!, { (data) in
                 if self.tweets[row!].isRetweeted && !data.isRetweeted {
                     self.tweets.remove(at: row!)
                 } else {
