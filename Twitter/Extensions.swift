@@ -67,6 +67,9 @@ extension UITableViewController {
                 if tweet.isRetweeted {
                     cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
                 }
+                if tweet.isFavorited {
+                    cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
+                }
                 cell?.heightTypeTweet.constant = 8
                 cell?.typeTweet.isHidden = false
                 cell?.typeTweet.addImageToLabel()
@@ -80,6 +83,9 @@ extension UITableViewController {
             } else {
                 if tweet.isRetweeted {
                     cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+                }
+                if tweet.isFavorited {
+                    cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
                 }
                 cell?.accountNameLabel.text = tweet.getAccountName
                 cell?.screenNameLabel.text = "@\(tweet.getScreenName)"

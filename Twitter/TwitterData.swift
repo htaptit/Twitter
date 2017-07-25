@@ -100,6 +100,10 @@ class TwitterData {
         }
     }
     
+    var isFavorited: Bool {
+        return self.tweet["favorited"] as! Bool
+    }
+    
     var favoriteCount: Int {
         get {
             if isExistRetweetedStatus {

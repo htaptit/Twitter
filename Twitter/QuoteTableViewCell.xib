@@ -247,7 +247,7 @@
                 <outlet property="avatarImage" destination="Z5c-x8-QIo" id="ete-bt-238"/>
                 <outlet property="datetimeLabel" destination="ra5-wx-4GH" id="kGw-GE-4OY"/>
                 <outlet property="imageHeightLayoutConstraint" destination="qep-Hx-U0W" id="bgB-WL-RCJ"/>
-                <outlet property="likeButton" destination="9hd-2e-abQ" id="pPZ-qp-clo"/>
+                <outlet property="likeButton" destination="9hd-2e-abQ" id="wzA-qM-P4k"/>
                 <outlet property="likeCoutLabel" destination="ewk-Bl-lq2" id="dRz-u4-C5Y"/>
                 <outlet property="photoImage" destination="4eF-bE-Ufq" id="vq6-o9-YU2"/>
                 <outlet property="qAccountNameLabel" destination="QwJ-5c-FBp" id="D9y-RK-eiG"/>
