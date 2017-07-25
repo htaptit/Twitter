@@ -64,26 +64,7 @@ class TimeLineTableViewController: UITableViewController {
                 }
                 self.timeLineUITableView.reloadData()
             }) { (error) in
-                
-                if object["action"]! == "RT" {
-                    let prefix: String = "You have already retweeted this tweet.\n Do you want to un-retweet ? "
-                    let alert = UIAlertController(title: "Twitter", message: prefix, preferredStyle: UIAlertControllerStyle.alert)
-                    
-                    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.default, handler: { (action) in
-                        
-                    }))
-                    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    let prefix: String = "You have already favorited this status.\n Do you want to un-favorite ?"
-                    let alert = UIAlertController(title: "Twitter", message: prefix, preferredStyle: UIAlertControllerStyle.alert)
-                    
-                    alert.addAction(UIAlertAction(title: "Yes", style: UIAlertActionStyle.destructive, handler: { (action) in
-                        
-                    }))
-                    alert.addAction(UIAlertAction(title: "No", style: UIAlertActionStyle.cancel, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                }
+                print(error.localizedDescription)
             }
         }
     }
@@ -117,7 +98,7 @@ class TimeLineTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellFormated = formartCellTwitter(self.tweets, indexPath)
+        let cellFormated = formartCellTwitter(self.tweets, indexPath, "timeline")
         return cellFormated
     }
 

@@ -34,11 +34,11 @@ class HomeUserTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .retweet_or_quote , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter , object: nil)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        NotificationCenter.default.removeObserver(self, name: .retweet_or_quote, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .to_twitter, object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,19 +60,18 @@ class HomeUserTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellFormated = formartCellTwitter(self.tweets, indexPath)
+        let cellFormated = formartCellTwitter(self.tweets, indexPath, "homeuser")
         return cellFormated
     }
 
     func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
-            let row = Int(object["row"]!)
-            ApplicationViewController.updateToTwitter(self.tweets[row!], self, object["action"]!, { (data) in
-                if self.tweets[row!].isRetweeted && !data.isRetweeted {
-                    self.tweets.remove(at: row!)
+            let row = Int(object["row"]!)!
+            ApplicationViewController.updateToTwitter(self.tweets[row],self, object["action"]!, { (data) in
+                if object["action"]! == "RT" {
+                    self.tweets[row].retweetCount = data.retweetCount
                 } else {
-                    self.tweets.insert(data, at: 0)
-                    self.tweets[row!].retweetCount = data.retweetCount
+                    self.tweets[row].favoriteCount = data.favoriteCount
                 }
                 self.userTableView.reloadData()
             }) { (error) in
@@ -80,5 +79,12 @@ class HomeUserTableViewController: UITableViewController {
             }
         }
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
+        tweetDetailVC?.tweet = tweets[indexPath.row]
+        self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
+    }
+
 }
 

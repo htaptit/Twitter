@@ -14,7 +14,7 @@ extension Notification.Name {
 }
 extension UITableViewController {
     
-    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath) -> TimelineTableViewCell {
+    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath,_ tab: String) -> TimelineTableViewCell {
         let tweet = tweets[index.row]
         var cell : TimelineTableViewCell?
         
@@ -63,8 +63,10 @@ extension UITableViewController {
             cell?.heightTypeTweet.constant = 0
             cell?.typeTweet.isHidden = true
             cell?.retweetButton.setImage(UIImage(named: "retweet"), for: UIControlState.normal)
-            if tweet.isRetweeted {
-                cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+            if tweet.isExistRetweetedStatus && tab != "timeline"{
+                if tweet.isRetweeted {
+                    cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+                }
                 cell?.heightTypeTweet.constant = 8
                 cell?.typeTweet.isHidden = false
                 cell?.typeTweet.addImageToLabel()
@@ -76,6 +78,9 @@ extension UITableViewController {
                 }
                 cell?.avatarImage.contentMode = .scaleAspectFit
             } else {
+                if tweet.isRetweeted {
+                    cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+                }
                 cell?.accountNameLabel.text = tweet.getAccountName
                 cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
                 cell?.avatarImage.contentMode = .scaleAspectFit

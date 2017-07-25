@@ -12,10 +12,14 @@ class TwitterData {
     
     var tweet: [String:Any]
     let userOfTweet: [String:Any]
+    var retweetedStatus: [String:Any]? = nil
     
     init(tweet: [String:Any]) {
         self.tweet = tweet
         self.userOfTweet = tweet["user"] as! [String : Any]
+        if let retweeted = self.tweet["retweeted_status"] as? [String: Any] {
+            self.retweetedStatus = retweeted
+        }
     }
     
     public func asString(value: Any) -> String {
@@ -63,6 +67,10 @@ class TwitterData {
     
     
     var isRetweeted: Bool {
+        return self.tweet["retweeted"] as! Bool
+    }
+    
+    var isExistRetweetedStatus: Bool {
         return self.tweet["retweeted_status"] != nil
     }
     
@@ -94,10 +102,18 @@ class TwitterData {
     
     var favoriteCount: Int {
         get {
+            if isExistRetweetedStatus {
+                return self.retweetedStatus!["favorite_count"]! as! Int
+            }
             return self.tweet["favorite_count"] as! Int
         }
         set(newValue) {
-            self.tweet["favorite_count"] = newValue
+            if isExistRetweetedStatus {
+                self.retweetedStatus!["favorite_count"] = newValue
+            } else {
+                self.tweet["favorite_count"] = newValue
+            }
+            
         }
     }
     
