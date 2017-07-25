@@ -8,7 +8,7 @@
 
 import UIKit
 import TwitterKit
-import TwitterCore
+//import TwitterCore
 
 class TwitterHomeController: UIViewController {
 

@@ -45,7 +45,7 @@ extension UITableViewController {
             
             // set border color and width : tweet quoted
             cell?.tweetQuotedUIView.layer.borderWidth = 0.3
-            cell?.tweetQuotedUIView.layer.borderColor = UIColor.darkGray.cgColor
+            cell?.tweetQuotedUIView.layer.borderColor = UIColor.lightGray.cgColor
             cell?.tweetQuotedUIView.layer.cornerRadius = 3
             cell?.tweetQuotedUIView.layer.masksToBounds = true
         } else {
@@ -85,9 +85,7 @@ extension UITableViewController {
         cell?.tweetTextLabel.text = tweet.getText
         cell?.datetimeLabel.text = tweet.getCreatedAt
         
-        
-        let button_id = tweet.getTweetID + "_" + String(index.row)
-        cell?.retweetButton.setTitle(button_id, for: UIControlState.normal)
+        cell?.retweetButton.setTitle(String(index.row), for: UIControlState.normal)
         cell?.retweetCountLabel.text = tweet.retweetCount != 0 ? String(tweet.retweetCount) : ""
         cell?.likeCoutLabel.text = tweet.favoriteCount != 0 ? String(tweet.favoriteCount) : ""
         return cell!

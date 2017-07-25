@@ -8,7 +8,7 @@
 
 import UIKit
 import TwitterKit
-import TwitterCore
+//import TwitterCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

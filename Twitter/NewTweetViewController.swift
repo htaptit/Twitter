@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import TwitterCore
+//import TwitterCore
 import TwitterKit
+
 class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableViewDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     

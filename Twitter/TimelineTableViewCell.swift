@@ -48,9 +48,8 @@ class TimelineTableViewCell: UITableViewCell {
     }
 
     @IBAction func reTweetAction(_ sender: UIButton) {
-        if let buttonID = sender.currentTitle {
-            let array = buttonID.splitStringToArray(separator: "_")
-            NotificationCenter.default.post(name: .retweet_or_quote, object: ["tweet_id": array[0], "index": array[1]])
+        if let row = sender.currentTitle {
+            NotificationCenter.default.post(name: .retweet_or_quote, object: ["row": row])
         }
     }
 }
