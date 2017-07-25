@@ -67,7 +67,13 @@ class TwitterData {
     
     
     var isRetweeted: Bool {
-        return self.tweet["retweeted"] as! Bool
+        get{
+            return self.tweet["retweeted"] as! Bool
+        }
+        set(newValue) {
+            self.tweet["retweeted"] = newValue
+        }
+        
     }
     
     var isExistRetweetedStatus: Bool {
@@ -101,7 +107,13 @@ class TwitterData {
     }
     
     var isFavorited: Bool {
-        return self.tweet["favorited"] as! Bool
+        get {
+            return self.tweet["favorited"] as! Bool
+        }
+        set(newValue) {
+            self.tweet["favorited"] = newValue
+        }
+        
     }
     
     var favoriteCount: Int {

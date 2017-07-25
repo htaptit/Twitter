@@ -56,13 +56,18 @@ class TimeLineTableViewController: UITableViewController {
     func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
             let row = Int(object["row"]!)!
+            let indexPath: IndexPath = IndexPath(row: row, section: 0)
+            
             ApplicationViewController.updateToTwitter(self.tweets[row],self, object["action"]!, { (data) in
                 if object["action"]! == "RT" {
                     self.tweets[row].retweetCount = data.retweetCount
+                    self.tweets[row].isRetweeted = data.isRetweeted
                 } else {
                     self.tweets[row].favoriteCount = data.favoriteCount
+                    self.tweets[row].isFavorited = data.isFavorited
                 }
-                self.timeLineUITableView.reloadData()
+                
+                self.timeLineUITableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
             }) { (error) in
                 print(error.localizedDescription)
             }

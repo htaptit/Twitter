@@ -59,9 +59,14 @@ class ApplicationViewController: UIViewController {
                 VC.present(actionSheet, animated: true, completion: nil)
             }
         } else {
-            let url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_create, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
-
-            TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+            var url: URLRequest? = nil
+            if tweet.isFavorited {
+                url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_destroy, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+            } else {
+                url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_create, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+            }
+            
+            TwitterAPI.postNewTweet(user: nil, url: url!, result: { (data) in
                 result(data)
             }, error: { (err) in
                 error(err)
