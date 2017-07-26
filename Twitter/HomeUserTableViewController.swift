@@ -74,7 +74,6 @@ class HomeUserTableViewController: UITableViewController {
                     self.tweets[row].retweetCount = data.retweetCount
                     self.tweets[row].isRetweeted = data.isRetweeted
                 } else {
-                    print(data)
                     self.tweets[row].favoriteCount = data.favoriteCount
                     self.tweets[row].isFavorited = data.isFavorited
                 }

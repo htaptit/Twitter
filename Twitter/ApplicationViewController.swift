@@ -11,10 +11,11 @@ import TwitterKit
 //import TwitterCore
 
 class ApplicationViewController: UIViewController {
-
+    
+    var userID: String? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Do any additional setup after loading the view.
     }
 
@@ -30,7 +31,7 @@ class ApplicationViewController: UIViewController {
             case true:
                 actionSheet.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
                     let url = TwitterAPI.TwitterUrl(method: .POST, path: .unretweet_by_id, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
-                    TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+                    TwitterAPI.postNewTweet(url: url, result: { (data) in
                         result(data)
                     }) { (err) in
                         error(err)
@@ -39,7 +40,7 @@ class ApplicationViewController: UIViewController {
             case false:
                 actionSheet.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
                     let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet.getTweetID])
-                    TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
+                    TwitterAPI.postNewTweet(url: url, result: { (data) in
                         result(data)
                     }) { (err) in
                         error(err)
@@ -66,7 +67,7 @@ class ApplicationViewController: UIViewController {
                 url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_create, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
             }
             
-            TwitterAPI.postNewTweet(user: nil, url: url!, result: { (data) in
+            TwitterAPI.postNewTweet(url: url!, result: { (data) in
                 result(data)
             }, error: { (err) in
                 error(err)
@@ -81,7 +82,7 @@ class ApplicationViewController: UIViewController {
     class func loadTweet(_ path: Path ,_ result: @escaping ([TwitterData]) -> (),_ error: @escaping (Error) -> ()) {
         if isLogged() {
             let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "200"])
-            TwitterAPI.getHomeTimeline(user: nil, url: url, tweets: { (data) in
+            TwitterAPI.getHomeTimeline(url: url, tweets: { (data) in
                 if !data.isEmpty {
                     result(data)
                 }
@@ -90,15 +91,5 @@ class ApplicationViewController: UIViewController {
             })
         }
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

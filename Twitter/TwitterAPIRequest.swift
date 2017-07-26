@@ -47,16 +47,14 @@ public enum HTTPMethod: String {
 }
 
 class TwitterAPI {
-//    let baseURL = "https://api.twitter.com"
-//    let version = "/1.1/"
+    static let userID = Twitter.sharedInstance().sessionStore.session()?.userID
     
     init() {
         
     }
     
     class func TwitterUrl(method: HTTPMethod?, path: Path?, twitterUrl: TwitterURL? , parameters: [String: String]?) -> URLRequest? {
-        let user = Twitter.sharedInstance().sessionStore.session()?.userID
-        let client = TWTRAPIClient(userID: user)
+        let client = TWTRAPIClient(userID: TwitterAPI.userID)
         
         if method == nil || path == nil {
             return nil
@@ -78,10 +76,8 @@ class TwitterAPI {
         }
     }
     
-    class func get(user:String?, url: URLRequest?, tweets: @escaping (TwitterData) -> (), error: @escaping (Error) -> ()) {
-        let user = Twitter.sharedInstance().sessionStore.session()?.userID
-        
-        let client = TWTRAPIClient(userID: user)
+    class func get(url: URLRequest?, tweets: @escaping (TwitterData) -> (), error: @escaping (Error) -> ()) {
+        let client = TWTRAPIClient(userID: TwitterAPI.userID)
         let request : URLRequest? = url
         
         if request != nil {
@@ -102,10 +98,8 @@ class TwitterAPI {
         }
     }
     
-    class func getHomeTimeline(user:String?, url: URLRequest?, tweets: @escaping ([TwitterData]) -> (), error: @escaping (Error) -> ()) {
-        let user = Twitter.sharedInstance().sessionStore.session()?.userID
-        
-        let client = TWTRAPIClient(userID: user)
+    class func getHomeTimeline(url: URLRequest?, tweets: @escaping ([TwitterData]) -> (), error: @escaping (Error) -> ()) {
+        let client = TWTRAPIClient(userID: TwitterAPI.userID)
         let request : URLRequest? = url
         
         if request != nil {
@@ -130,9 +124,8 @@ class TwitterAPI {
         }
     }
     
-    class func postNewTweet(user: String?, url: URLRequest?, result: @escaping (TwitterData) -> (), error: @escaping (Error) -> ()) {
-        let user  = Twitter.sharedInstance().sessionStore.session()?.userID
-        let client = TWTRAPIClient(userID: user)
+    class func postNewTweet(url: URLRequest?, result: @escaping (TwitterData) -> (), error: @escaping (Error) -> ()) {
+        let client = TWTRAPIClient(userID: TwitterAPI.userID)
         let request: URLRequest? = url
         
         if request != nil {
@@ -152,8 +145,7 @@ class TwitterAPI {
     }
     
     class func postNewImage(image: Data?, result: @escaping (String?) -> (), error: @escaping (Error) -> ()) {
-        let user  = Twitter.sharedInstance().sessionStore.session()?.userID
-        let client = TWTRAPIClient(userID: user)
+        let client = TWTRAPIClient(userID: TwitterAPI.userID)
         
         if let image = image {
             client.uploadMedia(image, contentType: "image/jpeg") { (string, err) in
