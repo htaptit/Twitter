@@ -11,15 +11,12 @@ import TwitterKit
 //import TwitterCore
 import SDWebImage
 
-class HomeUserTableViewController: UITableViewController {
+class HomeUserTableViewController: UIViewController {
     var tweets = [TwitterData]()
     @IBOutlet var userTableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.userTableView.register(UINib(nibName: "TweetTableViewCell", bundle: nil), forCellReuseIdentifier: "TweetTableViewCell")
-        self.userTableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
-        
         self.userTableView.estimatedRowHeight = 300
         self.userTableView.rowHeight = UITableViewAutomaticDimension
         
@@ -45,25 +42,7 @@ class HomeUserTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return self.tweets.count
-    }
-
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellFormated = formartCellTwitter(self.tweets, indexPath, "homeuser")
-        return cellFormated
-    }
-
     func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
             let row = Int(object["row"]!)!
@@ -84,12 +63,28 @@ class HomeUserTableViewController: UITableViewController {
             }
         }
     }
+}
+
+extension HomeUserTableViewController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return 1
+    }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete implementation, return the number of rows
+        return self.tweets.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let tbVC = UITableViewController()
+        let cellFormated = tbVC.formartCellTwitter(self.tweets, indexPath, "home", tableView)
+        return cellFormated
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
         tweetDetailVC?.tweet = tweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
-
 }
-

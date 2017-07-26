@@ -96,40 +96,43 @@
             </objects>
             <point key="canvasLocation" x="3812" y="35.532233883058474"/>
         </scene>
-        <!--Timeline-->
-        <scene sceneID="Wmg-NM-1Le">
+        <!--Time Line Table View Controller-->
+        <scene sceneID="XfS-4O-QV9">
             <objects>
-                <tableViewController storyboardIdentifier="timeline" id="ChI-jP-jlc" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="bgH-Bb-ybO">
+                <viewController id="fLA-7E-JaI" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Tx-qY-XwQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="YaR-xP-LYI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="GNX-u5-71Y">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="0BI-XT-CRQ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="fLA-7E-JaI" id="vBv-93-R2X"/>
+                                    <outlet property="delegate" destination="fLA-7E-JaI" id="61b-j4-cAL"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="ChI-jP-jlc" id="ex7-5A-dSU"/>
-                            <outlet property="delegate" destination="ChI-jP-jlc" id="MlN-dO-RMJ"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Timeline" id="ITt-0N-Rcb">
-                        <barButtonItem key="leftBarButtonItem" image="logout" id="oYa-4P-iOJ">
-                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <connections>
-                                <action selector="logoutAction:" destination="ChI-jP-jlc" id="ty5-1k-gsU"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="new_tweet" id="rJp-cT-wMx">
-                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <connections>
-                                <segue destination="oof-rA-hk1" kind="show" id="jnC-EB-6Oh"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                        <constraints>
+                            <constraint firstItem="0BI-XT-CRQ" firstAttribute="leading" secondItem="GNX-u5-71Y" secondAttribute="leading" id="FQd-lc-d7N"/>
+                            <constraint firstAttribute="trailing" secondItem="0BI-XT-CRQ" secondAttribute="trailing" id="XBf-in-q9G"/>
+                            <constraint firstItem="YaR-xP-LYI" firstAttribute="top" secondItem="0BI-XT-CRQ" secondAttribute="bottom" id="rG8-qU-ZIa"/>
+                            <constraint firstItem="0BI-XT-CRQ" firstAttribute="top" secondItem="GNX-u5-71Y" secondAttribute="top" id="rxt-Zq-HPB"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="a1K-UX-jlN"/>
                     <connections>
-                        <outlet property="timeLineUITableView" destination="bgH-Bb-ybO" id="25w-2o-JoX"/>
+                        <outlet property="timeLineUITableView" destination="0BI-XT-CRQ" id="zho-xk-a2z"/>
                     </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tcP-en-mvM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="erG-7C-tjn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9788" y="610.34482758620697"/>
+            <point key="canvasLocation" x="9749.6000000000004" y="608.54572713643188"/>
         </scene>
         <!--New Tweet-->
         <scene sceneID="9uJ-T1-2ml">
@@ -399,28 +402,6 @@
             </objects>
             <point key="canvasLocation" x="11386" y="609"/>
         </scene>
-        <!--Home-->
-        <scene sceneID="oef-d7-4FE">
-            <objects>
-                <tableViewController id="KFU-6n-guN" customClass="HomeUserTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="iNP-UP-Ksh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="KFU-6n-guN" id="Trz-mz-h2e"/>
-                            <outlet property="delegate" destination="KFU-6n-guN" id="CxZ-Up-wKq"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Home" id="4mG-9v-nA9"/>
-                    <connections>
-                        <outlet property="userTableView" destination="iNP-UP-Ksh" id="eSf-kg-VTO"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="EOG-Rl-fyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="8848.7999999999993" y="1358.7706146926537"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="JXw-wG-6MW">
             <objects>
@@ -451,7 +432,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="ChI-jP-jlc" kind="relationship" relationship="rootViewController" id="KZD-6l-oTc"/>
+                        <segue destination="fLA-7E-JaI" kind="relationship" relationship="rootViewController" id="jX9-Cn-0UC"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pA9-mg-rPs" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -489,23 +470,59 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="KFU-6n-guN" kind="relationship" relationship="rootViewController" id="qGg-eD-lKz"/>
+                        <segue destination="XJX-tz-tza" kind="relationship" relationship="rootViewController" id="IMh-Je-j7c"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ziV-57-Fll" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="7909.6000000000004" y="1358.7706146926537"/>
         </scene>
+        <!--Home User Table View Controller-->
+        <scene sceneID="CCP-ye-jLl">
+            <objects>
+                <viewController id="XJX-tz-tza" customClass="HomeUserTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="01m-fg-dLB"/>
+                        <viewControllerLayoutGuide type="bottom" id="ngS-wp-Pot"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="L5c-DH-ZQ9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="QMw-DR-eKc">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="XJX-tz-tza" id="5ks-O5-8aI"/>
+                                    <outlet property="delegate" destination="XJX-tz-tza" id="b5o-CN-jhw"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="QMw-DR-eKc" secondAttribute="trailing" id="2Ir-Rs-0gC"/>
+                            <constraint firstItem="QMw-DR-eKc" firstAttribute="top" secondItem="L5c-DH-ZQ9" secondAttribute="top" id="2o5-uy-VZW"/>
+                            <constraint firstItem="ngS-wp-Pot" firstAttribute="top" secondItem="QMw-DR-eKc" secondAttribute="bottom" id="8cI-Hf-2yk"/>
+                            <constraint firstItem="QMw-DR-eKc" firstAttribute="leading" secondItem="L5c-DH-ZQ9" secondAttribute="leading" id="qPo-p5-YMq"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Rla-rl-FJ9"/>
+                    <connections>
+                        <outlet property="userTableView" destination="QMw-DR-eKc" id="1Vr-ts-680"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fCR-5D-dT5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8749.6000000000004" y="1361.4692653673164"/>
+        </scene>
     </scenes>
     <resources>
         <image name="home" width="32" height="32"/>
         <image name="home_user" width="25" height="25"/>
         <image name="location" width="25" height="25"/>
-        <image name="logout" width="25" height="25"/>
         <image name="new-gift" width="25" height="25"/>
         <image name="new-image" width="25" height="25"/>
         <image name="new-photo" width="25" height="25"/>
-        <image name="new_tweet" width="32" height="32"/>
         <image name="twitter_ico" width="30" height="30"/>
     </resources>
 </document>

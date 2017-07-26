@@ -11,22 +11,18 @@ import TwitterKit
 import TwitterCore
 import SDWebImage
 
-class TimeLineTableViewController: UITableViewController {
+class TimeLineTableViewController: UIViewController {
     var tweets = [TwitterData]()
     
     @IBOutlet weak var timeLineUITableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.timeLineUITableView.delegate = self
         self.timeLineUITableView.translatesAutoresizingMaskIntoConstraints = false
         self.tabBarController?.tabBar.isHidden = false
         
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
-        
-        self.timeLineUITableView.register(UINib(nibName: "TweetTableViewCell", bundle: nil) , forCellReuseIdentifier: "TweetTableViewCell")
-        self.timeLineUITableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
         
         ApplicationViewController.loadTweet(.home_timeline, { (tweet) in
             for item in tweet {
@@ -58,7 +54,7 @@ class TimeLineTableViewController: UITableViewController {
             let row = Int(object["row"]!)!
             let indexPath: IndexPath = IndexPath(row: row, section: 0)
             
-            ApplicationViewController.updateToTwitter(self.tweets[row],self, object["action"]!, { (data) in
+            ApplicationViewController.updateToTwitter(self.tweets[row], self, object["action"]!, { (data) in
                 if object["action"]! == "RT" {
                     self.tweets[row].retweetCount = data.retweetCount
                     self.tweets[row].isRetweeted = data.isRetweeted
@@ -82,8 +78,6 @@ class TimeLineTableViewController: UITableViewController {
         }
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
         self.navigationController?.pushViewController(loginVC, animated: false)
-        
-        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -91,27 +85,29 @@ class TimeLineTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+}
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension TimeLineTableViewController: UITableViewDataSource, UITableViewDelegate  {
+    func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.tweets.count
     }
-
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellFormated = formartCellTwitter(self.tweets, indexPath, "timeline")
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let tbVC = UITableViewController()
+        let cellFormated = tbVC.formartCellTwitter(self.tweets, indexPath, "timeline", tableView)
         return cellFormated
     }
-
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let tweetDetailVC = self.storyboard?.instantiateViewController(withIdentifier: "tweetDetail") as? TweetDetailViewController
         tweetDetailVC?.tweet = tweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
-
 }
 

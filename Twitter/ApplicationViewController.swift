@@ -24,7 +24,7 @@ class ApplicationViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    class func updateToTwitter(_ tweet: TwitterData,_ VC : UITableViewController,_ action: String,_ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
+    class func updateToTwitter(_ tweet: TwitterData,_ VC : UIViewController,_ action: String,_ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
         if action == "RT" {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
             switch tweet.isRetweeted {

@@ -12,13 +12,15 @@ extension Notification.Name {
     static let retweet_or_quote = Notification.Name("retweet_or_quote")
     static let to_twitter = Notification.Name("to_twitter")
 }
-extension UITableViewController {
+extension UITableViewDataSource {
     
-    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath,_ tab: String) -> TimelineTableViewCell {
+    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath,_ tab: String,_ tableView: UITableView) -> TimelineTableViewCell {
         let tweet = tweets[index.row]
         var cell : TimelineTableViewCell?
         
-        
+        tableView.register(UINib(nibName: "TweetTableViewCell", bundle: nil) , forCellReuseIdentifier: "TweetTableViewCell")
+        tableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
+
         if tweet.isQuote {
             cell = tableView.dequeueReusableCell(withIdentifier: "QuoteTableViewCell", for: index) as? QuoteTableViewCell
             
@@ -39,7 +41,6 @@ extension UITableViewController {
             if let image = tweet.q_imageOnTweet {
                 cell?.photoImage.isHidden = false
                 cell?.imageHeightLayoutConstraint.constant = 160
-//                cell?.photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 5)
                 cell?.photoImage.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             }
             // End quoted status
