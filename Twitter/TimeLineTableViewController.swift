@@ -13,6 +13,7 @@ import SDWebImage
 
 class TimeLineTableViewController: UIViewController {
     var tweets = [TwitterData]()
+    var path: Path?
     
     @IBOutlet weak var timeLineUITableView: UITableView!
     
@@ -24,17 +25,22 @@ class TimeLineTableViewController: UIViewController {
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
         
-        ApplicationViewController.loadTweet(.home_timeline, { (tweet) in
-            for item in tweet {
-                self.tweets.append(item)
+        if let title = self.tabBarController?.tabBar.selectedItem?.title {
+            self.path = title != "Timeline" ? .user_timeline : .home_timeline
+            ApplicationViewController.loadTweet(self.path!, { (tweet) in
+                for item in tweet {
+                    self.tweets.append(item)
+                }
+                self.timeLineUITableView.reloadData()
+            }) { (error) in
+                print(error.localizedDescription)
             }
-            self.timeLineUITableView.reloadData()
-        }) { (error) in
-            print(error.localizedDescription)
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.path = (self.tabBarController?.tabBar.selectedItem?.title).map { Path(rawValue: $0) }!
+        
         NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter, object: nil)
         self.navigationController?.isNavigationBarHidden = false
         let appDelegate = UIApplication.shared.delegate as! AppDelegate

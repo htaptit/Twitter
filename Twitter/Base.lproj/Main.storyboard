@@ -477,10 +477,10 @@
             </objects>
             <point key="canvasLocation" x="7909.6000000000004" y="1358.7706146926537"/>
         </scene>
-        <!--Home User Table View Controller-->
+        <!--Time Line Table View Controller-->
         <scene sceneID="CCP-ye-jLl">
             <objects>
-                <viewController id="XJX-tz-tza" customClass="HomeUserTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="XJX-tz-tza" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="01m-fg-dLB"/>
                         <viewControllerLayoutGuide type="bottom" id="ngS-wp-Pot"/>
@@ -508,7 +508,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Rla-rl-FJ9"/>
                     <connections>
-                        <outlet property="userTableView" destination="QMw-DR-eKc" id="1Vr-ts-680"/>
+                        <outlet property="timeLineUITableView" destination="QMw-DR-eKc" id="dVC-d5-2G0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fCR-5D-dT5" userLabel="First Responder" sceneMemberID="firstResponder"/>
