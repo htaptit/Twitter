@@ -67,7 +67,7 @@ class TimeLineTableViewController: UITableViewController {
                     self.tweets[row].isFavorited = data.isFavorited
                 }
                 
-                self.timeLineUITableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
+                self.timeLineUITableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
             }) { (error) in
                 print(error.localizedDescription)
             }

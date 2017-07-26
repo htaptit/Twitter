@@ -80,7 +80,7 @@ class ApplicationViewController: UIViewController {
     
     class func loadTweet(_ path: Path ,_ result: @escaping ([TwitterData]) -> (),_ error: @escaping (Error) -> ()) {
         if isLogged() {
-            let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "50"])
+            let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "200"])
             TwitterAPI.getHomeTimeline(user: nil, url: url, tweets: { (data) in
                 if !data.isEmpty {
                     result(data)
