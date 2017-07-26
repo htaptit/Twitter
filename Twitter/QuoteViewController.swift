@@ -73,7 +73,7 @@ print(self.tweet)
             let comment = text + " " + tweet.tweetUrl!
             let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update , twitterUrl: .api , parameters: ["status": comment])
             TwitterAPI.postNewTweet(url: url, result: { (data) in
-                if let timelineViewController = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as? TimeLineTableViewController {
+                if let timelineViewController = self.storyboard?.instantiateViewController(withIdentifier: "Timeline") as? TimeLineTableViewController {
                     timelineViewController.tweets.insert(data, at: 0)
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.newTweet = data

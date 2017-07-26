@@ -99,7 +99,7 @@
         <!--Time Line Table View Controller-->
         <scene sceneID="XfS-4O-QV9">
             <objects>
-                <viewController id="fLA-7E-JaI" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Timeline" id="fLA-7E-JaI" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2Tx-qY-XwQ"/>
                         <viewControllerLayoutGuide type="bottom" id="YaR-xP-LYI"/>
@@ -125,7 +125,14 @@
                             <constraint firstItem="0BI-XT-CRQ" firstAttribute="top" secondItem="GNX-u5-71Y" secondAttribute="top" id="rxt-Zq-HPB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="a1K-UX-jlN"/>
+                    <navigationItem key="navigationItem" id="a1K-UX-jlN">
+                        <barButtonItem key="rightBarButtonItem" image="new_tweet" id="bVb-N6-BU4">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <segue destination="oof-rA-hk1" kind="show" id="Hz3-wz-YjH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="timeLineUITableView" destination="0BI-XT-CRQ" id="zho-xk-a2z"/>
                     </connections>
@@ -523,6 +530,7 @@
         <image name="new-gift" width="25" height="25"/>
         <image name="new-image" width="25" height="25"/>
         <image name="new-photo" width="25" height="25"/>
+        <image name="new_tweet" width="32" height="32"/>
         <image name="twitter_ico" width="30" height="30"/>
     </resources>
 </document>
