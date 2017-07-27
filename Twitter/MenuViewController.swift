@@ -74,6 +74,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    @IBAction func openSideMenu(_ sender: UITapGestureRecognizer) {
+        NotificationCenter.default.post(name: .open_menu , object: nil)
+    }
     /*
     // MARK: - Navigation
 

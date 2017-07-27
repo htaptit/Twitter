@@ -27,8 +27,6 @@ class TimeLineTableViewController: UIViewController {
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
         
         self.menu = self.storyboard?.instantiateViewController(withIdentifier: "MenuViewController") as? MenuViewController
-        let tap = UITapGestureRecognizer(target: self.menu.rightUIView, action: #selector(openSideMenu(_:)))
-        self.view.addGestureRecognizer(tap)
         
         ApplicationViewController.userShow({ (data) in
             self.menu.data = data
@@ -49,7 +47,7 @@ class TimeLineTableViewController: UIViewController {
             }
         }
         
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -92,20 +90,18 @@ class TimeLineTableViewController: UIViewController {
     
     @IBOutlet weak var leadingLayoutContrain: NSLayoutConstraint!
     @IBOutlet weak var trainingLayoutConstraint: NSLayoutConstraint!
+    var hideMenu = false
     @IBAction func openSideMenu(_ sender: Any) {
-        print("aa")
-        var hideMenu = false
-        
         let bound = UIScreen.main.bounds
         if hideMenu {
-            self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bound.width, height: 50)
+            self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 15, width: bound.width, height: 50)
             self.tabBarController?.tabBar.frame = CGRect(x: 0, y: bound.height - 50, width: bound.width, height: 50)
             trainingLayoutConstraint.constant = 0
             leadingLayoutContrain.constant = 0
-            self.menu.removeFromParentViewController()
+            self.menu.view.removeFromSuperview()
         } else {
             let bound = UIScreen.main.bounds
-            self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 0, width: bound.width, height: 50)
+            self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 15, width: bound.width, height: 50)
             self.tabBarController?.tabBar.frame = CGRect(x: bound.width - 100, y: bound.height - 50, width: bound.width, height: 50)
             trainingLayoutConstraint.constant = bound.width - 100
             leadingLayoutContrain.constant = 100 - bound.width
