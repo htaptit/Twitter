@@ -17,6 +17,7 @@ class TimeLineTableViewController: UIViewController {
     var menu: MenuViewController!
     
     @IBOutlet weak var timeLineUITableView: UITableView!
+    @IBOutlet weak var leftBarItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -109,7 +110,9 @@ class TimeLineTableViewController: UIViewController {
             self.addChildViewController(menu)
             self.view.addSubview(self.menu.view)
         }
-        
+        UIView.animate(withDuration: 0.3) { 
+            self.view.layoutIfNeeded()
+        }
         hideMenu = !hideMenu
     }
     

@@ -141,6 +141,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="leadingLayoutContrain" destination="XBf-in-q9G" id="QNq-ii-sfi"/>
+                        <outlet property="leftBarItem" destination="KpY-st-fLb" id="FXl-If-7H4"/>
                         <outlet property="timeLineUITableView" destination="0BI-XT-CRQ" id="zho-xk-a2z"/>
                         <outlet property="trainingLayoutConstraint" destination="FQd-lc-d7N" id="ZXI-uJ-foH"/>
                     </connections>
