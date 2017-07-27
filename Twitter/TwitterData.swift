@@ -11,12 +11,15 @@ import Foundation
 class TwitterData {
     
     var tweet: [String:Any]
-    let userOfTweet: [String:Any]
+    var userOfTweet: [String:Any]? = nil
     var retweetedStatus: [String:Any]? = nil
     
     init(tweet: [String:Any]) {
         self.tweet = tweet
-        self.userOfTweet = tweet["user"] as! [String : Any]
+//        self.userOfTweet = tweet["user"] as! [String : Any]
+        if let user = self.tweet["user"] as? [String : Any] {
+            self.userOfTweet = user
+        }
         if let retweeted = self.tweet["retweeted_status"] as? [String: Any] {
             self.retweetedStatus = retweeted
         }
@@ -43,19 +46,19 @@ class TwitterData {
     
     var getUserID: Int {
         get {
-            return self.userOfTweet["id"] as! Int
+            return self.userOfTweet!["id"] as! Int
         }
     }
     
     var getAccountName: String {
         get {
-            return asString(value: self.userOfTweet["name"]!)
+            return asString(value: self.userOfTweet!["name"]!)
         }
     }
     
     var getScreenName: String {
         get {
-            return asString(value: self.userOfTweet["screen_name"]!)
+            return asString(value: self.userOfTweet!["screen_name"]!)
         }
     }
     
@@ -147,8 +150,6 @@ class TwitterData {
         
         if let media = entities["media"] as? Array<Any> {
             let inforMedia = media[0] as! [String:Any]
-//            let urlString = asString(value: inforMedia["media_url_https"]!)
-//            return self.getAvatar(urlString)
                 return asString(value: inforMedia["media_url_https"]!)
         }
         
@@ -173,7 +174,7 @@ class TwitterData {
     }
     
     func getAvatar() -> String {
-        let tempSaveUrl = asString(value: self.userOfTweet["profile_image_url_https"]!)
+        let tempSaveUrl = asString(value: self.userOfTweet?["profile_image_url_https"]! as Any)
         let url = tempSaveUrl.replacingOccurrences(of: "_normal", with: "")
         return url
     }
@@ -227,11 +228,35 @@ class TwitterData {
         guard let entities = self.quoted_status?["entities"] as? [String:Any] else { return nil }
         if let media = entities["media"] as? Array<Any> {
             let inforMedia = media[0] as! [String:Any]
-//            let urlString = asString(value: inforMedia["media_url_https"]!)
-//            return self.getAvatar(urlString)
             return asString(value: inforMedia["media_url_https"]!)
         }
         
         return nil
+    }
+    
+    
+    
+    
+    // User show
+    
+    var avt: String {
+        let tempSaveUrl = asString(value: self.tweet["profile_image_url_https"]! as Any)
+        let url = tempSaveUrl.replacingOccurrences(of: "_normal", with: "")
+        return url
+    }
+    
+    var name: String {
+        return asString(value: self.tweet["name"]!)
+    }
+    
+    var scname: String {
+        return asString(value: self.tweet["screen_name"]!)
+    }
+    var followers_count: String {
+        return String(self.tweet["followers_count"] as! Int)
+    }
+    
+    var friends_count: String {
+        return String(self.tweet["friends_count"]  as! Int)
     }
 }

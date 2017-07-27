@@ -14,6 +14,7 @@ import SDWebImage
 class TimeLineTableViewController: UIViewController {
     var tweets = [TwitterData]()
     var path: Path?
+    var menu: MenuViewController!
     
     @IBOutlet weak var timeLineUITableView: UITableView!
     
@@ -24,6 +25,14 @@ class TimeLineTableViewController: UIViewController {
         
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
+        
+        self.menu = self.storyboard?.instantiateViewController(withIdentifier: "MenuViewController") as? MenuViewController
+        ApplicationViewController.userShow({ (data) in
+            self.menu.data = data
+        }) { (err) in
+            print(err.localizedDescription)
+        }
+        
         
         if let title = self.tabBarController?.tabBar.selectedItem?.title {
             self.path = title != "Timeline" ? .user_timeline : .home_timeline
@@ -36,6 +45,8 @@ class TimeLineTableViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,15 +87,31 @@ class TimeLineTableViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var leadingLayoutContrain: NSLayoutConstraint!
+    @IBOutlet weak var trainingLayoutConstraint: NSLayoutConstraint!
     @IBAction func logoutAction(_ sender: Any) {
-        tweets.removeAll()
-        timeLineUITableView.reloadData()
-        if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
-            Twitter.sharedInstance().sessionStore.logOutUserID(userID)
-        }
-        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
-        self.navigationController?.pushViewController(loginVC, animated: false)
+//        tweets.removeAll()
+//        timeLineUITableView.reloadData()
+//        if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
+//            Twitter.sharedInstance().sessionStore.logOutUserID(userID)
+//        }
+//        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
+//        self.navigationController?.pushViewController(loginVC, animated: false)
+        
+//        self.navigationController?.isNavigationBarHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
+
+        let bound = UIScreen.main.bounds
+        self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 0, width: bound.width, height: 50)
+        self.tabBarController?.tabBar.frame = CGRect(x: bound.width - 100, y: bound.height - 50, width: bound.width, height: 50)
+        trainingLayoutConstraint.constant = bound.width - 100
+        leadingLayoutContrain.constant = 100 - bound.width
+        
+        self.menu.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        self.addChildViewController(menu)
+        self.view.addSubview(self.menu.view)
     }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

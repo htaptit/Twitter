@@ -65,7 +65,7 @@ extension UITableViewDataSource {
             cell?.typeTweet.isHidden = true
             cell?.retweetButton.setImage(UIImage(named: "retweet"), for: UIControlState.normal)
             cell?.likeButton.setImage(UIImage(named: "like"), for: UIControlState.normal)
-            if tweet.isExistRetweetedStatus && tab != "timeline"{
+            if tweet.isExistRetweetedStatus && tab != "Timeline"{
                 if tweet.isRetweeted {
                     cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
                 }

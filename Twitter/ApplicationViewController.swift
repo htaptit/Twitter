@@ -12,8 +12,6 @@ import TwitterKit
 
 class ApplicationViewController: UIViewController {
     
-    var userID: String? = nil
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -22,6 +20,15 @@ class ApplicationViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    class func userShow(_ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
+        let url = TwitterAPI.TwitterUrl(method: .GET, path: .user_show , twitterUrl: .api, parameters: ["user_id": TwitterAPI.userID!])
+        TwitterAPI.get(url: url, tweets: { (data) in
+            result(data)
+        }) { (err) in
+            error(err)
+        }
     }
     
     class func updateToTwitter(_ tweet: TwitterData,_ VC : UIViewController,_ action: String,_ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
