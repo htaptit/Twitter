@@ -27,6 +27,9 @@ class TimeLineTableViewController: UIViewController {
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
         
         self.menu = self.storyboard?.instantiateViewController(withIdentifier: "MenuViewController") as? MenuViewController
+        let tap = UITapGestureRecognizer(target: self.menu.rightUIView, action: #selector(openSideMenu(_:)))
+        self.view.addGestureRecognizer(tap)
+        
         ApplicationViewController.userShow({ (data) in
             self.menu.data = data
         }) { (err) in
@@ -89,27 +92,42 @@ class TimeLineTableViewController: UIViewController {
     
     @IBOutlet weak var leadingLayoutContrain: NSLayoutConstraint!
     @IBOutlet weak var trainingLayoutConstraint: NSLayoutConstraint!
-    @IBAction func logoutAction(_ sender: Any) {
-//        tweets.removeAll()
-//        timeLineUITableView.reloadData()
-//        if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
-//            Twitter.sharedInstance().sessionStore.logOutUserID(userID)
-//        }
-//        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
-//        self.navigationController?.pushViewController(loginVC, animated: false)
+    @IBAction func openSideMenu(_ sender: Any) {
+        print("aa")
+        var hideMenu = false
         
-//        self.navigationController?.isNavigationBarHidden = true
-//        self.tabBarController?.tabBar.isHidden = true
-
         let bound = UIScreen.main.bounds
-        self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 0, width: bound.width, height: 50)
-        self.tabBarController?.tabBar.frame = CGRect(x: bound.width - 100, y: bound.height - 50, width: bound.width, height: 50)
-        trainingLayoutConstraint.constant = bound.width - 100
-        leadingLayoutContrain.constant = 100 - bound.width
+        if hideMenu {
+            self.navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: bound.width, height: 50)
+            self.tabBarController?.tabBar.frame = CGRect(x: 0, y: bound.height - 50, width: bound.width, height: 50)
+            trainingLayoutConstraint.constant = 0
+            leadingLayoutContrain.constant = 0
+            self.menu.removeFromParentViewController()
+        } else {
+            let bound = UIScreen.main.bounds
+            self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 0, width: bound.width, height: 50)
+            self.tabBarController?.tabBar.frame = CGRect(x: bound.width - 100, y: bound.height - 50, width: bound.width, height: 50)
+            trainingLayoutConstraint.constant = bound.width - 100
+            leadingLayoutContrain.constant = 100 - bound.width
+            self.menu.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            self.addChildViewController(menu)
+            self.view.addSubview(self.menu.view)
+        }
         
-        self.menu.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        self.addChildViewController(menu)
-        self.view.addSubview(self.menu.view)
+        hideMenu = !hideMenu
+    }
+    
+    @IBAction func logout(_ sender: Any) {
+        tweets.removeAll()
+        timeLineUITableView.reloadData()
+        if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
+            Twitter.sharedInstance().sessionStore.logOutUserID(userID)
+        }
+        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
+        self.navigationController?.pushViewController(loginVC, animated: false)
+        
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {

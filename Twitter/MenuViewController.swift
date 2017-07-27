@@ -20,6 +20,7 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet weak var countFolowers: UILabel!
     @IBOutlet weak var menuTable: UITableView!
     @IBOutlet weak var followersUILabel: UILabel! // followers_count
+    @IBOutlet weak var rightUIView: UIView!
     
     @IBOutlet weak var bottomContrainNSLayout: NSLayoutConstraint!
     var data: TwitterData!
@@ -28,7 +29,6 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(data.tweet)
         menuTable.estimatedRowHeight = 300
         menuTable.rowHeight = UITableViewAutomaticDimension
         // Do any additional setup after loading the view.
