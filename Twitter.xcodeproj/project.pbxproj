@@ -15,6 +15,8 @@
 		0938324F1F15FA760078A804 /* NewTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938324E1F15FA760078A804 /* NewTweetViewController.swift */; };
 		0945D6551F2598220058916D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0945D6541F2598220058916D /* Extensions.swift */; };
 		094755401F2245100064C258 /* TimeLineTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0947553F1F2245100064C258 /* TimeLineTableViewController.swift */; };
+		094900211F2AE72100DD2052 /* SectionInMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0949001F1F2AE72100DD2052 /* SectionInMenu.swift */; };
+		094900221F2AE72100DD2052 /* SectionInMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 094900201F2AE72100DD2052 /* SectionInMenu.xib */; };
 		096F5F071F21AC3100BCA190 /* TweetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096F5F051F21AC3100BCA190 /* TweetTableViewCell.swift */; };
 		096F5F081F21AC3100BCA190 /* TweetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 096F5F061F21AC3100BCA190 /* TweetTableViewCell.xib */; };
 		096F5F0B1F21B10000BCA190 /* QuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096F5F091F21B10000BCA190 /* QuoteTableViewCell.swift */; };
@@ -41,6 +43,8 @@
 		0938324E1F15FA760078A804 /* NewTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTweetViewController.swift; sourceTree = "<group>"; };
 		0945D6541F2598220058916D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		0947553F1F2245100064C258 /* TimeLineTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeLineTableViewController.swift; sourceTree = "<group>"; };
+		0949001F1F2AE72100DD2052 /* SectionInMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SectionInMenu.swift; sourceTree = "<group>"; };
+		094900201F2AE72100DD2052 /* SectionInMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SectionInMenu.xib; sourceTree = "<group>"; };
 		096F5F051F21AC3100BCA190 /* TweetTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetTableViewCell.swift; sourceTree = "<group>"; };
 		096F5F061F21AC3100BCA190 /* TweetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetTableViewCell.xib; sourceTree = "<group>"; };
 		096F5F091F21B10000BCA190 /* QuoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteTableViewCell.swift; sourceTree = "<group>"; };
@@ -104,6 +108,8 @@
 				096F5F091F21B10000BCA190 /* QuoteTableViewCell.swift */,
 				096F5F0A1F21B10000BCA190 /* QuoteTableViewCell.xib */,
 				09EDFF8B1F0E192F00CB2150 /* TimelineTableViewCell.swift */,
+				0949001F1F2AE72100DD2052 /* SectionInMenu.swift */,
+				094900201F2AE72100DD2052 /* SectionInMenu.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -236,6 +242,7 @@
 				099D08CD1F0CC6D7009A74D7 /* TwitterKitResources.bundle in Resources */,
 				096F5F0C1F21B10000BCA190 /* QuoteTableViewCell.xib in Resources */,
 				096F5F081F21AC3100BCA190 /* TweetTableViewCell.xib in Resources */,
+				094900221F2AE72100DD2052 /* SectionInMenu.xib in Resources */,
 				09CBF2CE1F0C8E7D005D1961 /* LaunchScreen.storyboard in Resources */,
 				09CBF2CB1F0C8E7D005D1961 /* Assets.xcassets in Resources */,
 				09CBF2C91F0C8E7D005D1961 /* Main.storyboard in Resources */,
@@ -322,6 +329,7 @@
 				0979845B1F1399FD0068805F /* TwitterData.swift in Sources */,
 				096F5F0B1F21B10000BCA190 /* QuoteTableViewCell.swift in Sources */,
 				091A16D11F18961D005D9A71 /* TweetDetailViewController.swift in Sources */,
+				094900211F2AE72100DD2052 /* SectionInMenu.swift in Sources */,
 				09CBF2C41F0C8E7D005D1961 /* AppDelegate.swift in Sources */,
 				0945D6551F2598220058916D /* Extensions.swift in Sources */,
 				09B88BFE1F26E59700AD0845 /* ApplicationViewController.swift in Sources */,

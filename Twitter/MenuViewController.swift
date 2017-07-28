@@ -7,9 +7,11 @@
 //
 
 import UIKit
+import TwitterKit
 
 class MenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet weak var countTweet: UILabel!
     @IBOutlet weak var avataUIImage: UIImageView!
     @IBOutlet weak var NameUILabel: UILabel!
     @IBOutlet weak var screenNameUILabel: UILabel!
@@ -24,14 +26,18 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBOutlet weak var bottomContrainNSLayout: NSLayoutConstraint!
     var data: TwitterData!
-    var menu_top: [String] = ["Brief", "List", "Moment"]
-    var menu_botton: [String] = ["Install and privacy", "Help", ""]
+    var menu_top: [String] = ["Profile", "Lists", "Moments"]
+    var menu_botton: [String] = ["Setting and privacy", "Help Center", ""]
+    var arrayNameImage: [String] = ["user", "list", "moment"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        menu()
+    }
+    
+    private func menu() {
         menuTable.estimatedRowHeight = 300
         menuTable.rowHeight = UITableViewAutomaticDimension
-        // Do any additional setup after loading the view.
         menuTable.tableFooterView = UIView()
         avataUIImage.sd_setImage(with: URL(string: data.avt), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
         avataUIImage.asCircle()
@@ -41,9 +47,18 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
         countFlowingUILabel.text = data.followers_count
         followersUILabel.text = "Followers"
         countFolowers.text = data.friends_count
-        
+        countTweet.text = data.statuses_count
     }
-    @IBAction func moreMenu(_ sender: UIButton) {
+    
+    @IBAction func logout(_ sender: UIButton) {
+        if let userID = Twitter.sharedInstance().sessionStore.session()?.userID {
+            Twitter.sharedInstance().sessionStore.logOutUserID(userID)
+        }
+        let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
+        self.navigationController?.pushViewController(loginVC, animated: true)
+        
+        self.navigationController?.isNavigationBarHidden = true
+        self.tabBarController?.tabBar.isHidden = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,31 +75,43 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell!
+        tableView.register(UINib(nibName: "SectionInMenu", bundle: nil) , forCellReuseIdentifier: "SectionInMenu")
+        
+        var cell: SectionInMenu!
         switch indexPath.section {
         case 0:
-            cell = tableView.dequeueReusableCell(withIdentifier: "menu_top", for: indexPath)
-            cell.textLabel?.text = self.menu_top[indexPath.row]
+            cell = tableView.dequeueReusableCell(withIdentifier: "SectionInMenu", for: indexPath) as! SectionInMenu
+            cell.nameMenuUILabel.text = self.menu_top[indexPath.row]
+            cell.icoMenuUIButton.setImage(UIImage(named: self.arrayNameImage[indexPath.row]) , for: .normal)
         case 1:
-            cell = tableView.dequeueReusableCell(withIdentifier: "menu_bottom", for: indexPath)
-            cell.textLabel?.text = self.menu_botton[indexPath.row]
+            cell = tableView.dequeueReusableCell(withIdentifier: "SectionInMenu", for: indexPath) as! SectionInMenu
+            cell.nameMenuUILabel.text = self.menu_botton[indexPath.row]
         default: break
         }
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            switch indexPath.row {
+            case 0:
+                NotificationCenter.default.post(name: .open_menu , object: nil)
+                self.tabBarController?.selectedIndex = 1
+            default:
+                break
+            }
+        } else {
+            
+        }
+    }
+    
     @IBAction func openSideMenu(_ sender: UITapGestureRecognizer) {
         NotificationCenter.default.post(name: .open_menu , object: nil)
     }
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    @IBAction func gotoHomeUser(_ sender: UITapGestureRecognizer) {
+        NotificationCenter.default.post(name: .open_menu , object: nil)
+        self.tabBarController?.selectedIndex = 1
     }
-    */
-
 }

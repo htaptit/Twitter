@@ -75,7 +75,7 @@ extension UITableViewDataSource {
                 }
                 cell?.heightTypeTweet.constant = 8
                 cell?.typeTweet.isHidden = false
-                cell?.typeTweet.addImageToLabel()
+                cell?.typeTweet.addImageToLabel(name: "retweet")
                 if let infoUser = tweet.infoUserOnRetweetedStatus {
                     let profileImage = infoUser["profile_image_url_https"] as? String
                     cell?.avatarImage.sd_setImage(with: URL(string: profileImage!), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
@@ -131,9 +131,9 @@ extension UIImageView {
 }
 
 extension UILabel {
-    func addImageToLabel() {
+    func addImageToLabel(name: String) {
         let attachment: NSTextAttachment = NSTextAttachment()
-        attachment.image = UIImage(named: "retweet")
+        attachment.image = UIImage(named: name)
         attachment.bounds = CGRect(x: -1, y: -2, width: 15, height: 10)
         
         let attachmentString: NSAttributedString = NSAttributedString(attachment: attachment)
@@ -142,3 +142,4 @@ extension UILabel {
         self.attributedText = string
     }
 }
+

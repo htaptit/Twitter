@@ -259,4 +259,8 @@ class TwitterData {
     var friends_count: String {
         return String(self.tweet["friends_count"]  as! Int)
     }
+    
+    var statuses_count: String {
+        return String(self.tweet["statuses_count"]  as! Int)
+    }
 }
