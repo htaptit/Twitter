@@ -162,14 +162,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="What is happening ?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xTa-rO-rhB">
-                                <rect key="frame" x="16" y="79" width="343" height="30"/>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="What is happening ?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xTa-rO-rhB">
+                                <rect key="frame" x="16" y="79" width="343" height="17"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EbV-2h-9Tj">
-                                <rect key="frame" x="16" y="279" width="343" height="30"/>
+                                <rect key="frame" x="16" y="266" width="343" height="30"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FlF-Pe-htJ">
                                         <rect key="frame" x="0.0" y="0.0" width="15" height="15"/>
@@ -245,7 +245,7 @@
                                 </constraints>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vce-vF-pid">
-                                <rect key="frame" x="16" y="119" width="343" height="150"/>
+                                <rect key="frame" x="16" y="106" width="343" height="150"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="150" id="5Ar-7z-382"/>
                                 </constraints>
@@ -255,7 +255,7 @@
                         <constraints>
                             <constraint firstItem="EbV-2h-9Tj" firstAttribute="trailing" secondItem="vce-vF-pid" secondAttribute="trailing" id="24V-MM-J5W"/>
                             <constraint firstItem="vce-vF-pid" firstAttribute="leading" secondItem="xTa-rO-rhB" secondAttribute="leading" id="3AF-jK-SDi"/>
-                            <constraint firstItem="EbV-2h-9Tj" firstAttribute="top" secondItem="vce-vF-pid" secondAttribute="bottom" constant="10" id="Kbh-Bb-vCF"/>
+                            <constraint firstItem="EbV-2h-9Tj" firstAttribute="top" secondItem="xTa-rO-rhB" secondAttribute="bottom" constant="170" id="GVm-jp-zCC"/>
                             <constraint firstItem="FYr-D6-aqz" firstAttribute="top" relation="greaterThanOrEqual" secondItem="EbV-2h-9Tj" secondAttribute="bottom" constant="50" id="KfE-GV-Q5g"/>
                             <constraint firstItem="EbV-2h-9Tj" firstAttribute="leading" secondItem="vce-vF-pid" secondAttribute="leading" id="QGK-3f-lOD"/>
                             <constraint firstItem="xTa-rO-rhB" firstAttribute="top" secondItem="aA6-Ey-dUT" secondAttribute="bottom" constant="15" id="XSG-AE-nGb"/>
@@ -313,10 +313,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comment ?" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YyU-fz-IfW">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comment ?" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YyU-fz-IfW">
                                 <rect key="frame" x="16" y="30" width="343" height="30"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mPN-7R-Hko">
@@ -757,7 +756,9 @@
                     </view>
                     <navigationItem key="navigationItem" id="Rla-rl-FJ9"/>
                     <connections>
+                        <outlet property="leadingLayoutContrain" destination="qPo-p5-YMq" id="yj3-kX-ryi"/>
                         <outlet property="timeLineUITableView" destination="QMw-DR-eKc" id="dVC-d5-2G0"/>
+                        <outlet property="trainingLayoutConstraint" destination="2Ir-Rs-0gC" id="3ly-K1-gU3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fCR-5D-dT5" userLabel="First Responder" sceneMemberID="firstResponder"/>
