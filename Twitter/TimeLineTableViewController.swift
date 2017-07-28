@@ -142,7 +142,18 @@ extension TimeLineTableViewController: UITableViewDataSource, UITableViewDelegat
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Section \(section)"
+    }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        tableView.register(UINib(nibName: "InformationUserTableViewCell", bundle: nil), forCellReuseIdentifier: "InformationUserTableViewCell")
+        let header = tableView.dequeueReusableCell(withIdentifier: "InformationUserTableViewCell") as? InformationUserTableViewCell
+        header?.backgroundColor = .red
+        tableView.estimatedSectionHeaderHeight = UITableViewAutomaticDimension
+        tableView.sectionHeaderHeight = 200
+        return header!
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return self.tweets.count

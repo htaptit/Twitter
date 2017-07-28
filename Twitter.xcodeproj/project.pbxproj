@@ -11,6 +11,8 @@
 		0907B7551F1DFA39004423C3 /* QuoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0907B7541F1DFA39004423C3 /* QuoteViewController.swift */; };
 		09161A351F299F8A008DE233 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09161A341F299F8A008DE233 /* MenuViewController.swift */; };
 		091A16D11F18961D005D9A71 /* TweetDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091A16D01F18961D005D9A71 /* TweetDetailViewController.swift */; };
+		091A3AD21F2B4FFB00FE7F13 /* InformationUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091A3AD01F2B4FFB00FE7F13 /* InformationUserTableViewCell.swift */; };
+		091A3AD31F2B4FFB00FE7F13 /* InformationUserTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 091A3AD11F2B4FFB00FE7F13 /* InformationUserTableViewCell.xib */; };
 		0922CC301F172B52000CFD08 /* TwitterAPIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0922CC2F1F172B52000CFD08 /* TwitterAPIRequest.swift */; };
 		0938324F1F15FA760078A804 /* NewTweetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0938324E1F15FA760078A804 /* NewTweetViewController.swift */; };
 		0945D6551F2598220058916D /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0945D6541F2598220058916D /* Extensions.swift */; };
@@ -39,6 +41,8 @@
 		0907B7541F1DFA39004423C3 /* QuoteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteViewController.swift; sourceTree = "<group>"; };
 		09161A341F299F8A008DE233 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		091A16D01F18961D005D9A71 /* TweetDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TweetDetailViewController.swift; sourceTree = "<group>"; };
+		091A3AD01F2B4FFB00FE7F13 /* InformationUserTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationUserTableViewCell.swift; sourceTree = "<group>"; };
+		091A3AD11F2B4FFB00FE7F13 /* InformationUserTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InformationUserTableViewCell.xib; sourceTree = "<group>"; };
 		0922CC2F1F172B52000CFD08 /* TwitterAPIRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TwitterAPIRequest.swift; sourceTree = "<group>"; };
 		0938324E1F15FA760078A804 /* NewTweetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTweetViewController.swift; sourceTree = "<group>"; };
 		0945D6541F2598220058916D /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 				09EDFF8B1F0E192F00CB2150 /* TimelineTableViewCell.swift */,
 				0949001F1F2AE72100DD2052 /* SectionInMenu.swift */,
 				094900201F2AE72100DD2052 /* SectionInMenu.xib */,
+				091A3AD01F2B4FFB00FE7F13 /* InformationUserTableViewCell.swift */,
+				091A3AD11F2B4FFB00FE7F13 /* InformationUserTableViewCell.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -245,6 +251,7 @@
 				094900221F2AE72100DD2052 /* SectionInMenu.xib in Resources */,
 				09CBF2CE1F0C8E7D005D1961 /* LaunchScreen.storyboard in Resources */,
 				09CBF2CB1F0C8E7D005D1961 /* Assets.xcassets in Resources */,
+				091A3AD31F2B4FFB00FE7F13 /* InformationUserTableViewCell.xib in Resources */,
 				09CBF2C91F0C8E7D005D1961 /* Main.storyboard in Resources */,
 				099D08CE1F0CC6D7009A74D7 /* TwitterShareExtensionUIResources.bundle in Resources */,
 			);
@@ -327,6 +334,7 @@
 				09EDFF8C1F0E192F00CB2150 /* TimelineTableViewCell.swift in Sources */,
 				096F5F071F21AC3100BCA190 /* TweetTableViewCell.swift in Sources */,
 				0979845B1F1399FD0068805F /* TwitterData.swift in Sources */,
+				091A3AD21F2B4FFB00FE7F13 /* InformationUserTableViewCell.swift in Sources */,
 				096F5F0B1F21B10000BCA190 /* QuoteTableViewCell.swift in Sources */,
 				091A16D11F18961D005D9A71 /* TweetDetailViewController.swift in Sources */,
 				094900211F2AE72100DD2052 /* SectionInMenu.swift in Sources */,
