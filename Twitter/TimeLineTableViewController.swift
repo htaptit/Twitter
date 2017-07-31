@@ -11,7 +11,7 @@ import TwitterKit
 import TwitterCore
 import SDWebImage
 
-class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
+class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UIScrollViewDelegate {
     var tweets = [TwitterData]()
     var path: Path?
     var menu: MenuViewController!
@@ -197,4 +197,15 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
     // end : MARK: - Table view data source
+    
+    // Scroll
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y <= 0 {
+            print("top")
+        }
+        
+        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
+            print("bottom")
+        }
+    }
 }
