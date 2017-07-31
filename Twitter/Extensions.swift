@@ -12,6 +12,7 @@ extension Notification.Name {
     static let retweet_or_quote = Notification.Name("retweet_or_quote")
     static let to_twitter = Notification.Name("to_twitter")
     static let open_menu = Notification.Name("open_menu")
+    static let back_timeline = Notification.Name("back_timeline")
 }
 extension UITableViewDataSource {
     

@@ -11,7 +11,7 @@ import TwitterKit
 import TwitterCore
 import SDWebImage
 
-class TimeLineTableViewController: UIViewController {
+class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate {
     var tweets = [TwitterData]()
     var path: Path?
     var menu: MenuViewController!
@@ -41,6 +41,8 @@ class TimeLineTableViewController: UIViewController {
             
             if self.path == .home_timeline {
                 NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
+            } else {
+                self.navigationController?.navigationBar.isHidden = true
             }
             
             ApplicationViewController.loadTweet(self.path!, { (tweet) in
@@ -52,12 +54,11 @@ class TimeLineTableViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-//        NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         self.path = (self.tabBarController?.tabBar.selectedItem?.title).map { Path(rawValue: $0) }!
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(backToTimline), name: .back_timeline, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter, object: nil)
         self.navigationController?.isNavigationBarHidden = false
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -66,6 +67,17 @@ class TimeLineTableViewController: UIViewController {
             timeLineUITableView.reloadData()
             appDelegate.newTweet = nil
         }
+    }
+    
+    func backToTimline() {
+//        let timelineVC = self.storyboard?.instantiateViewController(withIdentifier: "Timeline") as? TimeLineTableViewController
+//        let homeVC = tabBarController?.selectedViewController
+//        transition(from: homeVC!, to: timelineVC!, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
+//            
+//        }) { (abc: Bool) in
+//            
+//        }
+        self.tabBarController?.selectedIndex = 0
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -137,10 +149,8 @@ class TimeLineTableViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    
     // MARK: - Table view data source
-}
-
-extension TimeLineTableViewController: UITableViewDataSource, UITableViewDelegate  {
     func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -149,16 +159,29 @@ extension TimeLineTableViewController: UITableViewDataSource, UITableViewDelegat
         return "Section \(section)"
     }
     
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let curentTab = self.tabBarController?.tabBar.selectedItem?.title!
+        return curentTab != "Timeline" && self.menu.data != nil ? 230 : 0
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         tableView.register(UINib(nibName: "InformationUserTableViewCell", bundle: nil), forCellReuseIdentifier: "InformationUserTableViewCell")
         let header = tableView.dequeueReusableCell(withIdentifier: "InformationUserTableViewCell") as? InformationUserTableViewCell
-        header?.backgroundColor = .red
-        tableView.estimatedSectionHeaderHeight = UITableViewAutomaticDimension
-        tableView.sectionHeaderHeight = 200
+        if self.menu.data == nil {
+            return header!
+        }
+        header?.accountNameUILabel.text = self.menu.data.name
+        header?.screenNameUILabel.text = "@\(self.menu.data.scname)"
+        header?.descriptionUILabel.text = self.menu.data.description
+        header?.currentLocationUILabel.text = self.menu.data.location
+        header?.countFlowingUILabel.text = self.menu.data.followers_count
+        header?.countFollwerUILabel.text = self.menu.data.friends_count
+        header?.profileBackgroundUIImageView.sd_setImage(with: URL(string: self.menu.data.backgroundImage), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+        header?.avatartUIImageView.asCircle()
+        header?.avatartUIImageView.sd_setImage(with: URL(string: self.menu.data.avt), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
         return header!
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return self.tweets.count
     }
     
@@ -173,5 +196,5 @@ extension TimeLineTableViewController: UITableViewDataSource, UITableViewDelegat
         tweetDetailVC?.tweet = tweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
+    // end : MARK: - Table view data source
 }
-

@@ -245,6 +245,19 @@ class TwitterData {
         return url
     }
     
+    var description: String {
+        return asString(value: self.tweet["description"]!)
+    }
+    
+    var location: String {
+        return asString(value: self.tweet["location"]!)
+    }
+    
+    var backgroundImage: String {
+        let urlString = asString(value: self.tweet["profile_banner_url"]! as Any)
+        return urlString
+    }
+    
     var name: String {
         return asString(value: self.tweet["name"]!)
     }
