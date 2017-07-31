@@ -38,6 +38,11 @@ class TimeLineTableViewController: UIViewController {
         
         if let title = self.tabBarController?.tabBar.selectedItem?.title {
             self.path = title != "Timeline" ? .user_timeline : .home_timeline
+            
+            if self.path == .home_timeline {
+                NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
+            }
+            
             ApplicationViewController.loadTweet(self.path!, { (tweet) in
                 for item in tweet {
                     self.tweets.append(item)
@@ -47,8 +52,7 @@ class TimeLineTableViewController: UIViewController {
                 print(error.localizedDescription)
             }
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -101,7 +105,6 @@ class TimeLineTableViewController: UIViewController {
             leadingLayoutContrain.constant = 0
             self.menu.view.removeFromSuperview()
         } else {
-            let bound = UIScreen.main.bounds
             self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 15, width: bound.width, height: 50)
             self.tabBarController?.tabBar.frame = CGRect(x: bound.width - 100, y: bound.height - 50, width: bound.width, height: 50)
             trainingLayoutConstraint.constant = bound.width - 100
