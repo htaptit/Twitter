@@ -44,8 +44,8 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             } else {
                 self.navigationController?.navigationBar.isHidden = true
             }
-            
-            ApplicationViewController.loadTweet(self.path!, { (tweet) in
+
+            ApplicationViewController.loadTweet(self.path!, params: ["count": "50"], { (tweet) in
                 for item in tweet {
                     self.tweets.append(item)
                 }
@@ -91,15 +91,16 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             
             ApplicationViewController.updateToTwitter(self.tweets[row], self, object["action"]!, { (data) in
                 if object["action"]! == "RT" {
-                    self.tweets[row].retweetCount = data.retweetCount
-                    self.tweets[row].isRetweeted = data.isRetweeted
-                    if data.isRetweeted == self.tweets[row].isRetweeted {
+                                        if data.isRetweeted == self.tweets[row].isRetweeted {
                         self.tweets[row].retweetCount -= 1
                         self.tweets[row].isRetweeted = false
                         if self.tabBarController?.selectedIndex == 1 {
                             self.tweets.remove(at: row)
                             self.timeLineUITableView.reloadData()
                         }
+                    } else {
+                        self.tweets[row].retweetCount = data.retweetCount
+                        self.tweets[row].isRetweeted = data.isRetweeted
                     }
                 } else {
                     self.tweets[row].favoriteCount = data.favoriteCount
@@ -207,13 +208,38 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     // end : MARK: - Table view data source
     
     // Scroll
+    var since_id: String? = nil,
+    max_id: String? = nil
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !self.tweets.isEmpty {
+            since_id = self.tweets[0].getTweetID
+            let sid = Int(self.tweets[self.tweets.count - 1].getTweetID)! - 1
+            max_id = String(sid)
+        }
+        let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
+        var params: [String:String] = ["count": "200"]
         if scrollView.contentOffset.y <= 0 {
-            print("top")
+            params.updateValue(since_id!, forKey: "since_id")
+            ApplicationViewController.loadTweet(path, params: params, { (data) in
+                for tweet in data.reversed() {
+                    self.tweets.insert(tweet, at: 0)
+                }
+                self.timeLineUITableView.reloadData()
+            }, { (err) in
+                print(err.localizedDescription)
+            })
         }
         
         if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-            print("bottom")
+            params.updateValue(max_id!, forKey: "max_id")
+            ApplicationViewController.loadTweet(path, params: params, { (data) in
+                for tweet in data {
+                    self.tweets.append(tweet)
+                }
+                self.timeLineUITableView.reloadData()
+            }, { (error) in
+                print(error.localizedDescription)
+            })
         }
     }
 }

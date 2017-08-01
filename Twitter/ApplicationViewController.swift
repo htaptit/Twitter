@@ -86,9 +86,9 @@ class ApplicationViewController: UIViewController {
         return Twitter.sharedInstance().sessionStore.session() != nil
     }
     
-    class func loadTweet(_ path: Path ,_ result: @escaping ([TwitterData]) -> (),_ error: @escaping (Error) -> ()) {
+    class func loadTweet(_ path: Path , params: [String:String],_ result: @escaping ([TwitterData]) -> (),_ error: @escaping (Error) -> ()) {
         if isLogged() {
-            let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: ["screen_name": "htaptit", "count": "200"])
+            let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: params)
             TwitterAPI.getHomeTimeline(url: url, tweets: { (data) in
                 if !data.isEmpty {
                     result(data)

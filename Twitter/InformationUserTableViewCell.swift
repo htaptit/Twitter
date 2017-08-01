@@ -31,7 +31,6 @@ class InformationUserTableViewCell: UITableViewCell {
     }
     
     @IBAction func backToTimline(_ sender: UIButton) {
-        print("aa")
         NotificationCenter.default.post(name: .back_timeline, object: nil)
     }
 }
