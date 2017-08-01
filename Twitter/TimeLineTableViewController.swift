@@ -167,11 +167,12 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Section \(section)"
     }
-    
+    var tep = 230
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let curentTab = self.tabBarController?.tabBar.selectedItem?.title!
-        return curentTab != "Timeline" && self.menu.data != nil ? 230 : 0
+        return CGFloat(curentTab != "Timeline" && self.menu.data != nil ? self.tep : 0)
     }
+
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         tableView.register(UINib(nibName: "InformationUserTableViewCell", bundle: nil), forCellReuseIdentifier: "InformationUserTableViewCell")
@@ -219,6 +220,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
         var params: [String:String] = ["count": "200"]
         if scrollView.contentOffset.y <= 0 {
+            
             params.updateValue(since_id!, forKey: "since_id")
             ApplicationViewController.loadTweet(path, params: params, { (data) in
                 for tweet in data.reversed() {
@@ -242,4 +244,61 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             })
         }
     }
+//    private var lastContentOffset : CGFloat = 0
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.tabBarController?.selectedIndex == 1 {
+            self.tep = 1
+            if self.lastContentOffset > scrollView.contentOffset.y || scrollView.contentOffset.y < 0 {
+                self.navigationController?.navigationBar.isHidden = true
+                self.tep = 230
+            } else if self.lastContentOffset < scrollView.contentOffset.y && scrollView.contentOffset.y > 0 {
+                self.navigationController?.navigationBar.isHidden = false
+//                self.tep = 0
+            }
+            self.lastContentOffset = scrollView.contentOffset.y
+        }
+        self.timeLineUITableView.reloadData()
+    }
+//    private var lastContentOffset : CGFloat = 0
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        var y = scrollView.contentOffset.y
+//        print(y)
+//        //        self.timeLineUITableView.reloadSections([0], with: UITableViewRowAnimation.automatic)
+//        if y <= 0 {
+//            print("a")
+//            self.navigationController?.navigationBar.isHidden = false
+//            self.tep = 0
+//        } else if (y > scrollView.contentSize.height - scrollView.frame.size.height) {
+//            print("b")
+//            
+//            self.navigationController?.navigationBar.isHidden = true
+//            self.tep = 230
+////            self.timeLineUITableView.reloadSections([0], with: UITableViewRowAnimation.none)
+//        }
+//        self.timeLineUITableView.reloadData()
+//    }
+    
+    // we set a variable to hold the contentOffSet before scroll view scrolls
+    var lastContentOffset: CGFloat = 0
+    
+    // this delegate is called when the scrollView (i.e your UITableView) will start scrolling
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        self.lastContentOffset = scrollView.contentOffset.y
+//    }
+//    
+    // while scrolling this delegate is being called so you may now check which direction your scrollView is being scrolled to
+    
+//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+//        
+//        if (self.lastContentOffset < scrollView.contentOffset.y) {
+//            self.tep = 230
+//        } else if (self.lastContentOffset > scrollView.contentOffset.y) {
+//            self.tep = 0
+//        } else {
+//            // didn't move
+//        }
+//        self.lastContentOffset = scrollView.contentOffset.y
+//        self.timeLineUITableView.reloadData()
+//        
+//    }
 }
