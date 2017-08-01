@@ -93,6 +93,14 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
                 if object["action"]! == "RT" {
                     self.tweets[row].retweetCount = data.retweetCount
                     self.tweets[row].isRetweeted = data.isRetweeted
+                    if data.isRetweeted == self.tweets[row].isRetweeted {
+                        self.tweets[row].retweetCount -= 1
+                        self.tweets[row].isRetweeted = false
+                        if self.tabBarController?.selectedIndex == 1 {
+                            self.tweets.remove(at: row)
+                            self.timeLineUITableView.reloadData()
+                        }
+                    }
                 } else {
                     self.tweets[row].favoriteCount = data.favoriteCount
                     self.tweets[row].isFavorited = data.isFavorited
