@@ -23,7 +23,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         super.viewDidLoad()
 //        self.timeLineUITableView.translatesAutoresizingMaskIntoConstraints = false
         self.tabBarController?.tabBar.isHidden = false
-//        self.tabBarController?.tabBar.isTranslucent = true
         
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
@@ -232,7 +231,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
         var params: [String:String] = ["count": "200"]
         if scrollView.contentOffset.y <= 0 {
-            print("a")
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
                 params.updateValue(since_id!, forKey: "since_id")
@@ -251,7 +249,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
 
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
             if self.isLoading == false {
-                print("b")
                 self.isLoading = !self.isLoading
                 params.updateValue(max_id!, forKey: "max_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
