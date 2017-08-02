@@ -90,9 +90,7 @@ class ApplicationViewController: UIViewController {
         if isLogged() {
             let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: params)
             TwitterAPI.getHomeTimeline(url: url, tweets: { (data) in
-                if !data.isEmpty {
-                    result(data)
-                }
+                result(data)
             }, error: { (err) in
                 error(err)
             })

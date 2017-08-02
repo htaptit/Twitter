@@ -21,8 +21,9 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.timeLineUITableView.translatesAutoresizingMaskIntoConstraints = false
+//        self.timeLineUITableView.translatesAutoresizingMaskIntoConstraints = false
         self.tabBarController?.tabBar.isHidden = false
+//        self.tabBarController?.tabBar.isTranslucent = true
         
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
@@ -57,6 +58,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         self.path = (self.tabBarController?.tabBar.selectedItem?.title).map { Path(rawValue: $0) }!
         NotificationCenter.default.addObserver(self, selector: #selector(backToTimline), name: .back_timeline, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter, object: nil)
@@ -69,14 +71,8 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }
     }
     
+
     func backToTimline() {
-//        let timelineVC = self.storyboard?.instantiateViewController(withIdentifier: "Timeline") as? TimeLineTableViewController
-//        let homeVC = tabBarController?.selectedViewController
-//        transition(from: homeVC!, to: timelineVC!, duration: 0.3, options: UIViewAnimationOptions.transitionCrossDissolve, animations: {
-//            
-//        }) { (abc: Bool) in
-//            
-//        }
         self.tabBarController?.selectedIndex = 0
     }
     
@@ -169,10 +165,9 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     }
     var tep = 230
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let curentTab = self.tabBarController?.tabBar.selectedItem?.title!
-        return CGFloat(curentTab != "Timeline" && self.menu.data != nil ? self.tep : 0)
+        let curentTab = self.tabBarController?.selectedIndex
+        return CGFloat(curentTab != 0 && self.menu.data != nil ? self.tep : 0)
     }
-
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         tableView.register(UINib(nibName: "InformationUserTableViewCell", bundle: nil), forCellReuseIdentifier: "InformationUserTableViewCell")
@@ -209,8 +204,25 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     // end : MARK: - Table view data source
     
     // Scroll
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let tempSave = self.tep
+        if self.tabBarController?.selectedIndex != 0 {
+            if scrollView.contentOffset.y == 0.0 {
+                self.navigationController?.navigationBar.isHidden = true
+                self.tep = 230
+            } else {
+                self.navigationController?.navigationBar.isHidden = false
+                self.tep = 0
+            }
+            if tempSave != self.tep {
+                self.timeLineUITableView.reloadData()
+            }
+        }
+    }
+    
     var since_id: String? = nil,
-    max_id: String? = nil
+        max_id: String? = nil,
+        isLoading: Bool = false
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !self.tweets.isEmpty {
             since_id = self.tweets[0].getTweetID
@@ -220,85 +232,38 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
         var params: [String:String] = ["count": "200"]
         if scrollView.contentOffset.y <= 0 {
-            
-            params.updateValue(since_id!, forKey: "since_id")
-            ApplicationViewController.loadTweet(path, params: params, { (data) in
-                for tweet in data.reversed() {
-                    self.tweets.insert(tweet, at: 0)
-                }
-                self.timeLineUITableView.reloadData()
-            }, { (err) in
-                print(err.localizedDescription)
-            })
-        }
-        
-        if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-            params.updateValue(max_id!, forKey: "max_id")
-            ApplicationViewController.loadTweet(path, params: params, { (data) in
-                for tweet in data {
-                    self.tweets.append(tweet)
-                }
-                self.timeLineUITableView.reloadData()
-            }, { (error) in
-                print(error.localizedDescription)
-            })
-        }
-    }
-//    private var lastContentOffset : CGFloat = 0
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if self.tabBarController?.selectedIndex == 1 {
-            self.tep = 1
-            if self.lastContentOffset > scrollView.contentOffset.y || scrollView.contentOffset.y < 0 {
-                self.navigationController?.navigationBar.isHidden = true
-                self.tep = 230
-            } else if self.lastContentOffset < scrollView.contentOffset.y && scrollView.contentOffset.y > 0 {
-                self.navigationController?.navigationBar.isHidden = false
-//                self.tep = 0
+            print("a")
+            if self.isLoading == false {
+                self.isLoading = !self.isLoading
+                params.updateValue(since_id!, forKey: "since_id")
+                ApplicationViewController.loadTweet(path, params: params, { (data) in
+                    print(data)
+                    for tweet in data.reversed() {
+                        self.tweets.insert(tweet, at: 0)
+                    }
+                    self.timeLineUITableView.reloadData()
+                    self.isLoading = !self.isLoading
+                }, { (err) in
+                    print(err.localizedDescription)
+                })
             }
-            self.lastContentOffset = scrollView.contentOffset.y
         }
-        self.timeLineUITableView.reloadData()
+
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+            if self.isLoading == false {
+                print("b")
+                self.isLoading = !self.isLoading
+                params.updateValue(max_id!, forKey: "max_id")
+                ApplicationViewController.loadTweet(path, params: params, { (data) in
+                    for tweet in data {
+                        self.tweets.append(tweet)
+                    }
+                    self.timeLineUITableView.reloadData()
+                    self.isLoading = !self.isLoading
+                }, { (error) in
+                    print(error.localizedDescription)
+                })
+            }
+        }
     }
-//    private var lastContentOffset : CGFloat = 0
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        var y = scrollView.contentOffset.y
-//        print(y)
-//        //        self.timeLineUITableView.reloadSections([0], with: UITableViewRowAnimation.automatic)
-//        if y <= 0 {
-//            print("a")
-//            self.navigationController?.navigationBar.isHidden = false
-//            self.tep = 0
-//        } else if (y > scrollView.contentSize.height - scrollView.frame.size.height) {
-//            print("b")
-//            
-//            self.navigationController?.navigationBar.isHidden = true
-//            self.tep = 230
-////            self.timeLineUITableView.reloadSections([0], with: UITableViewRowAnimation.none)
-//        }
-//        self.timeLineUITableView.reloadData()
-//    }
-    
-    // we set a variable to hold the contentOffSet before scroll view scrolls
-    var lastContentOffset: CGFloat = 0
-    
-    // this delegate is called when the scrollView (i.e your UITableView) will start scrolling
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        self.lastContentOffset = scrollView.contentOffset.y
-//    }
-//    
-    // while scrolling this delegate is being called so you may now check which direction your scrollView is being scrolled to
-    
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        
-//        if (self.lastContentOffset < scrollView.contentOffset.y) {
-//            self.tep = 230
-//        } else if (self.lastContentOffset > scrollView.contentOffset.y) {
-//            self.tep = 0
-//        } else {
-//            // didn't move
-//        }
-//        self.lastContentOffset = scrollView.contentOffset.y
-//        self.timeLineUITableView.reloadData()
-//        
-//    }
 }
