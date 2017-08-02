@@ -18,10 +18,16 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var timeLineUITableView: UITableView!
     @IBOutlet weak var leftBarItem: UIBarButtonItem!
+    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
+    let maxHeaderHeight: CGFloat = 250;
+    let minHeaderHeight: CGFloat = 50;
     
+    var previousScrollOffset: CGFloat = 0;
+    @IBOutlet weak var testView: UIView!
+    @IBOutlet weak var topView: UIView!
+    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.timeLineUITableView.translatesAutoresizingMaskIntoConstraints = false
         self.tabBarController?.tabBar.isHidden = false
         
         self.timeLineUITableView.estimatedRowHeight = 300
@@ -159,32 +165,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "Section \(section)"
-    }
-    var tep = 230
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        let curentTab = self.tabBarController?.selectedIndex
-        return CGFloat(curentTab != 0 && self.menu.data != nil ? self.tep : 0)
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        tableView.register(UINib(nibName: "InformationUserTableViewCell", bundle: nil), forCellReuseIdentifier: "InformationUserTableViewCell")
-        let header = tableView.dequeueReusableCell(withIdentifier: "InformationUserTableViewCell") as? InformationUserTableViewCell
-        if self.menu.data == nil {
-            return header!
-        }
-        header?.accountNameUILabel.text = self.menu.data.name
-        header?.screenNameUILabel.text = "@\(self.menu.data.scname)"
-        header?.descriptionUILabel.text = self.menu.data.description
-        header?.currentLocationUILabel.text = self.menu.data.location
-        header?.countFlowingUILabel.text = self.menu.data.followers_count
-        header?.countFollwerUILabel.text = self.menu.data.friends_count
-        header?.profileBackgroundUIImageView.sd_setImage(with: URL(string: self.menu.data.backgroundImage), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-        header?.avatartUIImageView.asCircle()
-        header?.avatartUIImageView.sd_setImage(with: URL(string: self.menu.data.avt), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-        return header!
-    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tweets.count
     }
@@ -202,65 +183,91 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     }
     // end : MARK: - Table view data source
     
-    // Scroll
+}
+
+extension TimeLineTableViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let tempSave = self.tep
-        if self.tabBarController?.selectedIndex != 0 {
-            if scrollView.contentOffset.y == 0.0 {
-                self.navigationController?.navigationBar.isHidden = true
-                self.tep = 230
-            } else {
-                self.navigationController?.navigationBar.isHidden = false
-                self.tep = 0
+        let scrollDiff = scrollView.contentOffset.y - self.previousScrollOffset
+        
+        let absoluteTop: CGFloat = 0;
+        let absoluteBottom: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height;
+        
+        let isScrollingDown = scrollDiff > 0 && scrollView.contentOffset.y > absoluteTop
+        let isScrollingUp = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
+        if self.tabBarController?.selectedIndex == 1 {
+            // Calculate new header height
+            var newHeight = self.headerHeightConstraint.constant
+            if isScrollingDown {
+                newHeight = max(self.minHeaderHeight, self.headerHeightConstraint.constant - abs(scrollDiff))
+            } else if isScrollingUp == true && scrollView.contentOffset.y <= 30.0 {
+                newHeight = min(self.maxHeaderHeight, self.headerHeightConstraint.constant + abs(scrollDiff))
             }
-            if tempSave != self.tep {
-                self.timeLineUITableView.reloadData()
+            
+            // Header needs to animate
+            if newHeight != self.headerHeightConstraint.constant {
+                self.headerHeightConstraint.constant = newHeight
+                self.updateHeader()
+                self.setScrollPosition(self.previousScrollOffset)
             }
+            
+            self.previousScrollOffset = scrollView.contentOffset.y
         }
     }
     
-    var since_id: String? = nil,
-        max_id: String? = nil,
-        isLoading: Bool = false
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        self.scrollViewDidStopScrolling()
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !self.tweets.isEmpty {
-            since_id = self.tweets[0].getTweetID
-            let sid = Int(self.tweets[self.tweets.count - 1].getTweetID)! - 1
-            max_id = String(sid)
-        }
-        let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
-        var params: [String:String] = ["count": "200"]
-        if scrollView.contentOffset.y <= 0 {
-            if self.isLoading == false {
-                self.isLoading = !self.isLoading
-                params.updateValue(since_id!, forKey: "since_id")
-                ApplicationViewController.loadTweet(path, params: params, { (data) in
-                    print(data)
-                    for tweet in data.reversed() {
-                        self.tweets.insert(tweet, at: 0)
-                    }
-                    self.timeLineUITableView.reloadData()
-                    self.isLoading = !self.isLoading
-                }, { (err) in
-                    print(err.localizedDescription)
-                })
-            }
-        }
-
-        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
-            if self.isLoading == false {
-                self.isLoading = !self.isLoading
-                params.updateValue(max_id!, forKey: "max_id")
-                ApplicationViewController.loadTweet(path, params: params, { (data) in
-                    for tweet in data {
-                        self.tweets.append(tweet)
-                    }
-                    self.timeLineUITableView.reloadData()
-                    self.isLoading = !self.isLoading
-                }, { (error) in
-                    print(error.localizedDescription)
-                })
-            }
+        if !decelerate {
+            self.scrollViewDidStopScrolling()
         }
     }
+    
+    func scrollViewDidStopScrolling() {
+        let range = self.maxHeaderHeight - self.minHeaderHeight
+        let midPoint = self.minHeaderHeight + (range / 2)
+        
+        if self.headerHeightConstraint.constant > midPoint {
+            self.expandHeader()
+        } else {
+            self.collapseHeader()
+        }
+    }
+    
+    func canAnimateHeader(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+    
+    func collapseHeader() {
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.headerHeightConstraint.constant = self.minHeaderHeight
+            self.updateHeader()
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func expandHeader() {
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2, animations: {
+            self.headerHeightConstraint.constant = self.maxHeaderHeight
+            self.updateHeader()
+            self.view.layoutIfNeeded()
+        })
+    }
+    
+    func setScrollPosition(_ position: CGFloat) {
+        self.timeLineUITableView.contentOffset = CGPoint(x: self.timeLineUITableView.contentOffset.x, y: position)
+    }
+    
+    func updateHeader() {
+        let range = self.maxHeaderHeight - self.minHeaderHeight
+        let openAmount = self.headerHeightConstraint.constant - self.minHeaderHeight
+        let percentage = openAmount / range
+        
+        self.titleTopConstraint.constant = -openAmount + 10
+        self.testView.alpha = percentage
+    }
+
 }
