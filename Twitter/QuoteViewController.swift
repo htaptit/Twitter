@@ -22,7 +22,7 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
     var tweet: TwitterData!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+print(self.tweet)
         self.loadTweet(tweet: tweet)
         commentTextField.delegate = self
         // Do any additional setup after loading the view.
@@ -61,7 +61,7 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
                 self.photoImageView.isHidden = false
                 self.heightphoto.constant = 100
                 self.photoImageView.roundCorners([.bottomLeft,.bottomRight], radius: 5)
-                self.photoImageView.image = UIImage(data: image)
+                self.photoImageView.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             }
             
         }
@@ -72,9 +72,9 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
         if let text = self.commentTextField.text {
             let comment = text + " " + tweet.tweetUrl!
             let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update , twitterUrl: .api , parameters: ["status": comment])
-            TwitterAPI.postNewTweet(user: nil, url: url, result: { (data) in
-                if let timelineViewController = self.storyboard?.instantiateViewController(withIdentifier: "timeline") as? TimelineControllerViewController {
-                    timelineViewController.listTweets.insert(data, at: 0)
+            TwitterAPI.postNewTweet(url: url, result: { (data) in
+                if let timelineViewController = self.storyboard?.instantiateViewController(withIdentifier: "Timeline") as? TimeLineTableViewController {
+                    timelineViewController.tweets.insert(data, at: 0)
                     let appDelegate = UIApplication.shared.delegate as! AppDelegate
                     appDelegate.newTweet = data
                     self.navigationController?.popViewController(animated: true)

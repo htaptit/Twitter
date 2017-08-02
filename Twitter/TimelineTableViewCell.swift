@@ -31,19 +31,34 @@ class TimelineTableViewCell: UITableViewCell {
     @IBOutlet weak var qAccountNameLabel: UILabel!
     @IBOutlet weak var qScreenNameLabel: UILabel!
     @IBOutlet weak var qText: UILabel!
-    @IBOutlet weak var qImageUIImageView: UIImageView!
-    @IBOutlet weak var qImageHeightLayoutConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var qImageUIImageView: UIImageView!
+//    @IBOutlet weak var qImageHeightLayoutConstraint: NSLayoutConstraint!
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
-        // Initialization code
+//        photoImage.roundCorners([.bottomLeft, .bottomRight, .topLeft, .topRight], radius: 8)
+        // set border color and width : tweet quoted
     }
-
+    
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
     }
 
+    @IBAction func reTweetAction(_ sender: UIButton) {
+        if let row = sender.currentTitle {
+            NotificationCenter.default.post(name: .to_twitter, object: ["row": row, "action": "RT"])
+        }
+    }
+    
+    @IBAction func Like(_ sender: UIButton) {
+        if let row = sender.currentTitle {
+            NotificationCenter.default.post(name: .to_twitter, object: ["row": row, "action": "Like"])
+        }
+    }
+  
 }
+
+

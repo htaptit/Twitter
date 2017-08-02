@@ -11,11 +11,18 @@ import Foundation
 class TwitterData {
     
     var tweet: [String:Any]
-    let userOfTweet: [String:Any]
+    var userOfTweet: [String:Any]? = nil
+    var retweetedStatus: [String:Any]? = nil
     
     init(tweet: [String:Any]) {
         self.tweet = tweet
-        self.userOfTweet = tweet["user"] as! [String : Any]
+//        self.userOfTweet = tweet["user"] as! [String : Any]
+        if let user = self.tweet["user"] as? [String : Any] {
+            self.userOfTweet = user
+        }
+        if let retweeted = self.tweet["retweeted_status"] as? [String: Any] {
+            self.retweetedStatus = retweeted
+        }
     }
     
     public func asString(value: Any) -> String {
@@ -39,19 +46,19 @@ class TwitterData {
     
     var getUserID: Int {
         get {
-            return self.userOfTweet["id"] as! Int
+            return self.userOfTweet!["id"] as! Int
         }
     }
     
     var getAccountName: String {
         get {
-            return asString(value: self.userOfTweet["name"]!)
+            return asString(value: self.userOfTweet!["name"]!)
         }
     }
     
     var getScreenName: String {
         get {
-            return asString(value: self.userOfTweet["screen_name"]!)
+            return asString(value: self.userOfTweet!["screen_name"]!)
         }
     }
     
@@ -63,6 +70,16 @@ class TwitterData {
     
     
     var isRetweeted: Bool {
+        get{
+            return self.tweet["retweeted"] as! Bool
+        }
+        set(newValue) {
+            self.tweet["retweeted"] = newValue
+        }
+        
+    }
+    
+    var isExistRetweetedStatus: Bool {
         return self.tweet["retweeted_status"] != nil
     }
     
@@ -92,31 +109,48 @@ class TwitterData {
         }
     }
     
+    var isFavorited: Bool {
+        get {
+            return self.tweet["favorited"] as! Bool
+        }
+        set(newValue) {
+            self.tweet["favorited"] = newValue
+        }
+        
+    }
+    
     var favoriteCount: Int {
         get {
+            if isExistRetweetedStatus {
+                return self.retweetedStatus!["favorite_count"]! as! Int
+            }
             return self.tweet["favorite_count"] as! Int
+        }
+        set(newValue) {
+            if isExistRetweetedStatus {
+                self.retweetedStatus!["favorite_count"] = newValue
+            } else {
+                self.tweet["favorite_count"] = newValue
+            }
+            
         }
     }
     
     var infoUserOnRetweetedStatus: [String: Any]? {
         if let retweeted_status = self.retweeted {
-            var user = retweeted_status["user"] as! [String:Any]
-            
-            let profile_image_url_https = asString(value: user["profile_image_url_https"]!)
-            user["avatar_data"] = self.getAvatar(profile_image_url_https)
+            let user = retweeted_status["user"] as! [String:Any]
             return user
         }
         return nil
     }
     
     
-    var imageOnTweet : Data? {
+    var imageOnTweet : String? {
         guard let entities = self.tweet["entities"] as? [String:Any] else { return nil }
         
         if let media = entities["media"] as? Array<Any> {
             let inforMedia = media[0] as! [String:Any]
-            let urlString = asString(value: inforMedia["media_url_https"]!)
-            return self.getAvatar(urlString)
+                return asString(value: inforMedia["media_url_https"]!)
         }
         
         return nil
@@ -139,26 +173,10 @@ class TwitterData {
         return nil
     }
     
-    func getAvatar(_ urlString : String?) -> Data? {
-        let tempSaveUrl: String?
-        
-        if urlString != nil {
-            tempSaveUrl = urlString!
-        } else {
-            tempSaveUrl = asString(value: self.userOfTweet["profile_image_url_https"]!)
-        }
-        
-        guard let url = tempSaveUrl  else {
-            return nil
-        }
-        
-        let removeNormalStringURL = asString(value: url).replacingOccurrences(of: "_normal", with: "")
-        let avatarData = try? Data(contentsOf: URL(string: removeNormalStringURL)!)
-        if let avatarUrl = avatarData {
-            return avatarUrl
-        }
-        
-        return nil
+    func getAvatar() -> String {
+        let tempSaveUrl = asString(value: self.userOfTweet?["profile_image_url_https"]! as Any)
+        let url = tempSaveUrl.replacingOccurrences(of: "_normal", with: "")
+        return url
     }
     
     var isQuote: Bool {
@@ -206,14 +224,56 @@ class TwitterData {
         }
         return nil
     }
-    var q_imageOnTweet : Data? {
+    var q_imageOnTweet : String? {
         guard let entities = self.quoted_status?["entities"] as? [String:Any] else { return nil }
         if let media = entities["media"] as? Array<Any> {
             let inforMedia = media[0] as! [String:Any]
-            let urlString = asString(value: inforMedia["media_url_https"]!)
-            return self.getAvatar(urlString)
+            return asString(value: inforMedia["media_url_https"]!)
         }
         
         return nil
+    }
+    
+    
+    
+    
+    // User show
+    
+    var avt: String {
+        let tempSaveUrl = asString(value: self.tweet["profile_image_url_https"]! as Any)
+        let url = tempSaveUrl.replacingOccurrences(of: "_normal", with: "")
+        return url
+    }
+    
+    var description: String {
+        return asString(value: self.tweet["description"]!)
+    }
+    
+    var location: String {
+        return asString(value: self.tweet["location"]!)
+    }
+    
+    var backgroundImage: String {
+        let urlString = asString(value: self.tweet["profile_banner_url"]! as Any)
+        return urlString
+    }
+    
+    var name: String {
+        return asString(value: self.tweet["name"]!)
+    }
+    
+    var scname: String {
+        return asString(value: self.tweet["screen_name"]!)
+    }
+    var followers_count: String {
+        return String(self.tweet["followers_count"] as! Int)
+    }
+    
+    var friends_count: String {
+        return String(self.tweet["friends_count"]  as! Int)
+    }
+    
+    var statuses_count: String {
+        return String(self.tweet["statuses_count"]  as! Int)
     }
 }

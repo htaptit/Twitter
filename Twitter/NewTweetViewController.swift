@@ -7,8 +7,9 @@
 //
 
 import UIKit
-import TwitterCore
+//import TwitterCore
 import TwitterKit
+
 class NewTweetViewController: UIViewController, UITextFieldDelegate , UITableViewDelegate,
 UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -84,7 +85,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         }
         
         let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update, twitterUrl: TwitterURL.api, parameters: params)
-        TwitterAPI.postNewTweet(user: nil, url: url, result: { (result) in
+        TwitterAPI.postNewTweet(url: url, result: { (result) in
             let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.newTweet = result
             self.navigationController?.popViewController(animated: true)
