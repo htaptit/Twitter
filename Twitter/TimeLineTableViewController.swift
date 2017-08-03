@@ -18,14 +18,19 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var timeLineUITableView: UITableView!
     @IBOutlet weak var leftBarItem: UIBarButtonItem!
-    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
-    let maxHeaderHeight: CGFloat = 250;
-    let minHeaderHeight: CGFloat = 50;
+//    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
+//    @IBOutlet weak var heightTopView: NSLayoutConstraint!
+//    let maxHeaderHeight: CGFloat = 250
+//    let minHeaderHeight: CGFloat = 50
     
-    var previousScrollOffset: CGFloat = 0;
-    @IBOutlet weak var testView: UIView!
+    var defaultTopContraintTV: CGFloat = 0
+    var defaultTopContraintBV: CGFloat = 50
+    
+    var previousScrollOffset: CGFloat = 0
+    @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var topView: UIView!
-    @IBOutlet weak var titleTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var topConstraintTV: NSLayoutConstraint!
+    @IBOutlet weak var topContraintBV: NSLayoutConstraint!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = false
@@ -49,6 +54,8 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
                 NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
             } else {
                 self.navigationController?.navigationBar.isHidden = true
+//                self.headerHeightConstraint.constant = self.maxHeaderHeight
+                self.updateHeader()
             }
 
             ApplicationViewController.loadTweet(self.path!, params: ["count": "50"], { (tweet) in
@@ -188,7 +195,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
 extension TimeLineTableViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scrollDiff = scrollView.contentOffset.y - self.previousScrollOffset
-        
         let absoluteTop: CGFloat = 0;
         let absoluteBottom: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height;
         
@@ -196,78 +202,111 @@ extension TimeLineTableViewController {
         let isScrollingUp = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
         if self.tabBarController?.selectedIndex == 1 {
             // Calculate new header height
-            var newHeight = self.headerHeightConstraint.constant
+            var newContraint1 = self.defaultTopContraintTV
+            var newContraint2 = self.defaultTopContraintBV
             if isScrollingDown {
-                newHeight = max(self.minHeaderHeight, self.headerHeightConstraint.constant - abs(scrollDiff))
+//                print("a")
+                if self.defaultTopContraintTV != 50 {
+                    newContraint1 = self.defaultTopContraintTV + 1
+                }
+                
+                if self.defaultTopContraintBV != -150 {
+                    newContraint2 = self.defaultTopContraintBV - 10
+                }
             } else if isScrollingUp == true && scrollView.contentOffset.y <= 30.0 {
-                newHeight = min(self.maxHeaderHeight, self.headerHeightConstraint.constant + abs(scrollDiff))
+                if self.defaultTopContraintTV > -20.0 {
+                    newContraint1 = self.defaultTopContraintTV - 5
+                }
+                
+                if self.defaultTopContraintBV < 35 {
+                    newContraint2 = self.defaultTopContraintBV + 10
+                }
+//                newContraint2 = self.defaultTopContraintBV - 50
             }
-            
+//            print(newContraint)
             // Header needs to animate
-            if newHeight != self.headerHeightConstraint.constant {
-                self.headerHeightConstraint.constant = newHeight
+//            self.defaultTopcontraint = newContraint
+//            print(self.defaultTopcontraint)
+//            self.updateHeader()
+            if newContraint1 != self.defaultTopContraintTV {
+                self.defaultTopContraintTV = newContraint1
                 self.updateHeader()
-                self.setScrollPosition(self.previousScrollOffset)
+//                self.setScrollPosition(self.previousScrollOffset)
             }
             
-            self.previousScrollOffset = scrollView.contentOffset.y
+            if newContraint2 != self.defaultTopContraintBV {
+                self.defaultTopContraintBV = newContraint2
+                self.updateHeader()
+                //                self.setScrollPosition(self.previousScrollOffset)
+            }
+            
+//            self.previousScrollOffset = scrollView.contentOffset.y
         }
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.scrollViewDidStopScrolling()
-    }
+//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+//        self.scrollViewDidStopScrolling()
+//    }
+//    
+//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//        if !decelerate {
+//            self.scrollViewDidStopScrolling()
+//        }
+//    }
+//    
+//    func scrollViewDidStopScrolling() {
+//        let range = self.maxHeaderHeight - self.minHeaderHeight
+//        let midPoint = self.minHeaderHeight + (range / 2)
+//        
+//        if self.headerHeightConstraint.constant > midPoint {
+//            self.expandHeader()
+//        } else {
+//            self.collapseHeader()
+//        }
+//    }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            self.scrollViewDidStopScrolling()
-        }
-    }
+//    func canAnimateHeader(_ scrollView: UIScrollView) -> Bool {
+//        return true
+//    }
     
-    func scrollViewDidStopScrolling() {
-        let range = self.maxHeaderHeight - self.minHeaderHeight
-        let midPoint = self.minHeaderHeight + (range / 2)
-        
-        if self.headerHeightConstraint.constant > midPoint {
-            self.expandHeader()
-        } else {
-            self.collapseHeader()
-        }
-    }
+//    func collapseHeader() {
+//        self.view.layoutIfNeeded()
+//        UIView.animate(withDuration: 0.2, animations: {
+//            self.headerHeightConstraint.constant = self.minHeaderHeight
+//            self.updateHeader()
+//            self.view.layoutIfNeeded()
+//        })
+//    }
+//    
+//    func expandHeader() {
+//        self.view.layoutIfNeeded()
+//        UIView.animate(withDuration: 0.2, animations: {
+//            self.headerHeightConstraint.constant = self.maxHeaderHeight
+//            self.updateHeader()
+//            self.view.layoutIfNeeded()
+//        })
+//    }
     
-    func canAnimateHeader(_ scrollView: UIScrollView) -> Bool {
-        return true
-    }
-    
-    func collapseHeader() {
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2, animations: {
-            self.headerHeightConstraint.constant = self.minHeaderHeight
-            self.updateHeader()
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    func expandHeader() {
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2, animations: {
-            self.headerHeightConstraint.constant = self.maxHeaderHeight
-            self.updateHeader()
-            self.view.layoutIfNeeded()
-        })
-    }
-    
-    func setScrollPosition(_ position: CGFloat) {
-        self.timeLineUITableView.contentOffset = CGPoint(x: self.timeLineUITableView.contentOffset.x, y: position)
-    }
+//    func setScrollPosition(_ position: CGFloat) {
+//        self.timeLineUITableView.contentOffset = CGPoint(x: self.timeLineUITableView.contentOffset.x, y: position)
+//    }
     
     func updateHeader() {
-        let range = self.maxHeaderHeight - self.minHeaderHeight
-        let openAmount = self.headerHeightConstraint.constant - self.minHeaderHeight
-        let percentage = openAmount / range
         
-        self.titleTopConstraint.constant = -openAmount + 10
-        self.testView.alpha = percentage
+//        print(self.defaultTopcontraint)
+//        let range = self.maxHeaderHeight - self.minHeaderHeight
+        self.view.layoutIfNeeded()
+        UIView.animate(withDuration: 0.2, animations: {
+//        let openAmount = self.headerHeightConstraint.constant - self.maxHeaderHeight
+//        let percentage = openAmount / range
+        // open amount ngay cang giam
+            print(self.defaultTopContraintTV)
+            self.topConstraintTV.constant = self.defaultTopContraintTV - 50 // cai nay phai dan tro ve 0
+            self.topContraintBV.constant = self.defaultTopContraintBV - 50
+            print(self.topContraintBV.constant)
+            //        self.testView.alpha = percentage
+            self.view.layoutIfNeeded()
+        })
     }
 
 }
