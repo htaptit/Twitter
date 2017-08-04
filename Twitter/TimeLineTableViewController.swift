@@ -18,10 +18,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     @IBOutlet weak var timeLineUITableView: UITableView!
     @IBOutlet weak var leftBarItem: UIBarButtonItem!
-//    @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
-//    @IBOutlet weak var heightTopView: NSLayoutConstraint!
-//    let maxHeaderHeight: CGFloat = 250
-//    let minHeaderHeight: CGFloat = 50
     
     var defaultTopContraintTV: CGFloat = 0
     var defaultTopContraintBV: CGFloat = 50
@@ -31,6 +27,19 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var topConstraintTV: NSLayoutConstraint!
     @IBOutlet weak var topContraintBV: NSLayoutConstraint!
+    
+    // Mark : Information User
+    @IBOutlet weak var accountNameUILabel: UILabel!
+    @IBOutlet weak var accountNameTopUIView: UILabel!
+    @IBOutlet weak var screenNameUILabel: UILabel!
+    @IBOutlet weak var countTweetUILabel: UILabel!
+    @IBOutlet weak var bacgroundPhotoUIImageView: UIImageView!
+    @IBOutlet weak var avatarUIImageView: UIImageView!
+    @IBOutlet weak var descriptionUILabel: UILabel!
+    @IBOutlet weak var locationUILabel: UILabel!
+    @IBOutlet weak var countFollowingUILabel: UILabel!
+    @IBOutlet weak var countFollowerUILabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = false
@@ -42,6 +51,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         
         ApplicationViewController.userShow({ (data) in
             self.menu.data = data
+            self.updateInforHeader(data)
         }) { (err) in
             print(err.localizedDescription)
         }
@@ -54,7 +64,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
                 NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
             } else {
                 self.navigationController?.navigationBar.isHidden = true
-//                self.headerHeightConstraint.constant = self.maxHeaderHeight
                 self.updateHeader()
             }
 
@@ -190,6 +199,51 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     }
     // end : MARK: - Table view data source
     
+    
+    var since_id: String? = nil,
+    max_id: String? = nil,
+    isLoading: Bool = false
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if !self.tweets.isEmpty {
+            since_id = self.tweets[0].getTweetID
+            let sid = Int(self.tweets[self.tweets.count - 1].getTweetID)! - 1
+            max_id = String(sid)
+        }
+        let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
+        var params: [String:String] = ["count": "200"]
+        if scrollView.contentOffset.y <= 0 {
+            if self.isLoading == false {
+                self.isLoading = !self.isLoading
+                params.updateValue(since_id!, forKey: "since_id")
+                ApplicationViewController.loadTweet(path, params: params, { (data) in
+                    print(data)
+                    for tweet in data.reversed() {
+                        self.tweets.insert(tweet, at: 0)
+                    }
+                    self.timeLineUITableView.reloadData()
+                    self.isLoading = !self.isLoading
+                }, { (err) in
+                    print(err.localizedDescription)
+                })
+            }
+        }
+        
+        if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
+            if self.isLoading == false {
+                self.isLoading = !self.isLoading
+                params.updateValue(max_id!, forKey: "max_id")
+                ApplicationViewController.loadTweet(path, params: params, { (data) in
+                    for tweet in data {
+                        self.tweets.append(tweet)
+                    }
+                    self.timeLineUITableView.reloadData()
+                    self.isLoading = !self.isLoading
+                }, { (error) in
+                    print(error.localizedDescription)
+                })
+            }
+        }
+    }
 }
 
 extension TimeLineTableViewController {
@@ -201,112 +255,60 @@ extension TimeLineTableViewController {
         let isScrollingDown = scrollDiff > 0 && scrollView.contentOffset.y > absoluteTop
         let isScrollingUp = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
         if self.tabBarController?.selectedIndex == 1 {
-            // Calculate new header height
             var newContraint1 = self.defaultTopContraintTV
             var newContraint2 = self.defaultTopContraintBV
             if isScrollingDown {
-//                print("a")
-                if self.defaultTopContraintTV != 50 {
+                if self.defaultTopContraintTV < 50 {
                     newContraint1 = self.defaultTopContraintTV + 1
                 }
                 
-                if self.defaultTopContraintBV != -150 {
+                if self.defaultTopContraintBV > -150 {
                     newContraint2 = self.defaultTopContraintBV - 10
                 }
             } else if isScrollingUp == true && scrollView.contentOffset.y <= 30.0 {
                 if self.defaultTopContraintTV > -20.0 {
                     newContraint1 = self.defaultTopContraintTV - 5
                 }
-                
-                if self.defaultTopContraintBV < 35 {
+                if self.defaultTopContraintBV < 50 {
                     newContraint2 = self.defaultTopContraintBV + 10
                 }
-//                newContraint2 = self.defaultTopContraintBV - 50
             }
-//            print(newContraint)
-            // Header needs to animate
-//            self.defaultTopcontraint = newContraint
-//            print(self.defaultTopcontraint)
-//            self.updateHeader()
+            
             if newContraint1 != self.defaultTopContraintTV {
                 self.defaultTopContraintTV = newContraint1
                 self.updateHeader()
-//                self.setScrollPosition(self.previousScrollOffset)
             }
             
             if newContraint2 != self.defaultTopContraintBV {
                 self.defaultTopContraintBV = newContraint2
                 self.updateHeader()
-                //                self.setScrollPosition(self.previousScrollOffset)
             }
-            
-//            self.previousScrollOffset = scrollView.contentOffset.y
         }
     }
-    
-//    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        self.scrollViewDidStopScrolling()
-//    }
-//    
-//    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        if !decelerate {
-//            self.scrollViewDidStopScrolling()
-//        }
-//    }
-//    
-//    func scrollViewDidStopScrolling() {
-//        let range = self.maxHeaderHeight - self.minHeaderHeight
-//        let midPoint = self.minHeaderHeight + (range / 2)
-//        
-//        if self.headerHeightConstraint.constant > midPoint {
-//            self.expandHeader()
-//        } else {
-//            self.collapseHeader()
-//        }
-//    }
-    
-//    func canAnimateHeader(_ scrollView: UIScrollView) -> Bool {
-//        return true
-//    }
-    
-//    func collapseHeader() {
-//        self.view.layoutIfNeeded()
-//        UIView.animate(withDuration: 0.2, animations: {
-//            self.headerHeightConstraint.constant = self.minHeaderHeight
-//            self.updateHeader()
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-//    
-//    func expandHeader() {
-//        self.view.layoutIfNeeded()
-//        UIView.animate(withDuration: 0.2, animations: {
-//            self.headerHeightConstraint.constant = self.maxHeaderHeight
-//            self.updateHeader()
-//            self.view.layoutIfNeeded()
-//        })
-//    }
-    
-//    func setScrollPosition(_ position: CGFloat) {
-//        self.timeLineUITableView.contentOffset = CGPoint(x: self.timeLineUITableView.contentOffset.x, y: position)
-//    }
-    
     func updateHeader() {
-        
-//        print(self.defaultTopcontraint)
-//        let range = self.maxHeaderHeight - self.minHeaderHeight
         self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2, animations: {
-//        let openAmount = self.headerHeightConstraint.constant - self.maxHeaderHeight
-//        let percentage = openAmount / range
-        // open amount ngay cang giam
-            print(self.defaultTopContraintTV)
-            self.topConstraintTV.constant = self.defaultTopContraintTV - 50 // cai nay phai dan tro ve 0
-            self.topContraintBV.constant = self.defaultTopContraintBV - 50
-            print(self.topContraintBV.constant)
-            //        self.testView.alpha = percentage
+        UIView.animate(withDuration: 0.6, animations: {
+            self.topConstraintTV.constant = self.defaultTopContraintTV - 70.0
+            self.topContraintBV.constant = self.defaultTopContraintBV - 70.0
             self.view.layoutIfNeeded()
         })
     }
-
+    
+    func updateInforHeader(_ data: TwitterData!) {
+        if self.tabBarController?.selectedIndex != 0 {
+            self.accountNameUILabel.text = data.name
+            self.accountNameTopUIView.text = data.name
+            self.screenNameUILabel.text = "@\(data.scname)"
+            self.descriptionUILabel.text = data.description
+            self.locationUILabel.text = data.location
+            self.countFollowingUILabel.text = data.followers_count
+            self.countFollowingUILabel.text = data.friends_count
+            self.countTweetUILabel.text = "\(data.statuses_count) tweets"
+            self.avatarUIImageView.asCircle()
+            self.avatarUIImageView.sd_setImage(with: URL(string: data.avt), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+            self.bacgroundPhotoUIImageView.sd_setImage(with: URL(string: data.backgroundImage), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+            
+        }
+    }
+    
 }
