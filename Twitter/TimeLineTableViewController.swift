@@ -58,24 +58,22 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }
         
         
-        if let title = self.tabBarController?.tabBar.selectedItem?.title {
-            self.path = title != "Timeline" ? .user_timeline : .home_timeline
-            
-            if self.path == .home_timeline {
-                NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
-            } else {
-                self.navigationController?.navigationBar.isHidden = true
-                self.updateHeader()
+        self.path = self.tabBarController?.selectedIndex != 0 ? .user_timeline : .home_timeline
+        
+        if self.path == .home_timeline {
+            NotificationCenter.default.addObserver(self, selector: #selector(openSideMenu(_:)), name: .open_menu, object: nil)
+        } else {
+            self.navigationController?.navigationBar.isHidden = true
+            self.updateHeader()
+        }
+        
+        ApplicationViewController.loadTweet(self.path!, params: ["count": "50"], { (tweet) in
+            for item in tweet {
+                self.tweets.append(item)
             }
-
-            ApplicationViewController.loadTweet(self.path!, params: ["count": "50"], { (tweet) in
-                for item in tweet {
-                    self.tweets.append(item)
-                }
-                self.timeLineUITableView.reloadData()
-            }) { (error) in
-                print(error.localizedDescription)
-            }
+            self.timeLineUITableView.reloadData()
+        }) { (error) in
+            print(error.localizedDescription)
         }
     }
     
@@ -189,7 +187,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tbVC = UITableViewController()
-        let cellFormated = tbVC.formartCellTwitter(self.tweets, indexPath, "timeline", tableView)
+        let cellFormated = tbVC.formartCellTwitter(self.tweets, indexPath, (self.tabBarController?.selectedIndex)!, tableView)
         return cellFormated
     }
     
@@ -316,17 +314,4 @@ extension TimeLineTableViewController {
         }
     }
     
-}
-
-extension UIImage{
-    
-    func alpha(_ value:CGFloat)->UIImage
-    {
-        UIGraphicsBeginImageContextWithOptions(size, false, scale)
-        draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage!
-        
-    }
 }

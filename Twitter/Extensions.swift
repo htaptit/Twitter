@@ -16,7 +16,7 @@ extension Notification.Name {
 }
 extension UITableViewDataSource {
     
-    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath,_ tab: String,_ tableView: UITableView) -> TimelineTableViewCell {
+    func formartCellTwitter(_ tweets: [TwitterData],_ index: IndexPath,_ tabIndex: Int,_ tableView: UITableView) -> TimelineTableViewCell {
         let tweet = tweets[index.row]
         var cell : TimelineTableViewCell?
         
@@ -69,7 +69,7 @@ extension UITableViewDataSource {
             cell?.typeTweet.isHidden = true
             cell?.retweetButton.setImage(UIImage(named: "retweet"), for: UIControlState.normal)
             cell?.likeButton.setImage(UIImage(named: "like"), for: UIControlState.normal)
-            if tweet.isExistRetweetedStatus && tab != "Timeline"{
+            if tweet.isExistRetweetedStatus && tabIndex != 0 {
                 if tweet.isRetweeted {
                     cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
                 }
