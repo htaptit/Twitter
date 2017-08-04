@@ -27,6 +27,7 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         newTweetLabel.delegate = self
         imageUploadedUIImageView.isHidden = true
         imageUploadedHeight.constant = 0
+        imageUploadedUIImageView.contentMode = .scaleAspectFill
     }
     
     
@@ -58,8 +59,8 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         imageUploadedHeight.constant = 150
         
         let imageSelected = info[UIImagePickerControllerOriginalImage] as! UIImage
-        imageUploadedUIImageView.image = imageSelected
         
+        imageUploadedUIImageView.image = imageSelected
         
         let imageData: Data? = UIImageJPEGRepresentation(imageSelected, 0.9)
 

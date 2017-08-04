@@ -39,6 +39,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var locationUILabel: UILabel!
     @IBOutlet weak var countFollowingUILabel: UILabel!
     @IBOutlet weak var countFollowerUILabel: UILabel!
+    @IBOutlet weak var imageTopViewUIImage: UIImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -305,14 +306,27 @@ extension TimeLineTableViewController {
             self.countFollowingUILabel.text = data.friends_count
             self.countTweetUILabel.text = "\(data.statuses_count) tweets"
             self.avatarUIImageView.asCircle()
+            self.avatarUIImageView.contentMode = .scaleAspectFill
             self.avatarUIImageView.sd_setImage(with: URL(string: data.avt), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+            
+            self.bacgroundPhotoUIImageView.contentMode = .scaleAspectFill
             self.bacgroundPhotoUIImageView.sd_setImage(with: URL(string: data.backgroundImage), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-//            self.topView.backgroundColor = UIColor(patternImage: UIImage(
-            let url = URL(string: data.backgroundImage)
-            let temp = try! Data(contentsOf: url!)
-            let image = UIImage(data: temp)
-            self.topView.backgroundColor = UIColor(patternImage: image!)
+            
+            self.imageTopViewUIImage.sd_setImage(with: URL(string: data.backgroundImage), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
         }
     }
     
+}
+
+extension UIImage{
+    
+    func alpha(_ value:CGFloat)->UIImage
+    {
+        UIGraphicsBeginImageContextWithOptions(size, false, scale)
+        draw(at: CGPoint.zero, blendMode: .normal, alpha: value)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+        
+    }
 }

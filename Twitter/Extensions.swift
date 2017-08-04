@@ -28,7 +28,7 @@ extension UITableViewDataSource {
             
             cell?.accountNameLabel.text = tweet.getAccountName
             cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
-            cell?.avatarImage.contentMode = .scaleAspectFit
+            cell?.avatarImage.contentMode = .scaleAspectFill
             cell?.avatarImage.sd_setImage(with: URL(string: tweet.getAvatar()), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             cell?.tweetTextLabel.text = tweet.getText
             
@@ -43,6 +43,7 @@ extension UITableViewDataSource {
             if let image = tweet.q_imageOnTweet {
                 cell?.photoImage.isHidden = false
                 cell?.imageHeightLayoutConstraint.constant = 160
+                cell?.photoImage.contentMode = .scaleAspectFill
                 cell?.photoImage.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             }
             // End quoted status
@@ -60,6 +61,7 @@ extension UITableViewDataSource {
                 cell?.imageHeightLayoutConstraint.constant = 160
                 cell?.photoImage.isHidden = false
                 cell?.photoImage.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                cell?.photoImage.contentMode = .scaleAspectFill
                 cell?.photoImage.layer.cornerRadius = 3
                 cell?.photoImage.layer.masksToBounds = true
             }
@@ -79,7 +81,8 @@ extension UITableViewDataSource {
                 cell?.typeTweet.addImageToLabel(name: "retweet")
                 if let infoUser = tweet.infoUserOnRetweetedStatus {
                     let profileImage = infoUser["profile_image_url_https"] as? String
-                    cell?.avatarImage.sd_setImage(with: URL(string: profileImage!), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                    cell?.avatarImage.contentMode = .scaleAspectFill
+                    cell?.avatarImage.sd_setImage(with: URL(string: profileImage!.replacingOccurrences(of: "_normal", with: "")), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
                     cell?.accountNameLabel.text = infoUser["name"]! as? String
                     cell?.screenNameLabel.text = "@\(infoUser["screen_name"]! as! String)"
                 }

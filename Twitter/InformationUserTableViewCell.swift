@@ -21,6 +21,8 @@ class InformationUserTableViewCell: UITableViewCell {
     @IBOutlet weak var countFollwerUILabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        avatartUIImageView.contentMode = .scaleAspectFill
+        profileBackgroundUIImageView.contentMode = .scaleAspectFill
         // Initialization code
     }
 
