@@ -20,7 +20,7 @@ class TwitterHomeController: UIViewController {
         descriptonLable.numberOfLines = 0
         
         self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
         if isLogged() {
             let appDelegate = UIApplication.shared.delegate! as! AppDelegate
             

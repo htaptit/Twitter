@@ -55,15 +55,11 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
             Twitter.sharedInstance().sessionStore.logOutUserID(userID)
         }
         let loginVC = self.storyboard?.instantiateViewController(withIdentifier: "loginView") as! TwitterHomeController
-        self.navigationController?.pushViewController(loginVC, animated: true)
-        
-        self.navigationController?.isNavigationBarHidden = true
-        self.tabBarController?.tabBar.isHidden = true
+        self.present(loginVC, animated: true, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

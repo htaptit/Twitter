@@ -96,7 +96,7 @@
             </objects>
             <point key="canvasLocation" x="3812" y="35.532233883058474"/>
         </scene>
-        <!--Time Line Table View Controller-->
+        <!--Home-->
         <scene sceneID="XfS-4O-QV9">
             <objects>
                 <viewController storyboardIdentifier="Timeline" id="fLA-7E-JaI" customClass="TimeLineTableViewController" customModule="Twitter" customModuleProvider="target" sceneMemberID="viewController">
@@ -125,7 +125,7 @@
                             <constraint firstItem="0BI-XT-CRQ" firstAttribute="top" secondItem="GNX-u5-71Y" secondAttribute="top" id="rxt-Zq-HPB"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="a1K-UX-jlN">
+                    <navigationItem key="navigationItem" title="Home" id="a1K-UX-jlN">
                         <barButtonItem key="leftBarButtonItem" image="user" id="KpY-st-fLb">
                             <color key="tintColor" red="0.1215686277" green="0.1294117719" blue="0.1411764771" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
@@ -906,7 +906,7 @@
                                             <constraint firstAttribute="height" constant="20" id="2in-Dm-PKm"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="12"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tweets" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Otf-2b-WYw">
@@ -915,7 +915,7 @@
                                             <constraint firstAttribute="height" constant="10" id="pSQ-Oh-b7g"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
