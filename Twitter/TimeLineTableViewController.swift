@@ -307,7 +307,11 @@ extension TimeLineTableViewController {
             self.avatarUIImageView.asCircle()
             self.avatarUIImageView.sd_setImage(with: URL(string: data.avt), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             self.bacgroundPhotoUIImageView.sd_setImage(with: URL(string: data.backgroundImage), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
-            
+//            self.topView.backgroundColor = UIColor(patternImage: UIImage(
+            let url = URL(string: data.backgroundImage)
+            let temp = try! Data(contentsOf: url!)
+            let image = UIImage(data: temp)
+            self.topView.backgroundColor = UIColor(patternImage: image!)
         }
     }
     
