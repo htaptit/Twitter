@@ -57,7 +57,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             print(err.localizedDescription)
         }
         
-        
         self.path = self.tabBarController?.selectedIndex != 0 ? .user_timeline : .home_timeline
         
         if self.path == .home_timeline {
@@ -81,7 +80,9 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         super.viewDidDisappear(animated)
 //        self.path = (self.tabBarController?.tabBar.selectedItem?.title).map { Path(rawValue: $0) }!
         NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter, object: nil)
-        if (self.tabBarController?.selectedIndex)! == 1 {self.navigationController?.navigationBar.isHidden = true}
+        if self.tabBarController?.tabBar.selectedItem?.title == "Home" {
+            self.navigationController?.navigationBar.isHidden = true
+        }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.newTweet != nil {
             tweets.insert(appDelegate.newTweet!, at: 0)
