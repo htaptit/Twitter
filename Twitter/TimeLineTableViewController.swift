@@ -79,10 +79,9 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        self.path = (self.tabBarController?.tabBar.selectedItem?.title).map { Path(rawValue: $0) }!
-        NotificationCenter.default.addObserver(self, selector: #selector(backToTimline), name: .back_timeline, object: nil)
+//        self.path = (self.tabBarController?.tabBar.selectedItem?.title).map { Path(rawValue: $0) }!
         NotificationCenter.default.addObserver(self, selector: #selector(retweetOrQuote(_:)), name: .to_twitter, object: nil)
-        self.navigationController?.isNavigationBarHidden = false
+        if (self.tabBarController?.selectedIndex)! == 1 {self.navigationController?.navigationBar.isHidden = true}
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if appDelegate.newTweet != nil {
             tweets.insert(appDelegate.newTweet!, at: 0)
@@ -91,8 +90,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }
     }
     
-
-    func backToTimline() {
+    @IBAction func backToTimeline(_ sender: Any) {
         self.tabBarController?.selectedIndex = 0
     }
     

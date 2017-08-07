@@ -9,19 +9,21 @@
 import UIKit
 
 
-class TweetDetailViewController: UIViewController{
+class TweetDetailViewController: UIViewController {
     
     var tweet: TwitterData!
     
+    @IBOutlet weak var topView: TweetView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(tweet.tweet)
-        // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.isHidden = false
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-
+    
+    func viewTweet() {
+        
+    }
 }

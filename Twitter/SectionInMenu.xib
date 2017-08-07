@@ -16,13 +16,13 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pN3-fZ-IwL">
-                        <rect key="frame" x="5" y="15" width="15" height="13"/>
+                        <rect key="frame" x="5" y="15" width="15" height="12"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="13" id="h27-pU-j1D"/>
+                            <constraint firstAttribute="height" constant="12" id="h27-pU-j1D"/>
                             <constraint firstAttribute="width" constant="15" id="im4-Dd-Xeh"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
@@ -31,7 +31,7 @@
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFr-LL-n2c">
-                        <rect key="frame" x="22" y="15" width="26.5" height="14.5"/>
+                        <rect key="frame" x="30" y="15" width="26.5" height="14.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="O92-PI-Xht"/>
                         </constraints>
@@ -41,7 +41,7 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="fFr-LL-n2c" firstAttribute="leading" secondItem="pN3-fZ-IwL" secondAttribute="trailing" constant="2" id="BeA-3B-iBl"/>
+                    <constraint firstItem="fFr-LL-n2c" firstAttribute="leading" secondItem="pN3-fZ-IwL" secondAttribute="trailing" constant="10" id="BeA-3B-iBl"/>
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="fFr-LL-n2c" secondAttribute="trailing" id="C5I-8U-MN1"/>
                     <constraint firstItem="fFr-LL-n2c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="a3T-3M-jQf"/>
                     <constraint firstItem="pN3-fZ-IwL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="hwF-no-y4F"/>
