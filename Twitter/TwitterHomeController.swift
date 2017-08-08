@@ -20,19 +20,7 @@ class TwitterHomeController: UIViewController {
         descriptonLable.numberOfLines = 0
         
         self.navigationController?.isNavigationBarHidden = true
-//        self.tabBarController?.tabBar.isHidden = true
-        if isLogged() {
-            let appDelegate = UIApplication.shared.delegate! as! AppDelegate
-            
-            let initialViewController = self.storyboard!.instantiateViewController(withIdentifier: "barTimeline")
-            appDelegate.window?.rootViewController = initialViewController
-            appDelegate.window?.makeKeyAndVisible()
-        }
-        
-    }
-    
-    func isLogged() -> Bool {
-        return Twitter.sharedInstance().sessionStore.session() != nil
+        self.tabBarController?.tabBar.isHidden = true
     }
     
     override func didReceiveMemoryWarning() {
