@@ -74,6 +74,8 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }) { (error) in
             print(error.localizedDescription)
         }
+        self.timeLineUITableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +108,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             
             ApplicationViewController.updateToTwitter(self.tweets[row], self, object["action"]!, { (data) in
                 if object["action"]! == "RT" {
-                                        if data.isRetweeted == self.tweets[row].isRetweeted {
+                    if data.isRetweeted == self.tweets[row].isRetweeted {
                         self.tweets[row].retweetCount -= 1
                         self.tweets[row].isRetweeted = false
                         if self.tabBarController?.selectedIndex == 1 {
@@ -179,7 +181,24 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if self.isLoading {
+            return "Loading tweets . . ."
+        }
+        return nil
+    }
 
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        if self.isLoading {
+            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+            indicator.center = CGPoint(x: self.view.bounds.size.width / 2 , y: 15.0)
+            view.addSubview(indicator)
+            indicator.startAnimating()
+            return view
+        }
+        return nil
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tweets.count
     }
@@ -195,6 +214,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         tweetDetailVC?.tweet = tweets[indexPath.row]
         self.navigationController?.pushViewController(tweetDetailVC!, animated: true)
     }
+    
     // end : MARK: - Table view data source
     
     
@@ -209,17 +229,20 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }
         let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
         var params: [String:String] = ["count": "200"]
+        
         if scrollView.contentOffset.y <= 0 {
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
+                self.timeLineUITableView.reloadSections([0] , with: .automatic)
                 params.updateValue(since_id!, forKey: "since_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
-                    print(data)
                     for tweet in data.reversed() {
                         self.tweets.insert(tweet, at: 0)
                     }
                     self.timeLineUITableView.reloadData()
                     self.isLoading = !self.isLoading
+
+                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
                 }, { (err) in
                     print(err.localizedDescription)
                 })
@@ -229,6 +252,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
+                self.timeLineUITableView.reloadSections([0] , with: .automatic)
                 params.updateValue(max_id!, forKey: "max_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
                     for tweet in data {
