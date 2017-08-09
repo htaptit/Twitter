@@ -15,21 +15,42 @@ UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var imageIDUploaded: String? = nil
     
+    var maxLenghtText: Int = 140
     @IBOutlet weak var newTweetLabel: UITextField!
     @IBOutlet weak var numberTextLabel: UILabel!
     @IBOutlet weak var imageUploadedUIImageView: UIImageView!
     @IBOutlet weak var imageUploadedHeight: NSLayoutConstraint!
+    @IBOutlet weak var tweetUIButton: UIButton!
     var delegate: NewTweetViewController?
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.tweetUIButton.isEnabled = false
         newTweetLabel.delegate = self
         imageUploadedUIImageView.isHidden = true
         imageUploadedHeight.constant = 0
         imageUploadedUIImageView.contentMode = .scaleAspectFill
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let newLength = (textField.text?.characters.count)! + string.characters.count - range.length
+
+        self.maxLenghtText = 140 - newLength
+        self.numberTextLabel.text = String(describing: self.maxLenghtText)
+        if self.maxLenghtText < 20 {
+            self.numberTextLabel.textColor = .red
+        }
+        
+        if self.maxLenghtText < 0 || self.maxLenghtText == 140 {
+            self.tweetUIButton.isEnabled = false
+        } else {
+            self.tweetUIButton.isEnabled = true
+        }
+        
+        return true
+    }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

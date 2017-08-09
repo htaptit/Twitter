@@ -21,8 +21,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     var defaultTopContraintTV: CGFloat = 0
     var defaultTopContraintBV: CGFloat = 50
-    
-    var previousScrollOffset: CGFloat = 0
+
     @IBOutlet weak var bottomView: UIView!
     @IBOutlet weak var topView: UIView!
     @IBOutlet weak var topConstraintTV: NSLayoutConstraint!
@@ -40,6 +39,8 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     @IBOutlet weak var countFollowingUILabel: UILabel!
     @IBOutlet weak var countFollowerUILabel: UILabel!
     @IBOutlet weak var imageTopViewUIImage: UIImageView!
+    
+//    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,6 +75,10 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }) { (error) in
             print(error.localizedDescription)
         }
+//        
+//        refreshControl.addTarget(self, action: #selector(pulldownToRefresh), for: UIControlEvents.valueChanged)
+//        timeLineUITableView.addSubview(refreshControl)
+        
         self.timeLineUITableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
         
     }
@@ -100,6 +105,11 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: .to_twitter, object: nil)
     }
+    
+//    func pulldownToRefresh() {
+//        print("pull down")
+//        refreshControl.endRefreshing()
+//    }
     
     func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
@@ -181,16 +191,19 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
+    
+    var showWaitingSection = false
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if self.isLoading {
+        if self.showWaitingSection {
             return "Loading tweets . . ."
         }
         return nil
     }
-
+    
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        if self.isLoading {
+        if self.showWaitingSection {
             let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
             indicator.center = CGPoint(x: self.view.bounds.size.width / 2 , y: 15.0)
             view.addSubview(indicator)
@@ -218,6 +231,14 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     // end : MARK: - Table view data source
     
     
+    // MARK: - Table view delegate
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if (indexPath.row == self.tweets.count - 1) {
+            print("end")
+        }
+    }
+    
+    var id_loadmore: Int = 0
     var since_id: String? = nil,
     max_id: String? = nil,
     isLoading: Bool = false
@@ -229,35 +250,35 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         }
         let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
         var params: [String:String] = ["count": "200"]
-        
+
         if scrollView.contentOffset.y <= 0 {
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
-                self.timeLineUITableView.reloadSections([0] , with: .automatic)
                 params.updateValue(since_id!, forKey: "since_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
                     for tweet in data.reversed() {
                         self.tweets.insert(tweet, at: 0)
                     }
+
                     self.timeLineUITableView.reloadData()
                     self.isLoading = !self.isLoading
-
-                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
+                    
                 }, { (err) in
                     print(err.localizedDescription)
                 })
             }
         }
-        
+
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
-                self.timeLineUITableView.reloadSections([0] , with: .automatic)
                 params.updateValue(max_id!, forKey: "max_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
                     for tweet in data {
                         self.tweets.append(tweet)
                     }
+                    self.showWaitingSection = false
+                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
                     self.timeLineUITableView.reloadData()
                     self.isLoading = !self.isLoading
                 }, { (error) in
@@ -266,16 +287,19 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             }
         }
     }
+    
+    var lastContentOffset: CGFloat = 0
 }
 
 extension TimeLineTableViewController {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let scrollDiff = scrollView.contentOffset.y - self.previousScrollOffset
+        
         let absoluteTop: CGFloat = 0;
         let absoluteBottom: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height;
         
-        let isScrollingDown = scrollDiff > 0 && scrollView.contentOffset.y > absoluteTop
-        let isScrollingUp = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
+        let isScrollingDown = scrollView.contentOffset.y > 0 && scrollView.contentOffset.y > absoluteTop
+        let isScrollingUp = scrollView.contentOffset.y < 0 && scrollView.contentOffset.y < absoluteBottom
+        
         if self.tabBarController?.selectedIndex == 1 {
             var newContraint1 = self.defaultTopContraintTV
             var newContraint2 = self.defaultTopContraintBV

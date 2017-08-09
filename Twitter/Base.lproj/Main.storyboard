@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sGr-El-gF4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="sGr-El-gF4">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -308,6 +308,7 @@
                         <outlet property="imageUploadedUIImageView" destination="vce-vF-pid" id="25e-zM-N1H"/>
                         <outlet property="newTweetLabel" destination="xTa-rO-rhB" id="1uG-Hb-Zwm"/>
                         <outlet property="numberTextLabel" destination="L8i-xk-e18" id="aOO-Re-8QH"/>
+                        <outlet property="tweetUIButton" destination="mKS-du-v1m" id="3c3-Ul-x92"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Zg-Ju-rTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1113,6 +1114,6 @@
         <image name="user" width="32" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Hz3-wz-YjH"/>
+        <segue reference="u9P-nF-XA3"/>
     </inferredMetricsTieBreakers>
 </document>
