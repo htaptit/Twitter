@@ -445,12 +445,23 @@
                                             <action selector="quoteTweet:" destination="BbB-Nn-3f0" eventType="touchUpInside" id="YHG-Gp-33H"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="140" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z0P-bp-tp6">
+                                        <rect key="frame" x="242" y="0.0" width="21" height="15"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="15" id="2dD-ce-LKI"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="6AS-gM-Y07"/>
                                     <constraint firstItem="HpU-iy-g4q" firstAttribute="top" secondItem="c0l-Vq-d0P" secondAttribute="top" id="JQf-Db-9ct"/>
                                     <constraint firstAttribute="trailing" secondItem="HpU-iy-g4q" secondAttribute="trailing" id="PLZ-ra-2gt"/>
+                                    <constraint firstItem="z0P-bp-tp6" firstAttribute="top" secondItem="HpU-iy-g4q" secondAttribute="top" id="jxT-hV-p2i"/>
+                                    <constraint firstItem="HpU-iy-g4q" firstAttribute="leading" secondItem="z0P-bp-tp6" secondAttribute="trailing" constant="5" id="xb6-cb-9S6"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -472,7 +483,9 @@
                         <outlet property="commentTextField" destination="YyU-fz-IfW" id="aYr-Wh-GH5"/>
                         <outlet property="heightphoto" destination="0Wo-tK-poJ" id="Z17-pC-Mkc"/>
                         <outlet property="infoTweetUIview" destination="mPN-7R-Hko" id="GOR-9X-2Gm"/>
+                        <outlet property="lengthTextUILabel" destination="z0P-bp-tp6" id="I5f-72-KfR"/>
                         <outlet property="photoImageView" destination="7Wa-Xx-KBM" id="9yU-kF-KGd"/>
+                        <outlet property="quoteUIButton" destination="HpU-iy-g4q" id="EAA-iW-1Pc"/>
                         <outlet property="screenNameLabel" destination="LMb-08-vWA" id="eme-Ec-t1S"/>
                         <outlet property="tweetLabel" destination="DNd-nQ-FbG" id="tZ6-4v-T1J"/>
                     </connections>

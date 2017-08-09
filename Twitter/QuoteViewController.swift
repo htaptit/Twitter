@@ -17,14 +17,16 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var tweetLabel: UILabel!
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var heightphoto: NSLayoutConstraint!
-    
+    @IBOutlet weak var lengthTextUILabel: UILabel!
+    @IBOutlet weak var quoteUIButton: UIButton!
+    var maxLengthText: Int = 140
     
     var tweet: TwitterData!
     override func viewDidLoad() {
         super.viewDidLoad()
-print(self.tweet)
         self.loadTweet(tweet: tweet)
         commentTextField.delegate = self
+        self.quoteUIButton.isEnabled = false
         // Do any additional setup after loading the view.
     }
 
@@ -43,7 +45,23 @@ print(self.tweet)
         self.commentTextField = textField
     }
     
-    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        let newLength = (textField.text?.characters.count)! + string.characters.count - range.length
+        self.maxLengthText = 140 - newLength
+        self.lengthTextUILabel.text = String(describing: self.maxLengthText)
+        
+        if self.maxLengthText < 20 {
+            self.lengthTextUILabel.textColor = .red
+        }
+        
+        if self.maxLengthText < 0 || self.maxLengthText == 140 {
+            self.quoteUIButton.isEnabled = false
+        } else {
+            self.quoteUIButton.isEnabled = true
+        }
+        
+        return true
+    }
     
     func loadTweet(tweet: TwitterData) {
         self.infoTweetUIview.layer.borderWidth = 0.3
