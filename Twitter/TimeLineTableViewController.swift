@@ -45,7 +45,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = false
-        
+        self.navigationController?.navigationBar.isTranslucent = false
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
         
@@ -192,26 +192,26 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         return 1
     }
     
-    var showWaitingSection = false
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if self.showWaitingSection {
-            return "Loading tweets . . ."
-        }
-        return nil
-    }
-    
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        if self.showWaitingSection {
-            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
-            indicator.center = CGPoint(x: self.view.bounds.size.width / 2 , y: 15.0)
-            view.addSubview(indicator)
-            indicator.startAnimating()
-            return view
-        }
-        return nil
-    }
+//    var showWaitingSection = false
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        if self.showWaitingSection {
+//            return "Loading tweets . . ."
+//        }
+//        return nil
+//    }
+//
+//
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let view = UIView()
+//        if self.showWaitingSection {
+//            let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
+//            indicator.center = CGPoint(x: self.view.bounds.size.width / 2 , y: 15.0)
+//            view.addSubview(indicator)
+//            indicator.startAnimating()
+//            return view
+//        }
+//        return nil
+//    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.tweets.count
     }
@@ -278,17 +278,17 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
                 params.updateValue(max_id!, forKey: "max_id")
-//                ApplicationViewController.loadTweet(path, params: params, { (data) in
-//                    for tweet in data {
-//                        self.tweets.append(tweet)
-//                    }
+                ApplicationViewController.loadTweet(path, params: params, { (data) in
+                    for tweet in data {
+                        self.tweets.append(tweet)
+                    }
 //                    self.showWaitingSection = false
-//                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
-//                    self.timeLineUITableView.reloadData()
-//                    self.isLoading = !self.isLoading
-//                }, { (error) in
-//                    print(error.localizedDescription)
-//                })
+                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
+                    self.timeLineUITableView.reloadData()
+                    self.isLoading = !self.isLoading
+                }, { (error) in
+                    print(error.localizedDescription)
+                })
             }
         }
     }
