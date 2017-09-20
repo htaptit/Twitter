@@ -111,7 +111,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
 //        refreshControl.endRefreshing()
 //    }
     
-    func retweetOrQuote(_ notification: Notification) {
+    @objc func retweetOrQuote(_ notification: Notification) {
         if let object = notification.object as? [String: String] {
             let row = Int(object["row"]!)!
             let indexPath: IndexPath = IndexPath(row: row, section: 0)
@@ -232,7 +232,12 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     
     
     // MARK: - Table view delegate
+    var isTop: Bool = false
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            self.isTop = true
+        }
+        
         if (indexPath.row == self.tweets.count - 1) {
             print("end")
         }
@@ -273,17 +278,17 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
                 params.updateValue(max_id!, forKey: "max_id")
-                ApplicationViewController.loadTweet(path, params: params, { (data) in
-                    for tweet in data {
-                        self.tweets.append(tweet)
-                    }
-                    self.showWaitingSection = false
-                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
-                    self.timeLineUITableView.reloadData()
-                    self.isLoading = !self.isLoading
-                }, { (error) in
-                    print(error.localizedDescription)
-                })
+//                ApplicationViewController.loadTweet(path, params: params, { (data) in
+//                    for tweet in data {
+//                        self.tweets.append(tweet)
+//                    }
+//                    self.showWaitingSection = false
+//                    self.timeLineUITableView.reloadSections([0] , with: .automatic)
+//                    self.timeLineUITableView.reloadData()
+//                    self.isLoading = !self.isLoading
+//                }, { (error) in
+//                    print(error.localizedDescription)
+//                })
             }
         }
     }
@@ -330,7 +335,9 @@ extension TimeLineTableViewController {
                 self.updateHeader()
             }
         }
+        self.lastContentOffset = scrollView.contentOffset.y
     }
+    
     func updateHeader() {
         self.view.layoutIfNeeded()
         UIView.animate(withDuration: 0.6, animations: {
