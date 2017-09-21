@@ -45,7 +45,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.navigationBar.isTranslucent = false
+//        self.navigationController?.navigationBar.isTranslucent = false
         self.timeLineUITableView.estimatedRowHeight = 300
         self.timeLineUITableView.rowHeight = UITableViewAutomaticDimension
         

@@ -69,15 +69,17 @@ extension UITableViewDataSource {
             cell?.typeTweet.isHidden = true
             cell?.retweetButton.setImage(UIImage(named: "retweet"), for: UIControlState.normal)
             cell?.likeButton.setImage(UIImage(named: "like"), for: UIControlState.normal)
-            if tweet.isExistRetweetedStatus && tabIndex != 0 {
-                if tweet.isRetweeted {
-                    cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
-                }
-                if tweet.isFavorited {
-                    cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
-                }
+            if tweet.isExistRetweetedStatus {
+                
+                
+//                if tweet.isRetweeted {
+//                    cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+//                }
+//                if tweet.isFavorited {
+//                    cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
+//                }
                 cell?.heightTypeTweet.constant = 8
-                cell?.typeTweet.isHidden = false
+//                cell?.typeTweet.isHidden = false
                 cell?.typeTweet.addImageToLabel(name: "retweet")
                 if let infoUser = tweet.infoUserOnRetweetedStatus {
                     let profileImage = infoUser["profile_image_url_https"] as? String
@@ -85,19 +87,27 @@ extension UITableViewDataSource {
                     cell?.avatarImage.sd_setImage(with: URL(string: profileImage!.replacingOccurrences(of: "_normal", with: "")), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
                     cell?.accountNameLabel.text = infoUser["name"]! as? String
                     cell?.screenNameLabel.text = "@\(infoUser["screen_name"]! as! String)"
+                    
+                    if !tweet.isRetweeted {
+                        cell?.typeTweet.isHidden = false
+                        cell?.typeTweet.text = "\(infoUser["name"]! as! String) Retweeted"
+                        //                    cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+                    }
                 }
                 cell?.avatarImage.contentMode = .scaleAspectFit
             } else {
-                if tweet.isRetweeted {
-                    cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
-                }
-                if tweet.isFavorited {
-                    cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
-                }
                 cell?.accountNameLabel.text = tweet.getAccountName
                 cell?.screenNameLabel.text = "@\(tweet.getScreenName)"
                 cell?.avatarImage.contentMode = .scaleAspectFit
                 cell?.avatarImage.sd_setImage(with: URL(string: tweet.getAvatar()), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+            }
+            
+            if tweet.isRetweeted {
+                cell?.typeTweet.isHidden = false
+                cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+            }
+            if tweet.isFavorited {
+                cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
             }
         }
         cell?.avatarImage.asCircle()

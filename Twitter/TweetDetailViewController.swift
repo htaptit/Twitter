@@ -19,6 +19,7 @@ class TweetDetailViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
         self.viewTweet()
+        print(tweet.tweet)
     }
 
     override func didReceiveMemoryWarning() {
