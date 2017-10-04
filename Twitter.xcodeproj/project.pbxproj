@@ -23,6 +23,7 @@
 		096F5F081F21AC3100BCA190 /* TweetTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 096F5F061F21AC3100BCA190 /* TweetTableViewCell.xib */; };
 		096F5F0B1F21B10000BCA190 /* QuoteTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096F5F091F21B10000BCA190 /* QuoteTableViewCell.swift */; };
 		096F5F0C1F21B10000BCA190 /* QuoteTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 096F5F0A1F21B10000BCA190 /* QuoteTableViewCell.xib */; };
+		097856B81F73794800F087BE /* QuoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 097856B71F73794800F087BE /* QuoteView.swift */; };
 		0979845B1F1399FD0068805F /* TwitterData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0979845A1F1399FD0068805F /* TwitterData.swift */; };
 		099D08CB1F0CC6D7009A74D7 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099D08C71F0CC6D7009A74D7 /* TwitterCore.framework */; };
 		099D08CC1F0CC6D7009A74D7 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 099D08C81F0CC6D7009A74D7 /* TwitterKit.framework */; };
@@ -55,6 +56,7 @@
 		096F5F061F21AC3100BCA190 /* TweetTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetTableViewCell.xib; sourceTree = "<group>"; };
 		096F5F091F21B10000BCA190 /* QuoteTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuoteTableViewCell.swift; sourceTree = "<group>"; };
 		096F5F0A1F21B10000BCA190 /* QuoteTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QuoteTableViewCell.xib; sourceTree = "<group>"; };
+		097856B71F73794800F087BE /* QuoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuoteView.swift; sourceTree = "<group>"; };
 		0979845A1F1399FD0068805F /* TwitterData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TwitterData.swift; path = Twitter/TwitterData.swift; sourceTree = "<group>"; };
 		099D08C71F0CC6D7009A74D7 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		099D08C81F0CC6D7009A74D7 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				09FE81511F38405F0059061A /* TweetView.xib */,
 				09FE81551F3841C90059061A /* TweetView.swift */,
 				09566F841F39950E00E2BC6C /* QuoteView.xib */,
+				097856B71F73794800F087BE /* QuoteView.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				0938324F1F15FA760078A804 /* NewTweetViewController.swift in Sources */,
 				0907B7551F1DFA39004423C3 /* QuoteViewController.swift in Sources */,
 				09EDFF8C1F0E192F00CB2150 /* TimelineTableViewCell.swift in Sources */,
+				097856B81F73794800F087BE /* QuoteView.swift in Sources */,
 				096F5F071F21AC3100BCA190 /* TweetTableViewCell.swift in Sources */,
 				0979845B1F1399FD0068805F /* TwitterData.swift in Sources */,
 				09566F871F3997CA00E2BC6C /* FirstViewController.swift in Sources */,
@@ -422,7 +426,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -472,7 +476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

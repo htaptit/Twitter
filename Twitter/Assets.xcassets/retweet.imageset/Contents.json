@@ -2,15 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "005-replay.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icons8-Retweet-48 (2).png",
+      "filename" : "005-replay@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "005-replay@3x.png",
       "scale" : "3x"
     }
   ],

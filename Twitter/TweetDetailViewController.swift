@@ -27,7 +27,9 @@ class TweetDetailViewController: UIViewController {
     }
     
     func viewTweet() {
+//        self.topView.isHidden = true
 //        if self.tabBarController?.selectedIndex == 0 {
+        self.heightTopViewNSLayoutContraint.constant = 0.0
             self.topView.accountNameUILabel.text = self.tweet.getAccountName
             self.topView.screenNameUILabel.text = "@\(self.tweet.getScreenName)"
             self.topView.tweetUILabel.text = self.tweet.getText
@@ -56,8 +58,8 @@ class TweetDetailViewController: UIViewController {
             self.topView.heightViewActivityNSLayoutContraint.constant = 0
             self.topView.countRetweetedUILabel.text = String(describing: self.tweet.retweetCount)
             self.topView.countLikeUILabel.text = String(describing: self.tweet.favoriteCount)
-            
-            self.heightTopViewNSLayoutContraint.constant = self.topView.frame.height - (150.0 - self.topView.heightPhotoNSLayoutContraint.constant)
+        
+//            self.heightTopViewNSLayoutContraint.constant = self.topView.frame.height - (150.0 - self.topView.heightPhotoNSLayoutContraint.constant)
         }
 //    }
 }

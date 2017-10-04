@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -20,10 +19,9 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pN3-fZ-IwL">
-                        <rect key="frame" x="5" y="15" width="15" height="12"/>
+                        <rect key="frame" x="5" y="13.5" width="30" height="15"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="12" id="h27-pU-j1D"/>
-                            <constraint firstAttribute="width" constant="15" id="im4-Dd-Xeh"/>
+                            <constraint firstAttribute="height" constant="15" id="h27-pU-j1D"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
                         <state key="normal">
@@ -31,7 +29,7 @@
                         </state>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fFr-LL-n2c">
-                        <rect key="frame" x="30" y="15" width="26.5" height="14.5"/>
+                        <rect key="frame" x="45" y="15" width="26.5" height="14.5"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="15" id="O92-PI-Xht"/>
                         </constraints>
@@ -43,9 +41,9 @@
                 <constraints>
                     <constraint firstItem="fFr-LL-n2c" firstAttribute="leading" secondItem="pN3-fZ-IwL" secondAttribute="trailing" constant="10" id="BeA-3B-iBl"/>
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="fFr-LL-n2c" secondAttribute="trailing" id="C5I-8U-MN1"/>
-                    <constraint firstItem="fFr-LL-n2c" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" constant="7" id="a3T-3M-jQf"/>
                     <constraint firstItem="pN3-fZ-IwL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="hwF-no-y4F"/>
-                    <constraint firstItem="pN3-fZ-IwL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="z1L-se-xFc"/>
+                    <constraint firstItem="pN3-fZ-IwL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="vAk-Q8-qjX"/>
+                    <constraint firstItem="fFr-LL-n2c" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="we0-Zz-97A"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
