@@ -80,7 +80,6 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
 //        timeLineUITableView.addSubview(refreshControl)
         
         self.timeLineUITableView.backgroundColor = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -152,7 +151,10 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             trainingLayoutConstraint.constant = 0
             leadingLayoutContrain.constant = 0
             self.menu.view.removeFromSuperview()
+            self.navigationController?.navigationBar.layer.zPosition = 0;
         } else {
+            self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 15, width: bound.width, height: 50)
+            self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 15, width: bound.width, height: 50)
             self.navigationController?.navigationBar.frame = CGRect(x: bound.width - 100, y: 15, width: bound.width, height: 50)
             self.tabBarController?.tabBar.frame = CGRect(x: bound.width - 100, y: bound.height - 50, width: bound.width, height: 50)
             trainingLayoutConstraint.constant = bound.width - 100
@@ -160,6 +162,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             self.menu.view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
             self.addChildViewController(menu)
             self.view.addSubview(self.menu.view)
+//            self.navigationController?.navigationBar.layer.zPosition = -1;
         }
         UIView.animate(withDuration: 0.3) { 
             self.view.layoutIfNeeded()

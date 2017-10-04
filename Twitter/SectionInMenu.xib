@@ -24,6 +24,7 @@
                             <constraint firstAttribute="height" constant="15" id="h27-pU-j1D"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
                         <state key="normal">
                             <color key="titleColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                         </state>
