@@ -12,7 +12,7 @@ import TwitterCore
 import SDWebImage
 
 class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITabBarControllerDelegate, UIScrollViewDelegate {
-    var tweets = [TwitterData]()
+    var tweets = [Tweet]()
     var path: Path?
     var menu: MenuViewController!
     
@@ -67,10 +67,8 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             self.updateHeader()
         }
         
-        ApplicationViewController.loadTweet(self.path!, params: ["count": "50"], { (tweet) in
-            for item in tweet {
-                self.tweets.append(item)
-            }
+        ApplicationViewController.loadTweet(self.path!, params: ["count": "200"], { (tweets) in
+            self.tweets = tweets
             self.timeLineUITableView.reloadData()
         }) { (error) in
             print(error.localizedDescription)
@@ -117,22 +115,22 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             
             ApplicationViewController.updateToTwitter(self.tweets[row], self, object["action"]!, { (data) in
                 if object["action"]! == "RT" {
-                    if data.isRetweeted == self.tweets[row].isRetweeted {
-                        self.tweets[row].retweetCount -= 1
-                        self.tweets[row].isRetweeted = false
+                    if data.retweeted == self.tweets[row].retweeted {
+                        self.tweets[row].retweet_count -= 1
+                        self.tweets[row].retweeted = false
                         if self.tabBarController?.selectedIndex == 1 {
                             self.tweets.remove(at: row)
                             self.timeLineUITableView.reloadData()
                         }
                     } else {
-                        self.tweets[row].retweetCount = data.retweetCount
-                        self.tweets[row].isRetweeted = data.isRetweeted
+                        self.tweets[row].retweet_count = data.retweet_count
+                        self.tweets[row].retweeted = data.retweeted
                     }
                 } else {
-                    self.tweets[row].favoriteCount = data.favoriteCount
-                    self.tweets[row].isFavorited = data.isFavorited
+                    self.tweets[row].farvorite_count = data.farvorite_count
+                    self.tweets[row].favorited = data.favorited
                 }
-                
+
                 self.timeLineUITableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.none)
             }) { (error) in
                 print(error.localizedDescription)
@@ -247,14 +245,13 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
     }
     
     var id_loadmore: Int = 0
-    var since_id: String? = nil,
-    max_id: String? = nil,
+    var since_id: Int?,
+    max_id: Int?,
     isLoading: Bool = false
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !self.tweets.isEmpty {
-            since_id = self.tweets[0].getTweetID
-            let sid = Int(self.tweets[self.tweets.count - 1].getTweetID)! - 1
-            max_id = String(sid)
+            since_id = self.tweets[0].id
+            max_id = self.tweets[ self.tweets.count - 1 ].id - 1
         }
         let path: Path = self.tabBarController?.selectedIndex == 0 ? .home_timeline : .user_timeline
         var params: [String:String] = ["count": "200"]
@@ -262,7 +259,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         if scrollView.contentOffset.y <= 0 {
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
-                params.updateValue(since_id!, forKey: "since_id")
+                params.updateValue("\(String(describing: since_id))", forKey: "since_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
                     for tweet in data.reversed() {
                         self.tweets.insert(tweet, at: 0)
@@ -280,7 +277,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
         if scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height {
             if self.isLoading == false {
                 self.isLoading = !self.isLoading
-                params.updateValue(max_id!, forKey: "max_id")
+                params.updateValue("\(String(describing: max_id))", forKey: "max_id")
                 ApplicationViewController.loadTweet(path, params: params, { (data) in
                     for tweet in data {
                         self.tweets.append(tweet)

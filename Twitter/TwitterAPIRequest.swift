@@ -8,6 +8,7 @@
 
 import Foundation
 import TwitterKit
+import Unbox
 
 public enum Path: String {
     
@@ -99,7 +100,7 @@ class TwitterAPI {
         }
     }
     
-    class func getHomeTimeline(url: URLRequest?, tweets: @escaping ([TwitterData]) -> (), error: @escaping (Error) -> ()) {
+    class func getHomeTimeline(url: URLRequest?, tweets: @escaping ([Tweet]) -> (), error: @escaping (Error) -> ()) {
         let client = TWTRAPIClient(userID: TwitterAPI.userID)
         let request : URLRequest? = url
         
@@ -108,35 +109,39 @@ class TwitterAPI {
                 response, data, err in
                 if err == nil {
                     var _: Error?
-                    let json:AnyObject? = try! JSONSerialization.jsonObject(with: data!) as AnyObject?
-                    if let jsonArray = json as? [[String: Any]] {
-                        var tweet_data = [TwitterData]()
-                        for tweet in jsonArray {
-                            tweet_data.append(TwitterData(tweet: tweet))
-                        }
-                        tweets(tweet_data)
-                    }else{
-                        error(err!)
+                    do {
+                        let dt: [Tweet] = try unbox(data: data!)
+                        print(data!)
+                        tweets(dt)
+                    } catch {
+                        print("An error occurred: \(error)")
                     }
                 }else{
-                    print("request error: \(String(describing: err))")
+                    error(err!)
                 }
             })
         }
     }
     
-    class func postNewTweet(url: URLRequest?, result: @escaping (TwitterData) -> (), error: @escaping (Error) -> ()) {
+    class func postNewTweet(url: URLRequest?, result: @escaping (Tweet) -> (), error: @escaping (Error) -> ()) {
         let client = TWTRAPIClient(userID: TwitterAPI.userID)
         let request: URLRequest? = url
         
         if request != nil {
             client.sendTwitterRequest(request!, completion: { (response, data, err) in
                 if err == nil {
-                    let json: AnyObject? = try! JSONSerialization.jsonObject(with: data!, options: []) as AnyObject?
-                    if let jsonArray = json as? [String: Any] {                        
-                        result(TwitterData(tweet: jsonArray))
-                    } else {
-                        print("request error: \(String(describing: err))")
+//                    let json: AnyObject? = try! JSONSerialization.jsonObject(with: data!, options: []) as AnyObject?
+//                    if let jsonArray = json as? [String: Any] {
+//                        result(TwitterData(tweet: jsonArray))
+//                    } else {
+//                        print("request error: \(String(describing: err))")
+//                    }
+                    do {
+                        let dt: Tweet = try unbox(data: data!)
+                        print(data)
+                        result(dt)
+                    } catch {
+                        print("An error occurred: \(error)")
                     }
                 } else {
                     error(err!)

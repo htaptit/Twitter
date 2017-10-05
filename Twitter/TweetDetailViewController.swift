@@ -11,7 +11,7 @@ import UIKit
 
 class TweetDetailViewController: UIViewController {
     
-    var tweet: TwitterData!
+    var tweet: Tweet!
     
     @IBOutlet weak var topView: TweetView!
     @IBOutlet weak var heightTopViewNSLayoutContraint: NSLayoutConstraint!
@@ -19,7 +19,6 @@ class TweetDetailViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.navigationBar.isHidden = false
         self.viewTweet()
-        print(tweet.tweet)
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,37 +26,38 @@ class TweetDetailViewController: UIViewController {
     }
     
     func viewTweet() {
+        print(tweet)
 //        self.topView.isHidden = true
 //        if self.tabBarController?.selectedIndex == 0 {
         self.heightTopViewNSLayoutContraint.constant = 0.0
-            self.topView.accountNameUILabel.text = self.tweet.getAccountName
-            self.topView.screenNameUILabel.text = "@\(self.tweet.getScreenName)"
-            self.topView.tweetUILabel.text = self.tweet.getText
-            self.topView.datetimeUILabel.text = self.tweet.getCreatedAt
+            self.topView.accountNameUILabel.text = self.tweet.user.name
+            self.topView.screenNameUILabel.text = "@\(self.tweet.user.screen_name)"
+            self.topView.tweetUILabel.text = self.tweet.text
+            self.topView.datetimeUILabel.text = self.tweet.created_at
             self.topView.heightPhotoNSLayoutContraint.constant = 0.0
-            if let imageURL = tweet.imageOnTweet {
+            if let imageURL = tweet.imageURL {
                 self.topView.heightPhotoNSLayoutContraint.constant = 150.0
-                self.topView.photoUIImageView.sd_setImage(with: URL(string: imageURL) , placeholderImage: UIImage(named: "placeholder.png") , options: [.continueInBackground, .lowPriority])
+                self.topView.photoUIImageView.sd_setImage(with: imageURL, placeholderImage: UIImage(named: "placeholder.png") , options: [.continueInBackground, .lowPriority])
                 self.topView.photoUIImageView.contentMode = .scaleAspectFill
             }
             self.topView.heightTypeTweetNSLayoutContraint.constant = 0
             self.topView.typeTweetUILabel.isHidden = true
-            self.topView.avatarUIImageView.sd_setImage(with: URL(string: self.tweet.getAvatar()), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+            self.topView.avatarUIImageView.sd_setImage(with: self.tweet.user.profile_image_url_https, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             self.topView.avatarUIImageView.asCircle()
             
-            if self.tweet.isRetweeted {
+            if self.tweet.retweeted {
                 self.topView.retweetedUIButtom.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
             }
             
-            if self.tweet.isFavorited {
+            if self.tweet.favorited {
                 self.topView.likeUIbutton.setImage(UIImage(named: "liked"), for: .normal)
             }
 //            self.topView.viewActivityUIView.addTopBorderWithColor(color: .black, width: 1)
 //            self.topView.viewActivityUIView.addBottomBorderWithColor(color: .black, width: 1)
             self.topView.viewActivityUIView.isHidden = true
             self.topView.heightViewActivityNSLayoutContraint.constant = 0
-            self.topView.countRetweetedUILabel.text = String(describing: self.tweet.retweetCount)
-            self.topView.countLikeUILabel.text = String(describing: self.tweet.favoriteCount)
+            self.topView.countRetweetedUILabel.text = "\(self.tweet.retweet_count)"
+            self.topView.countLikeUILabel.text = "\(self.tweet.farvorite_count)"
         
 //            self.heightTopViewNSLayoutContraint.constant = self.topView.frame.height - (150.0 - self.topView.heightPhotoNSLayoutContraint.constant)
         }

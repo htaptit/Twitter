@@ -21,7 +21,7 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var quoteUIButton: UIButton!
     var maxLengthText: Int = 140
     
-    var tweet: TwitterData!
+    var tweet: Tweet!
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadTweet(tweet: tweet)
@@ -63,23 +63,23 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
-    func loadTweet(tweet: TwitterData) {
+    func loadTweet(tweet: Tweet) {
         self.infoTweetUIview.layer.borderWidth = 0.3
         self.infoTweetUIview.layer.borderColor = UIColor.darkGray.cgColor
         self.infoTweetUIview.layer.cornerRadius =  5
         self.heightphoto.constant = 0
         self.photoImageView.isHidden = true
-        if tweet.isQuote {
+        if tweet.is_quote_status {
             
         } else {
-            self.accNameLabel.text = tweet.getAccountName
-            self.screenNameLabel.text = "@\(tweet.getScreenName)"
-            self.tweetLabel.text = tweet.getText
-            if let image = tweet.imageOnTweet {
+            self.accNameLabel.text = tweet.user.name
+            self.screenNameLabel.text = "@\(tweet.user.screen_name)"
+            self.tweetLabel.text = tweet.text
+            if let image_url = tweet.imageURL {
                 self.photoImageView.isHidden = false
                 self.heightphoto.constant = 100
                 self.photoImageView.roundCorners([.bottomLeft,.bottomRight], radius: 5)
-                self.photoImageView.sd_setImage(with: URL(string: image), placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                self.photoImageView.sd_setImage(with: image_url, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
             }
             
         }
@@ -88,7 +88,8 @@ class QuoteViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func quoteTweet(_ sender: UIButton) {
         if let text = self.commentTextField.text {
-            let comment = text + " " + tweet.tweetUrl!
+            let tweet_web_url = "https://twitter.com/\(self.tweet.user.screen_name)/status/\(self.tweet.id)"
+            let comment = text + " " + tweet_web_url
             let url = TwitterAPI.TwitterUrl(method: .POST, path: .statuses_update , twitterUrl: .api , parameters: ["status": comment])
             TwitterAPI.postNewTweet(url: url, result: { (data) in
                 if let timelineViewController = self.storyboard?.instantiateViewController(withIdentifier: "Timeline") as? TimeLineTableViewController {

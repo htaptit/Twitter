@@ -4,7 +4,6 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -179,10 +178,18 @@
                             <constraint firstItem="LsH-i2-Gxz" firstAttribute="centerY" secondItem="1FW-V4-Bq8" secondAttribute="centerY" id="ya9-6r-MFK"/>
                         </constraints>
                     </view>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kc8-FU-sRd">
+                        <rect key="frame" x="35" y="5" width="8" height="8"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="8" id="hRJ-43-gNJ"/>
+                        </constraints>
+                        <state key="normal" image="retweet"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="ylF-kD-4jT" firstAttribute="top" secondItem="jtK-hs-TTL" secondAttribute="bottom" constant="2" id="53L-q7-7af"/>
                     <constraint firstItem="jtK-hs-TTL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="DeE-7I-Cyi"/>
+                    <constraint firstItem="Kc8-FU-sRd" firstAttribute="height" secondItem="jtK-hs-TTL" secondAttribute="height" id="E4u-Yc-UXO"/>
                     <constraint firstItem="Bv9-vz-it8" firstAttribute="leading" secondItem="ylF-kD-4jT" secondAttribute="trailing" constant="6" id="Ije-85-QdM"/>
                     <constraint firstItem="m7J-uw-ivL" firstAttribute="top" secondItem="Bv9-vz-it8" secondAttribute="bottom" constant="4" id="L9h-bM-ufX"/>
                     <constraint firstItem="Bv9-vz-it8" firstAttribute="top" secondItem="jtK-hs-TTL" secondAttribute="bottom" constant="2" id="RBl-Pq-uzL"/>
@@ -191,13 +198,15 @@
                     <constraint firstAttribute="trailingMargin" secondItem="1FW-V4-Bq8" secondAttribute="trailing" id="UYT-ke-fCk"/>
                     <constraint firstItem="1FW-V4-Bq8" firstAttribute="leading" secondItem="ylF-kD-4jT" secondAttribute="trailing" constant="8" id="V8R-O5-5Vj"/>
                     <constraint firstAttribute="trailingMargin" secondItem="m7J-uw-ivL" secondAttribute="trailing" id="W5w-vy-pgJ"/>
+                    <constraint firstItem="Kc8-FU-sRd" firstAttribute="top" secondItem="jtK-hs-TTL" secondAttribute="top" id="WWO-Rm-ko2"/>
                     <constraint firstItem="1FW-V4-Bq8" firstAttribute="top" secondItem="70F-SU-UTR" secondAttribute="bottom" constant="8" id="Y4b-Lj-XFZ"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Bv9-vz-it8" secondAttribute="trailing" id="e24-FH-tG7"/>
                     <constraint firstItem="ylF-kD-4jT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="2" id="eI1-6c-0UD"/>
                     <constraint firstItem="70F-SU-UTR" firstAttribute="leading" secondItem="ylF-kD-4jT" secondAttribute="trailing" constant="8" id="lbb-2E-Rcg"/>
+                    <constraint firstItem="jtK-hs-TTL" firstAttribute="leading" secondItem="Kc8-FU-sRd" secondAttribute="trailing" constant="2" id="p9d-ZR-DcA"/>
                     <constraint firstItem="m7J-uw-ivL" firstAttribute="leading" secondItem="ylF-kD-4jT" secondAttribute="trailing" constant="6" id="qI2-BZ-CBJ"/>
                     <constraint firstItem="70F-SU-UTR" firstAttribute="top" secondItem="m7J-uw-ivL" secondAttribute="bottom" constant="3" id="sqb-XT-ja8"/>
-                    <constraint firstItem="jtK-hs-TTL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="45" id="yd6-4s-zaf"/>
+                    <constraint firstItem="Kc8-FU-sRd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="35" id="wtu-gA-rhL"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -212,10 +221,11 @@
                 <outlet property="retweetButton" destination="zEB-cZ-R4h" id="UdU-9f-ATq"/>
                 <outlet property="retweetCountLabel" destination="RWT-Z8-w08" id="hZc-Xg-xrL"/>
                 <outlet property="screenNameLabel" destination="Pxo-z0-E3K" id="FTT-OZ-7Ow"/>
+                <outlet property="topIconUIButton" destination="Kc8-FU-sRd" id="j55-JB-5JL"/>
                 <outlet property="tweetTextLabel" destination="m7J-uw-ivL" id="RUS-DS-BoS"/>
                 <outlet property="typeTweet" destination="jtK-hs-TTL" id="fvc-aR-3gb"/>
             </connections>
-            <point key="canvasLocation" x="-336" y="-137"/>
+            <point key="canvasLocation" x="-336" y="-137.5"/>
         </tableViewCell>
     </objects>
     <resources>

@@ -31,13 +31,13 @@ class ApplicationViewController: UIViewController {
         }
     }
     
-    class func updateToTwitter(_ tweet: TwitterData,_ VC : UIViewController,_ action: String,_ result: @escaping (TwitterData) -> (),_ error: @escaping (Error) -> ()) {
+    class func updateToTwitter(_ tweet: Tweet,_ VC : UIViewController,_ action: String,_ result: @escaping (Tweet) -> (),_ error: @escaping (Error) -> ()) {
         if action == "RT" {
             let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.actionSheet)
-            switch tweet.isRetweeted {
+            switch tweet.retweeted {
             case true:
                 actionSheet.addAction(UIAlertAction(title: "Un-retweet", style: .default, handler: { (action) in
-                    let url = TwitterAPI.TwitterUrl(method: .POST, path: .unretweet_by_id, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+                    let url = TwitterAPI.TwitterUrl(method: .POST, path: .unretweet_by_id, twitterUrl: .api, parameters: ["id": "\(tweet.id)"])
                     TwitterAPI.postNewTweet(url: url, result: { (data) in
                         result(data)
                     }) { (err) in
@@ -46,7 +46,7 @@ class ApplicationViewController: UIViewController {
                 }))
             case false:
                 actionSheet.addAction(UIAlertAction(title: "Retweet", style: .default, handler: { (action) in
-                    let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+                    let url = TwitterAPI.TwitterUrl(method: .POST , path: .retweet_by_id , twitterUrl: .api, parameters: ["id": "\(tweet.id)"])
                     TwitterAPI.postNewTweet(url: url, result: { (data) in
                         result(data)
                     }) { (err) in
@@ -68,10 +68,10 @@ class ApplicationViewController: UIViewController {
             }
         } else {
             var url: URLRequest? = nil
-            if tweet.isFavorited {
-                url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_destroy, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+            if tweet.favorited {
+                url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_destroy, twitterUrl: .api, parameters: ["id": "\(tweet.id)"])
             } else {
-                url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_create, twitterUrl: .api, parameters: ["id": tweet.getTweetID])
+                url = TwitterAPI.TwitterUrl(method: .POST, path: .favorites_create, twitterUrl: .api, parameters: ["id": "\(tweet.id)"])
             }
             
             TwitterAPI.postNewTweet(url: url!, result: { (data) in
@@ -86,7 +86,7 @@ class ApplicationViewController: UIViewController {
         return Twitter.sharedInstance().sessionStore.session() != nil
     }
     
-    class func loadTweet(_ path: Path , params: [String:String],_ result: @escaping ([TwitterData]) -> (),_ error: @escaping (Error) -> ()) {
+    class func loadTweet(_ path: Path , params: [String:String],_ result: @escaping ([Tweet]) -> (),_ error: @escaping (Error) -> ()) {
         if isLogged() {
             let url = TwitterAPI.TwitterUrl(method: .GET, path: path, twitterUrl: .api, parameters: params)
             TwitterAPI.getHomeTimeline(url: url, tweets: { (data) in

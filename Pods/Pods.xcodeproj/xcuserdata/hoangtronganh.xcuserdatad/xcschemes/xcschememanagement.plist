@@ -14,19 +14,13 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Unbox.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
-	<dict>
-		<key>69821A8E58ADD2B6773456431B5906C3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>699F64CCB2358348AA518F409E229AEE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-	</dict>
+	<dict/>
 </dict>
 </plist>
