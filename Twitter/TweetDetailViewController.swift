@@ -33,7 +33,7 @@ class TweetDetailViewController: UIViewController {
             self.topView.accountNameUILabel.text = self.tweet.user.name
             self.topView.screenNameUILabel.text = "@\(self.tweet.user.screen_name)"
             self.topView.tweetUILabel.text = self.tweet.text
-            self.topView.datetimeUILabel.text = self.tweet.created_at
+            self.topView.datetimeUILabel.text = "\(self.tweet.created_at)"
             self.topView.heightPhotoNSLayoutContraint.constant = 0.0
             if let imageURL = tweet.imageURL {
                 self.topView.heightPhotoNSLayoutContraint.constant = 150.0
@@ -59,7 +59,7 @@ class TweetDetailViewController: UIViewController {
             self.topView.countRetweetedUILabel.text = "\(self.tweet.retweet_count)"
             self.topView.countLikeUILabel.text = "\(self.tweet.farvorite_count)"
         
-//            self.heightTopViewNSLayoutContraint.constant = self.topView.frame.height - (150.0 - self.topView.heightPhotoNSLayoutContraint.constant)
+            self.heightTopViewNSLayoutContraint.constant = self.topView.frame.height - (150.0 - self.topView.heightPhotoNSLayoutContraint.constant)
         }
 //    }
 }

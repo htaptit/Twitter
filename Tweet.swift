@@ -13,7 +13,7 @@ struct Tweet {
 //    let tweet: TwitterData
     
     let id : Int
-    let created_at: String
+    var created_at: String
     let text : String
     var retweeted: Bool
     var retweet_count: Int
@@ -26,6 +26,7 @@ struct Tweet {
     
     let imageURL : URL?
     let user: User
+    
 }
 
 extension Tweet : Unboxable {
@@ -48,6 +49,7 @@ extension Tweet : Unboxable {
         self.user = try unboxer.unbox(key: "user")
         
     }
-    
+
     
 }
+

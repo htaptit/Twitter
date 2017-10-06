@@ -26,34 +26,37 @@ extension UITableViewDataSource {
         tableView.register(UINib(nibName: "QuoteTableViewCell", bundle: nil), forCellReuseIdentifier: "QuoteTableViewCell")
 
         if tweet.is_quote_status {
+            
             cell = tableView.dequeueReusableCell(withIdentifier: "QuoteTableViewCell", for: index) as? QuoteTableViewCell
             
             cell?.accountNameLabel.text = tweet.user.name
             cell?.screenNameLabel.text = "@\(tweet.user.screen_name)"
             cell?.avatarImage.contentMode = .scaleAspectFill
-            cell?.avatarImage.sd_setImage(with: tweet.user.profile_image_url_https, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+            cell?.avatarImage.sd_setImage(with: tweet.user.profile_image_url_https, placeholderImage: #imageLiteral(resourceName: "placeholder"), options: [.continueInBackground, .lowPriority])
             cell?.tweetTextLabel.text = tweet.text
             
             // Quote Status
+            cell?.imageHeightLayoutConstraint.constant = 0
+            cell?.photoImage.isHidden = true
             if !tweet.retweeted {
                 cell?.qAccountNameLabel.text = tweet.quoted_status?.user.name
                 cell?.qScreenNameLabel.text = "@\(tweet.quoted_status?.user.screen_name ?? "")"
                 cell?.qText.text = tweet.quoted_status?.text
-                
-                
-                cell?.photoImage.isHidden = true
-                cell?.imageHeightLayoutConstraint.constant = 0
                 if let image_url = tweet.quoted_status?.image_url {
                     cell?.photoImage.isHidden = false
                     cell?.imageHeightLayoutConstraint.constant = 160
                     cell?.photoImage.contentMode = .scaleAspectFill
-                    cell?.photoImage.sd_setImage(with: image_url, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                    cell?.photoImage.sd_setImage(with: image_url, placeholderImage: #imageLiteral(resourceName: "placeholder"), options: [.continueInBackground, .lowPriority])
                 }
             } else {
+                if let fr_count = tweet.retweeted_status?.favorite_count {
+                    cell?.likeCoutLabel.text = "\(fr_count)"
+                }
+//                cell?.imageHeightLayoutConstraint.constant = 0
                 cell?.tweetTextLabel.text = tweet.retweeted_status?.text
                 cell?.accountNameLabel.text = tweet.retweeted_status?.user.name
                 cell?.screenNameLabel.text = "@\(tweet.retweeted_status?.user.screen_name ?? "")"
-                cell?.avatarImage.sd_setImage(with: tweet.retweeted_status?.user.profile_image_url_https, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                cell?.avatarImage.sd_setImage(with: tweet.retweeted_status?.user.profile_image_url_https, placeholderImage: #imageLiteral(resourceName: "placeholder"), options: [.continueInBackground, .lowPriority])
                 cell?.qText.text = tweet.retweeted_status?.quoted_status?.text
                 cell?.qAccountNameLabel.text = tweet.retweeted_status?.quoted_status?.user.name
                 cell?.qScreenNameLabel.text = "@\(tweet.retweeted_status?.quoted_status?.user.screen_name ?? "")"
@@ -73,7 +76,7 @@ extension UITableViewDataSource {
             if let imageURL = tweet.imageURL {
                 cell?.imageHeightLayoutConstraint.constant = 160
                 cell?.photoImage.isHidden = false
-                cell?.photoImage.sd_setImage(with: imageURL, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                cell?.photoImage.sd_setImage(with: imageURL, placeholderImage: #imageLiteral(resourceName: "placeholder"), options: [.continueInBackground, .lowPriority])
                 cell?.photoImage.contentMode = .scaleAspectFill
                 cell?.photoImage.layer.cornerRadius = 3
                 cell?.photoImage.layer.masksToBounds = true
@@ -85,12 +88,12 @@ extension UITableViewDataSource {
             cell?.likeButton.setImage(UIImage(named: "like"), for: UIControlState.normal)
             if tweet.retweeted_status != nil {
                 cell?.heightTypeTweet.constant = 8
-                cell?.typeTweet.addImageToLabel(name: "retweet")
+//                cell?.typeTweet.addImageToLabel(name: "retweet")
                 cell?.tweetTextLabel.text = tweet.retweeted_status?.text
                 if let r_user = tweet.retweeted_status?.user {
                     let profile_image_url = r_user.profile_image_url_https
                     cell?.avatarImage.contentMode = .scaleAspectFill
-                    cell?.avatarImage.sd_setImage(with: profile_image_url, placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                    cell?.avatarImage.sd_setImage(with: profile_image_url, placeholderImage: #imageLiteral(resourceName: "placeholder"), options: [.continueInBackground, .lowPriority])
                     cell?.accountNameLabel.text = r_user.name
                     cell?.screenNameLabel.text = r_user.screen_name
 
@@ -105,7 +108,7 @@ extension UITableViewDataSource {
                 cell?.accountNameLabel.text = tweet.user.name
                 cell?.screenNameLabel.text = "@\(tweet.user.screen_name)"
                 cell?.avatarImage.contentMode = .scaleAspectFit
-                cell?.avatarImage.sd_setImage(with: tweet.user.profile_image_url_https , placeholderImage: UIImage(named: "placeholder.png"), options: [.continueInBackground, .lowPriority])
+                cell?.avatarImage.sd_setImage(with: tweet.user.profile_image_url_https , placeholderImage: #imageLiteral(resourceName: "placeholder"), options: [.continueInBackground, .lowPriority])
                 cell?.tweetTextLabel.text = tweet.text
             }
             
@@ -113,19 +116,25 @@ extension UITableViewDataSource {
                 cell?.typeTweet.isHidden = false
                 cell?.topIconUIButton.isHidden = false
                 cell?.retweetButton.setImage(UIImage(named: "retweeted"), for: UIControlState.normal)
+                cell?.likeButton.setTitle(String(index.row), for: UIControlState.normal)
+                if let favorite_count = tweet.retweeted_status?.favorite_count {
+                    cell?.likeCoutLabel.text = "\(favorite_count)"
+                }
+            } else {
+                cell?.likeButton.setTitle(String(index.row), for: UIControlState.normal)
+                cell?.likeCoutLabel.text = tweet.farvorite_count != 0 ? "\(tweet.farvorite_count)" : ""
             }
             if tweet.favorited {
                 cell?.likeButton.setImage(UIImage(named: "liked"), for: UIControlState.normal)
             }
         }
         cell?.avatarImage.asCircle()
-        
-        cell?.datetimeLabel.text = tweet.created_at
+//        cell?.likeCoutLabel.text =  "\(tweet.farvorite_count)"
+        cell?.datetimeLabel.text = formarted_date(date: tweet.created_at, from: .twitter_date, to: .short)
         
         cell?.retweetButton.setTitle(String(index.row), for: UIControlState.normal)
         cell?.retweetCountLabel.text = tweet.retweet_count != 0 ? "\(tweet.retweet_count)" : ""
-        cell?.likeButton.setTitle(String(index.row), for: UIControlState.normal)
-        cell?.likeCoutLabel.text = tweet.farvorite_count != 0 ? "\(tweet.farvorite_count)" : ""
+        
         return cell!
         
     }

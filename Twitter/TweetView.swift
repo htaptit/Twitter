@@ -43,11 +43,7 @@ class TweetView: UIView {
     func loadViewFromNib() {
         Bundle.main.loadNibNamed("TweetView", owner: self, options: nil)
         addSubview(contentView)
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        contentView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        contentView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+//        contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.frame = self.bounds
         contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
     }

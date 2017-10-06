@@ -111,12 +111,11 @@ class TwitterAPI {
                     var _: Error?
                     do {
                         let dt: [Tweet] = try unbox(data: data!)
-                        print(data!)
                         tweets(dt)
                     } catch {
                         print("An error occurred: \(error)")
                     }
-                }else{
+                } else {
                     error(err!)
                 }
             })
@@ -130,15 +129,8 @@ class TwitterAPI {
         if request != nil {
             client.sendTwitterRequest(request!, completion: { (response, data, err) in
                 if err == nil {
-//                    let json: AnyObject? = try! JSONSerialization.jsonObject(with: data!, options: []) as AnyObject?
-//                    if let jsonArray = json as? [String: Any] {
-//                        result(TwitterData(tweet: jsonArray))
-//                    } else {
-//                        print("request error: \(String(describing: err))")
-//                    }
                     do {
                         let dt: Tweet = try unbox(data: data!)
-                        print(data)
                         result(dt)
                     } catch {
                         print("An error occurred: \(error)")
