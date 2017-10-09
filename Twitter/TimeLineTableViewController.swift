@@ -67,7 +67,7 @@ class TimeLineTableViewController: UIViewController, UITableViewDataSource, UITa
             self.updateHeader()
         }
         
-        ApplicationViewController.loadTweet(self.path!, params: ["count": "200"], { (tweets) in
+        ApplicationViewController.loadTweet(self.path!, params: ["count": "50"], { (tweets) in
             self.tweets = tweets
             self.timeLineUITableView.reloadData()
         }) { (error) in
